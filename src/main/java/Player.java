@@ -6,38 +6,27 @@ public class Player {
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
 
+
     //class constructor
     public Player(Map map) {
-        this.map = map;
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
+        this.map = map;
+
     }
 
     //setting random initial position
     public Position setInitial() {
-        Random rand = new Random();
-        Random rand = new Random();
 
-        int x, y;
-        //generating a random position
-        x = rand.nextInt(map.getSize());
-        y = rand.nextInt(map.getSize());
-
-        //validating that the randomly generated position is a Grass tile
-        if((map.getTile(x, y).getType() != TileType.GRASS)){
-            setInitial();
-        }
-
-        //return once valid
-        return new Position(x,y);
+        return new Position(2,2);
     }
 
     //checking if new coordinates are in map boundary
-    public boolean setPosition(Position p) {
+    public boolean setPosition(Position p, int size) {
         int x = p.getX();
         int y = p.getY();
 
-        if (x > 0 && x < map.getSize() && y > 0 && y < map.getSize()) {
+        if (x > 0 && x < size && y > 0 && y < size) {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
@@ -54,10 +43,10 @@ public class Player {
         //setting new coordinates accordingly
         switch (direction) {
             case UP:
-                Y -= 1; //y-coordinate moves up by 1
+                Y += 1; //y-coordinate moves up by 1
                 break;
             case DOWN:
-                Y += 1; //y-coordinate moves down by 1
+                Y -= 1; //y-coordinate moves down by 1
                 break;
             case RIGHT:
                 X += 1; //x-coordinate moves right by 1
@@ -71,13 +60,14 @@ public class Player {
         }
 
         //validating move - checking if legal
-        if (!setPosition(new Position(X, Y))) { //size will be obtained from map itself
+        if (!setPosition(new Position(X, Y), 50)) { //size will be obtained from map itself
             System.out.println("Illegal move.");
             return false;
         }else {
             return true;
         }
     }
+
 
     //getter for current position
     public Position getCurrent(){

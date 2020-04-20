@@ -12,6 +12,16 @@ public class Map {
         generate();
     }
 
+    //getter for grid
+    public Tile[][] getGrid() {
+        return grid;
+    }
+
+    //getter for size
+    public int getSize() {
+        return size;
+    }
+
     //filling the grid elements with tile types
     private void generate() {
         //Setting the Treasure tile
@@ -65,11 +75,9 @@ public class Map {
                         throw new IndexOutOfBoundsException();
                 }
 
-
-
                 //checking whether the new position is within map bounds
-                if (tempX >= 0 && tempX < size && tempY >= 0 && tempY < size) {
-                    //If randomly chosen coordinate happens to be the treasure tile or already assigned grass tile restart do-while
+                if (isLegal(tempX, tempY)) {
+                    //checking if randomly chosen coordinate happens to be the treasure tile or already assigned grass tile
                     if(grid[tempX][tempY] == null){
                         x = tempX;
                         y = tempY;
@@ -95,13 +103,14 @@ public class Map {
         }
     }
 
-    //getter for grid
-    public Tile[][] getGrid() {
-        return grid;
+    //returns tile
+    public Tile getTile(int x, int y){
+        return grid[x][y];
     }
 
-    public int getSize() {
-        return size;
+    //checking whether given coordinates are within map boundaries
+    public boolean isLegal(int x, int y){
+        return x >= 0 && x < size && y >= 0 && y < size;
     }
 
 }

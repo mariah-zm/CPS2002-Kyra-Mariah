@@ -36,17 +36,17 @@ public class MapTest{
         assertEquals(25, map.getSize());
     }
 
-    //testing that map is generated and not null
-    @Test
-    public void gridNotNull(){
-        boolean containsNull = (grid.contains(null));
-        assertFalse(containsNull);
-    }
-
-    //testing grid size
+    //testing that the correct number of tiles is generated
     @Test
     public void gridSize(){
         assertEquals(25*25, grid.size());
+    }
+
+    //testing that map is generated and no elements remain empty
+    @Test
+    public void gridNotNull(){
+        boolean containsNull = (grid.contains(null)) && (map.getGrid() != null);
+        assertFalse(containsNull);
     }
 
     //testing that the map contains one and only one treasure tile
@@ -58,11 +58,7 @@ public class MapTest{
         assertEquals(1, occurrences);
     }
 
-    @Test
-    public void generate() { //testing that map generation creates the required amount of tiles
-
-    }
-
+    //testing number of grass tiles
     @Test
     public void numberOfGrassTiles(){
         int occurrences = (int) grid.stream().filter(tile -> tile.getType().equals(TileType.GRASS)).count();
@@ -70,10 +66,39 @@ public class MapTest{
         assertEquals(expected, occurrences);
     }
 
+    //testing number of water tiles
     @Test
     public void numberOfWaterTiles(){
         int occurrences = (int) grid.stream().filter(tile -> tile.getType().equals(TileType.WATER)).count();
         int expected = grid.size() - (int) (grid.size()*0.80);
         assertEquals(expected, occurrences);
+    }
+
+    //testing that tiles surrounding tresure tile are not all water tiles
+    @Test
+    public void reachable(){
+        int x=0, y=0; //coordinates of treasure tile
+
+        outerLoop:
+        for(; x < map.getSize(); x++){
+            for(; y < map.getSize(); y++){
+                if(map.getTile(x, y).getType() == TileType.TREASURE){
+                    break outerLoop;
+                }
+            }
+        }
+
+        List<Tile> surroundingTiles = new ArrayList<>();
+
+        for(int i=-1; i <= 1; i++){
+            for(int j=-1; j <= 1; j++){
+                if(map.isLegal(x+i, y+j)){
+                    surroundingTiles.add(map.getTile(x+i,y+j));
+                }
+            }
+        }
+
+        boolean notAllWater = surroundingTiles.stream().filter(tile -> tile.getType().equals(TileType.GRASS)).count() > 0;
+        assertTrue(notAllWater);
     }
 }

@@ -14,7 +14,82 @@ public class Map {
 
     //filling the grid elements with tile types
     private void generate(){
+        //Setting the Treasure tile
+        Random rnd = new Random();
+        int treasureX = rnd.nextInt(this.size);
+        int treasureY = rnd.nextInt(this.size);
 
+        this.grid[treasureX][treasureY] = new Tile(TileType.TREASURE);
+
+        //Setting number of grass tiles
+        int numOfGrassTiles = (int) (size*size*0.70);
+
+        //Setting the Grass tiles
+        setGrass(treasureX, treasureX, numOfGrassTiles);
+
+        //Setting the remaining empty tiles as Water tiles
+        setWater();
+    }
+
+    //setting a number of tile types as grass
+    //includes path validation
+    private void setGrass(int tX, int tY, int num){
+        //variable to store position of tiles to be set as grass
+        int x = tX;
+        int y = tY;
+        //variables to store temporary position for validation
+        int tempX = x;
+        int tempY = y;
+
+        boolean tileSet = false;
+
+        for(int i=1; i <= num; i++){
+            do {
+                //randomly choosing a nearby tile
+                Direction direction = Direction.randomDirection();
+                switch (direction) {
+                    case UP:
+                        tempY -=1;
+                        break;
+                    case DOWN:
+                        tempY +=1;
+                        break;
+                    case LEFT:
+                        tempX -=1;
+                        break;
+                    case RIGHT:
+                        tempX +=1;
+                        break;
+                    default:
+                        throw new IndexOutOfBoundsException();
+                }
+
+                //If randomly chosen coordinate happens to be the treasure tile, restart do-while
+                if(tempX == tX && tempY == tY) continue;
+
+                //checking whether the new position is within map bounds
+                if(tempX > 0 && tempX < size && tempY > 0 && tempY < size ){
+                    x = tempX;
+                    y = tempY;
+                    grid[x][y] = new Tile(TileType.GRASS);
+                    tileSet = true;
+                }else{
+                    tempX = x;
+                    tempY = y;
+                }
+            }while(!tileSet);
+        }
+    }
+
+    //setting the remaining tiles as water tiles
+    private void setWater(){
+        for(int x=0; x < size; x++){
+            for(int y=0; y < size; y++){
+                if(grid[x][y] == null){
+                    grid[x][y] = new Tile(TileType.WATER);
+                }
+            }
+        }
     }
 
 }

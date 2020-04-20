@@ -9,7 +9,7 @@ public class Player {
 
     //class constructor
     public Player(Map map) {
-        this.initial = new Position(0,0);
+        this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
         this.map = map;
 
@@ -18,11 +18,11 @@ public class Player {
     //setting random initial position
     public Position setInitial() {
 
-        return new Position(0,0);
+        return new Position(2,2);
     }
 
     //checking if new coordinates are in map boundary
-    private boolean setPosition(Position p, int size) {
+    public boolean setPosition(Position p, int size) {
         int x = p.getX();
         int y = p.getY();
 
@@ -43,10 +43,10 @@ public class Player {
         //setting new coordinates accordingly
         switch (direction) {
             case UP:
-                Y -= 1; //y-coordinate moves up by 1
+                Y += 1; //y-coordinate moves up by 1
                 break;
             case DOWN:
-                Y += 1; //y-coordinate moves down by 1
+                Y -= 1; //y-coordinate moves down by 1
                 break;
             case RIGHT:
                 X += 1; //x-coordinate moves right by 1
@@ -60,7 +60,7 @@ public class Player {
         }
 
         //validating move - checking if legal
-        if (!setPosition(new Position(X, Y), 50)) {
+        if (!setPosition(new Position(X, Y), 50)) { //size will be obtained from map itself
             System.out.println("Illegal move.");
             return false;
         }else {

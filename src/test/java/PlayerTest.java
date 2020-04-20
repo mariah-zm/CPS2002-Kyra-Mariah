@@ -8,10 +8,12 @@ public class PlayerTest {
 
     Player player;
     Map map = new Map();
+    Position test_position;
 
     @Before
     public void setUp() {
         player = new Player(map);
+        test_position = new Position(1,1);
     }
 
     @After
@@ -34,7 +36,7 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y - 1, new_y);
+        assertEquals(y + 1, new_y);
 
     }
 
@@ -48,7 +50,7 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y + 1, new_y);
+        assertEquals(y - 1, new_y);
     }
 
     @Test
@@ -81,15 +83,22 @@ public class PlayerTest {
     @Test
     public void setPosition(){
 
+        player.setPosition(test_position, 20);
+        int actual_x = player.getCurrent().getX();
+        int actual_y = player.getCurrent().getY();
+        assertEquals(1, actual_x);
+        assertEquals(1,actual_y);
     }
 
-    @Test
-    public void getStatus(){
-
-    }
 
     @Test
     public void getCurrent(){
+        player.setPosition(test_position, 20);
+        Position current= player.getCurrent();
+        int x =current.getX();
+        int y = current.getY();
+        assertEquals(x, test_position.getX());
+        assertEquals(y, test_position.getY());
 
     }
 

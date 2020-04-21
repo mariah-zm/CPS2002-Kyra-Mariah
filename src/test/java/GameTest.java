@@ -57,7 +57,7 @@ public class GameTest {
 
     @Test
     public void main(){
-
+        String [] args = {};
     }
 
 }

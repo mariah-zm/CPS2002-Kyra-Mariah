@@ -40,43 +40,49 @@ public class Game {
         //starting the game
         Game game = new Game();
 
-        //variables/scanner object for receiving user input
-        boolean inputAccepted;
-        Scanner scanner = new Scanner(System.in);
+        try{
+            //variables/scanner object for receiving user input
+            boolean inputAccepted;
+            Scanner scanner = new Scanner(System.in);
 
-        //variables for user input for map size and number of players
-        int size = 0, playerCount = 0;
+            //variables for user input for map size and number of players
+            int size = 0, playerCount = 0;
 
-        //validating number of players
-        do {
-            System.out.println("Enter number of players: ");
-            if (scanner.hasNextInt()) {
-                playerCount = scanner.nextInt();
-                inputAccepted = game.setNumPlayers(playerCount);
-            } else {
-                scanner.nextLine();
-                System.out.println("Not an integer!");
-                inputAccepted = false;
-            }
-        } while (!inputAccepted);
+            //validating number of players
+            do {
+                System.out.println("Enter number of players: ");
+                if (scanner.hasNextInt()) {
+                    playerCount = scanner.nextInt();
+                    inputAccepted = game.setNumPlayers(playerCount);
+                } else {
+                    scanner.nextLine();
+                    System.out.println("Not an integer!");
+                    inputAccepted = false;
+                }
+            } while (!inputAccepted);
 
-        //initialising players array
-        game.players = new Player[playerCount];
+            //initialising players array
+            game.players = new Player[playerCount];
 
-        //validating map size
-        do {
-            System.out.println("Enter map size: ");
-            if (scanner.hasNextInt()) {
-                size = scanner.nextInt();
-                inputAccepted = game.setMapSize(size, playerCount);
-            } else {
-                scanner.nextLine();
-                System.out.println("Not an integer!");
-                inputAccepted = false;
-            }
-        } while (!inputAccepted);
+            //validating map size
+            do {
+                System.out.println("Enter map size: ");
+                if (scanner.hasNextInt()) {
+                    size = scanner.nextInt();
+                    inputAccepted = game.setMapSize(size, playerCount);
+                } else {
+                    scanner.nextLine();
+                    System.out.println("Not an integer!");
+                    inputAccepted = false;
+                }
+            } while (!inputAccepted);
 
-        //initialising the map
-        game.map = new Map(size);
+            //initialising the map
+            game.map = new Map(size);
+        }catch (Exception e){
+            System.exit(1);
+        }
+        System.exit(0);
+
     }
 }

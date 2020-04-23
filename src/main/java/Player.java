@@ -18,15 +18,27 @@ public class Player {
     //setting random initial position
     public Position setInitial() {
 
-            return new Position(1,2);
+        Random rand = new Random();
+        int x, y;
+
+        //validating that the randomly generated position is a Grass tile
+        do {
+            //generating a random position
+            x = rand.nextInt(map.getSize());
+            y = rand.nextInt(map.getSize());
+
+        }while(map.getTile(x, y).getType() != TileType.GRASS);
+
+        //return once valid
+        return new Position(x,y);
 
     }
     //checking if new coordinates are in map boundary
-    public boolean setPosition(Position p, int size) {
+    public boolean setPosition(Position p) {
         int x = p.getX();
         int y = p.getY();
 
-        if (x > 0 && x < size && y > 0 && y < size) {
+        if (x > 0 && x < map.getSize() && y > 0 && y < map.getSize()) {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
@@ -60,11 +72,10 @@ public class Player {
         }
 
         //validating move - checking if legal
-        if (!setPosition(new Position(X, Y), 50)) { //size will be obtained from map itself
+        if (!setPosition(new Position(X, Y))) { //size will be obtained from map itself
             System.out.println("Illegal move.");
             return false;
         }else {
-            setPosition(new Position(X, Y),25);
             return true;
         }
     }

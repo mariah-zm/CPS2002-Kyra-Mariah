@@ -12,6 +12,20 @@ public class Map {
         generate();
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    //returns tile
+    public Tile getTile(int x, int y){
+        return grid[x][y];
+    }
+
+    //uncovers discovered tiles
+    public void uncoverTile(int x, int y){
+        grid[x][y].setUncovered();
+    }
+
     //filling the grid elements with tile types
     private void generate(){
         //Setting the Treasure tile
@@ -19,13 +33,13 @@ public class Map {
         int treasureX = rnd.nextInt(this.size);
         int treasureY = rnd.nextInt(this.size);
 
-        this.grid[treasureX][treasureY] = new Tile(TileType.TREASURE);
+        grid[treasureX][treasureY] = new Tile(TileType.TREASURE);
 
         //Setting number of grass tiles
         int numOfGrassTiles = (int) (size*size*0.70);
 
         //Setting the Grass tiles
-        setGrass(treasureX, treasureX, numOfGrassTiles);
+        setGrass(treasureX, treasureY, numOfGrassTiles);
 
         //Setting the remaining empty tiles as Water tiles
         setWater();
@@ -86,7 +100,7 @@ public class Map {
         for(int x=0; x < size; x++){
             for(int y=0; y < size; y++){
                 if(grid[x][y] == null){
-                    grid[x][y] = new Tile(TileType.WATER);
+                   grid[x][y] = new Tile(TileType.WATER);
                 }
             }
         }

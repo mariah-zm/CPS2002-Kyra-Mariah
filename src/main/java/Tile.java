@@ -2,10 +2,14 @@ public class Tile {
 
     private TileType type;
     private boolean uncovered;
+    private String html;
+
 
     public Tile(TileType type){
         this.type = type;
         this.uncovered = false;
+        this.html = "<td bgcolour=" + this.type.getHexCode() + ">";
+
     }
 
     //getter for type
@@ -22,4 +26,10 @@ public class Tile {
     public boolean getUncovered(){
         return uncovered;
     }
+
+    //getter for html
+    public String getHtml(){
+        return html;
+    }
+
 }

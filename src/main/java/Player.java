@@ -9,26 +9,25 @@ public class Player {
 
     //class constructor
     public Player(Map map) {
-        this.initial = setInitial();
-        this.current = new Position(1,2); //this will start off as initial
         this.map = map;
+        this.initial = setInitial();
+        this.current = this.initial; //this will start off as initial
 
     }
 
     //setting random initial position
     public Position setInitial() {
 
-        Random rand = new Random();
+       Random rand = new Random();
         int x, y;
-
+        //generating a random position
+        x = rand.nextInt(map.getSize());
+        y = rand.nextInt(map.getSize());
         //validating that the randomly generated position is a Grass tile
-        do {
-            //generating a random position
-            x = rand.nextInt(map.getSize());
-            y = rand.nextInt(map.getSize());
 
-        }while(map.getTile(x, y).getType() != TileType.GRASS);
-
+        if((map.getTile(x, y).getType() != TileType.GRASS)){
+            setInitial();
+        }
         //return once valid
         return new Position(x,y);
 

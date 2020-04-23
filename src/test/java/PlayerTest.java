@@ -7,12 +7,13 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     Player player;
-    Map map = new Map(25);
+    Map map;
     Position test_position;
 
     @Before
     public void setUp() {
-        player = new Player(1,map);
+        map =  new Map(25);
+        player = new Player(map);
         test_position = new Position(1,1);
     }
 
@@ -23,7 +24,12 @@ public class PlayerTest {
     }
 
     @Test
-    public void setInitial() {
+    public void setInitialTest() {
+        Position start = player.setInitial();
+        int x = start.getX();
+        int y = start.getY();
+        TileType result = player.getMap().getTile(x,y).getType();
+        assertEquals(TileType.GRASS, result);
     }
 
     @Test

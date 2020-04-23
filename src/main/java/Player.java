@@ -5,27 +5,33 @@ public class Player {
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
-    private PlayerStatus status;
-    public int ID;
 
 
     //class constructor
-    public Player(int ID, Map map) {
+    public Player(Map map) {
+        this.map = map;
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
-        this.map = map;
-        this.status = PlayerStatus.SAFE;
-        this.ID = ID;
-
 
     }
 
     //setting random initial position
     public Position setInitial() {
 
-        return new Position(2,2);
-    }
+       Random rand = new Random();
+        int x, y;
+        //generating a random position
+        x = rand.nextInt(map.getSize());
+        y = rand.nextInt(map.getSize());
+        //validating that the randomly generated position is a Grass tile
 
+        if((map.getTile(x, y).getType() != TileType.GRASS)){
+            setInitial();
+        }
+        //return once valid
+        return new Position(x,y);
+
+    }
     //checking if new coordinates are in map boundary
     public boolean setPosition(Position p) {
         int x = p.getX();
@@ -65,17 +71,14 @@ public class Player {
         }
 
         //validating move - checking if legal
-        if (!setPosition(new Position(X, Y))) {
+        if (!setPosition(new Position(X, Y))) { //size will be obtained from map itself
             System.out.println("Illegal move.");
             return false;
         }else {
             return true;
         }
     }
-    //getter for player's status
-    public PlayerStatus getStatus(){
-        return status;
-    }
+
 
     //getter for current position
     public Position getCurrent(){

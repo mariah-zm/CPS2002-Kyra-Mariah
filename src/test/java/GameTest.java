@@ -2,18 +2,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class GameTest {
 
     Game game;
-    Player player1;
-    Player player2;
+    Map map;
 
     @Before
     public void setUp() throws Exception {
         game = new Game();
+        map = new Map(25);
+
     }
 
     @After
@@ -39,22 +39,29 @@ public class GameTest {
     }
     @Test
     public void setMapSize_TooSmall() {
-        boolean result = game.setMapSize(4,4);
+        game.setNumPlayers(4);
+        boolean result = game.setMapSize(4);
         assertFalse(result);
     }
 
     @Test
     public void setMapSize_TooBig() {
-        boolean result = game.setMapSize(60,4);
+        game.setNumPlayers(8);
+        boolean result = game.setMapSize(60);
         assertFalse(result);
     }
 
     @Test
     public void setMapSize() {
-        boolean result = game.setMapSize(30,6);
+        game.setNumPlayers(6);
+        boolean result = game.setMapSize(30);
         assertTrue(result);
     }
 
+    @Test
+    public void generateHTMLFiles() {
+
+    }
 
 
 }

@@ -7,12 +7,12 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     Player player;
-    Map map = new Map();
+    Map map = new Map(25);
     Position test_position;
 
     @Before
     public void setUp() {
-        player = new Player(map);
+        player = new Player(1,map);
         test_position = new Position(1,1);
     }
 
@@ -83,7 +83,7 @@ public class PlayerTest {
     @Test
     public void setPosition(){
 
-        player.setPosition(test_position, 20);
+        player.setPosition(test_position);
         int actual_x = player.getCurrent().getX();
         int actual_y = player.getCurrent().getY();
         assertEquals(1, actual_x);
@@ -93,7 +93,7 @@ public class PlayerTest {
 
     @Test
     public void getCurrent(){
-        player.setPosition(test_position, 20);
+        player.setPosition(test_position);
         Position current= player.getCurrent();
         int x =current.getX();
         int y = current.getY();

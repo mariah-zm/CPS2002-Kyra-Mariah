@@ -5,13 +5,18 @@ public class Player {
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
+    private PlayerStatus status;
+    public int ID;
 
 
     //class constructor
-    public Player(Map map) {
+    public Player(int ID, Map map) {
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
         this.map = map;
+        this.status = PlayerStatus.SAFE;
+        this.ID = ID;
+
 
     }
 
@@ -22,11 +27,11 @@ public class Player {
     }
 
     //checking if new coordinates are in map boundary
-    public boolean setPosition(Position p, int size) {
+    public boolean setPosition(Position p) {
         int x = p.getX();
         int y = p.getY();
 
-        if (x > 0 && x < size && y > 0 && y < size) {
+        if (x > 0 && x < map.getSize() && y > 0 && y < map.getSize()) {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
@@ -60,14 +65,17 @@ public class Player {
         }
 
         //validating move - checking if legal
-        if (!setPosition(new Position(X, Y), 50)) { //size will be obtained from map itself
+        if (!setPosition(new Position(X, Y))) {
             System.out.println("Illegal move.");
             return false;
         }else {
             return true;
         }
     }
-
+    //getter for player's status
+    public PlayerStatus getStatus(){
+        return status;
+    }
 
     //getter for current position
     public Position getCurrent(){

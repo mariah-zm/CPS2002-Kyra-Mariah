@@ -10,7 +10,7 @@ public class Player {
     //class constructor
     public Player(Map map) {
         this.initial = setInitial();
-        this.current = this.initial; //this will start off as initial
+        this.current = new Position(1,2); //this will start off as initial
         this.map = map;
 
     }
@@ -18,9 +18,9 @@ public class Player {
     //setting random initial position
     public Position setInitial() {
 
-        return new Position(2,2);
-    }
+            return new Position(1,2);
 
+    }
     //checking if new coordinates are in map boundary
     public boolean setPosition(Position p, int size) {
         int x = p.getX();
@@ -64,6 +64,7 @@ public class Player {
             System.out.println("Illegal move.");
             return false;
         }else {
+            setPosition(new Position(X, Y),25);
             return true;
         }
     }

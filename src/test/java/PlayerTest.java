@@ -23,7 +23,9 @@ public class PlayerTest {
     }
 
     @Test
-    public void setInitial() {
+    public void setInitialTest() {
+
+
     }
 
     @Test

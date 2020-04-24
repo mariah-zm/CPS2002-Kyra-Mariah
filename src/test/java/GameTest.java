@@ -1,23 +1,30 @@
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
+import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
 public class GameTest {
 
     Game game;
-    Player player1;
-    Player player2;
+
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+
+    @Rule
+    public final TextFromStandardInputStream systemInMock = emptyStandardInputStream();
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         game = new Game();
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown(){
         game = null;
     }
 
@@ -55,6 +62,23 @@ public class GameTest {
         assertTrue(result);
     }
 
+    @Test
+    public void main_InputsFoundAndCorrect(){
+        systemInMock.provideLines("2", "5");
+        exit.expectSystemExitWithStatus(0);
+        game.main(null);
+    }
 
+    @Test
+    public void main_InputsNotImmediatelyCorrect(){
+        systemInMock.provideLines("incorrect", "2", "incorrect", "5");
+        exit.expectSystemExitWithStatus(0);
+        game.main(null);
+    }
 
+    @Test
+    public void main_noInputFound(){
+        exit.expectSystemExitWithStatus(1);
+        game.main(null);
+    }
 }

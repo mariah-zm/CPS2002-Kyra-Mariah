@@ -75,14 +75,16 @@ public class MapTest{
     }
 
     //testing that tiles surrounding treasure tile are not all water tiles
-    @Test
     public void reachable(){
         int x=0, y=0; //coordinates of treasure tile
 
+        //finding Treasure tile
         outerLoop:
-        for(; x < map.getSize(); x++){
-            for(; y < map.getSize(); y++){
-                if(map.getTile(x, y).getType() == TileType.TREASURE){
+        for(int i=0; i < map.getSize(); i++){
+            for(int j=0; j < map.getSize(); j++){
+                if(map.getTile(i, j).getType() == TileType.TREASURE){
+                    x=i;
+                    y=j;
                     break outerLoop;
                 }
             }
@@ -90,14 +92,13 @@ public class MapTest{
 
         List<Tile> surroundingTiles = new ArrayList<>();
 
-        for(int i=-1; i <= 1; i++){
-            for(int j=-1; j <= 1; j++){
-                if(map.isLegal(x+i, y+j)){
-                    surroundingTiles.add(map.getTile(x+i,y+j));
-                }
-            }
-        }
+        //creating a list of the surrounding tiles
+        if(map.isLegal(x+1,y)) surroundingTiles.add(map.getTile(x+1,y));
+        if(map.isLegal(x-1,y)) surroundingTiles.add(map.getTile(x-1,y));
+        if(map.isLegal(x,y+1)) surroundingTiles.add(map.getTile(x,y+1));
+        if(map.isLegal(x,y-1)) surroundingTiles.add(map.getTile(x,y-1));
 
+        //asserting that at least one is a Grass Tile
         boolean notAllWater = surroundingTiles.stream().anyMatch(tile -> tile.getType().equals(TileType.GRASS));
         assertTrue(notAllWater);
     }

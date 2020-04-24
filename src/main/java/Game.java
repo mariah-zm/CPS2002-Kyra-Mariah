@@ -39,13 +39,11 @@ public class Game {
     public static void main(String[] args){
         //starting the game
         Game game = new Game();
+        Scanner scanner = new Scanner(System.in);
 
         try{
-            //variables/scanner object for receiving user input
-            boolean inputAccepted;
-            Scanner scanner = new Scanner(System.in);
-
             //variables for user input for map size and number of players
+            boolean inputAccepted;
             int size = 0, playerCount = 0;
 
             //validating number of players
@@ -79,10 +77,10 @@ public class Game {
 
             //initialising the map
             game.map = new Map(size);
+
         }catch (Exception e){
             System.exit(1);
         }
         System.exit(0);
-
     }
 }

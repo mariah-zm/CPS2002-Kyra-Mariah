@@ -74,7 +74,7 @@ public class MapTest{
         assertEquals(expected, occurrences);
     }
 
-    //testing that tiles surrounding tresure tile are not all water tiles
+    //testing that tiles surrounding treasure tile are not all water tiles
     @Test
     public void reachable(){
         int x=0, y=0; //coordinates of treasure tile
@@ -98,7 +98,7 @@ public class MapTest{
             }
         }
 
-        boolean notAllWater = surroundingTiles.stream().filter(tile -> tile.getType().equals(TileType.GRASS)).count() > 0;
+        boolean notAllWater = surroundingTiles.stream().anyMatch(tile -> tile.getType().equals(TileType.GRASS));
         assertTrue(notAllWater);
     }
 }

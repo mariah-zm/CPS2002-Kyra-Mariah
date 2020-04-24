@@ -66,6 +66,20 @@ public class MapTest{
         assertEquals(expected, occurrences);
     }
 
+    @Test
+    public void isLegal_Correct(){
+        int x = 5;
+        int y = 5;
+        assertTrue(map.isLegal(x, y));
+    }
+
+    @Test
+    public void isLegal_Incorrect(){
+        int x = 26;
+        int y = -1;
+        assertFalse(map.isLegal(x,y));
+    }
+
     //testing number of water tiles
     @Test
     public void numberOfWaterTiles(){

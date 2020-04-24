@@ -8,15 +8,12 @@ import java.util.List;
 public class Game {
 
     private int turns;
-    public static ArrayList<Player> players;
+    public ArrayList<Player> players = new ArrayList<Player>();
     private Map map;
-    private File[] htmlFiles;
-    private BufferedWriter[] bw; //will allow us to write to files
+    public File[] htmlFiles;
+    public BufferedWriter[] bw; //will allow us to write to files
 
 
-    public void addPlayerToList(Player player){
-        players.add(player);
-    }
 
 
     public boolean setNumPlayers(int playercount) {
@@ -51,6 +48,7 @@ public class Game {
     public void generateHTMLFiles() throws IOException {
         //variables for loops
         int i, j, k;
+
 
         //contains the html code to be written to file
         StringBuilder html = new StringBuilder();
@@ -88,7 +86,7 @@ public class Game {
                     /* if the tile coordinates correspond to the player's current position
                     the cell will contain an '*' to indicate the player's position
                      */
-                    if (players.get(i).getCurrent() == new Position(j, k)) {
+                    if (players.get(i).getCurrent().equals(new Position(j, k))) {
                         html.append("*");
                     }
                     html.append("</td>");

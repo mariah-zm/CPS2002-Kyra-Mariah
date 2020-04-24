@@ -5,15 +5,17 @@ public class Player {
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
+    public int ID;
 
 
     //class constructor
-    public Player(Map map) {
+    public Player( Map map) {
         this.map = map;
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
-
     }
+
+
 
     //setting random initial position
     public Position setInitial() {

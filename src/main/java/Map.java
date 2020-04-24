@@ -24,6 +24,8 @@ public class Map {
 
     //filling the grid elements with tile types
     private void generate() {
+
+
         //Setting the Treasure tile
         Random rnd = new Random();
         int treasureX = rnd.nextInt(this.size);

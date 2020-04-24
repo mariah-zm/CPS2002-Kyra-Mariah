@@ -2,25 +2,29 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
 
     private int turns;
-    public Player[] players;
+    public static ArrayList<Player> players;
     private Map map;
     private File[] htmlFiles;
     private BufferedWriter[] bw; //will allow us to write to files
 
 
+    public void addPlayerToList(Player player){
+        players.add(player);
+    }
+
 
     public boolean setNumPlayers(int playercount) {
         int minPlayers = 2;
         int maxPlayers = 8;
-        players = new Player[playercount];
 
         //validating given number of players [2 < n < 8]
-        if (players.length < minPlayers || players.length > maxPlayers) {
+        if (playercount < minPlayers || playercount > maxPlayers) {
             System.out.println("Only between 2 and 8 players are accepted.");
             return false;
         }
@@ -31,7 +35,7 @@ public class Game {
     public boolean setMapSize(int size) {
         final int MAX = 50;
         //setting minimum number of map size according to amount of players
-        final int MIN = players.length <= 4 ? 5 : 8;
+        final int MIN = players.size() <= 4 ? 5 : 8;
 
         //validating given size
         if (MIN >= size) {
@@ -53,8 +57,8 @@ public class Game {
 
         //this method will only execute on the initial generation
         if (htmlFiles == null) {
-            htmlFiles = new File[players.length];
-            bw = new BufferedWriter[players.length];
+            htmlFiles = new File[players.size()];
+            bw = new BufferedWriter[players.size()];
             for (i = 0; i < htmlFiles.length; i++) {
                 //creating the file for the player
                 htmlFiles[i] = new File("C:\\map_player_" + (i + 1) + ".html");
@@ -76,15 +80,15 @@ public class Game {
                     /*if the tile is uncovered then we get corresponding html code
                     otherwise, tile is greyed out
                      */
-                    if (players[i].getMap().getTile(j, k).getUncovered()) {
-                        html.append(players[i].getMap().getTile(j, k).getHtml());
+                    if (players.get(i).getMap().getTile(j, k).getUncovered()) {
+                        html.append(players.get(i).getMap().getTile(j, k).getHtml());
                     } else {
                         html.append("<td bgcolour=#808080>");
                     }
                     /* if the tile coordinates correspond to the player's current position
                     the cell will contain an '*' to indicate the player's position
                      */
-                    if (players[i].getCurrent() == new Position(j, k)) {
+                    if (players.get(i).getCurrent() == new Position(j, k)) {
                         html.append("*");
                     }
                     html.append("</td>");

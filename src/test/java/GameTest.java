@@ -2,17 +2,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.*;
 
 public class GameTest {
 
     Game game;
-    Map map;
 
     @Before
     public void setUp() throws Exception {
         game = new Game();
-        map = new Map(25);
 
     }
 
@@ -59,7 +59,14 @@ public class GameTest {
     }
 
     @Test
-    public void generateHTMLFiles() {
+    public void generateHTMLFilesTest() throws IOException {
+        Map map = new Map(25);
+        Player player1 = new Player(map);
+        game.addPlayerToList(player1);
+        Player player2 = new Player(map);
+        game.addPlayerToList(player2);
+
+        game.generateHTMLFiles();
 
     }
 

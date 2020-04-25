@@ -9,9 +9,10 @@ public class Game {
 
     private int turns;
     public ArrayList<Player> players = new ArrayList<Player>();
-    private Map map;
-    public File[] htmlFiles;
-    public BufferedWriter[] bw; //will allow us to write to files
+   // private Map map;
+    public File[] htmlFiles=null;
+
+    public BufferedWriter[] bw=null;//will allow us to write to files
 
 
 
@@ -45,7 +46,7 @@ public class Game {
         return true;
     }
 
-    public void generateHTMLFiles() throws IOException {
+    public void generateHTMLFiles(Map map) throws IOException {
         //variables for loops
         int i, j, k;
 
@@ -54,15 +55,15 @@ public class Game {
         StringBuilder html = new StringBuilder();
 
         //this method will only execute on the initial generation
-        if (htmlFiles == null) {
-            htmlFiles = new File[players.size()];
-            bw = new BufferedWriter[players.size()];
-            for (i = 0; i < htmlFiles.length; i++) {
+       if (htmlFiles == null) {
+           htmlFiles = new File[players.size()];
+           bw=  new BufferedWriter[players.size()];
+        for (i = 0; i < htmlFiles.length; i++) {
                 //creating the file for the player
-                htmlFiles[i] = new File("C:\\map_player_" + (i + 1) + ".html");
+                htmlFiles[i] = new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_" + (i + 1) + ".html");
                 bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
             }
-        }
+      }
 
         //loop for each player
         for (i = 0; i < htmlFiles.length; i++) {

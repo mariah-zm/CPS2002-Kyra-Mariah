@@ -1,9 +1,14 @@
+import org.apache.commons.lang.StringUtils;
+import org.codehaus.plexus.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 
@@ -76,7 +81,7 @@ public class GameTest {
     @Test //checking that the files are being generated
     public void HTML_FileTest() throws IOException {
 
-        game.generateHTMLFiles();
+        game.generateHTMLFiles(map);
         assertNotNull(game.htmlFiles);
     }
 
@@ -84,19 +89,22 @@ public class GameTest {
         @Test //checking that the files have the correct name
     public void HTML_FileNameTest() throws IOException {
 
-        game.generateHTMLFiles();
-       // File file = new File("C:\\map_player_1.html");
-        assertTrue(new File("C:\\map_player_1.html").exists());
+        game.generateHTMLFiles(map);
+        assertTrue(new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html").exists());
+       assertTrue(new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_2.html").exists());
 
     }
 
-    @Test //checking that the current position is marker with an asterisk
-    public void HTML_currentPositionTest() throws IOException {
-        Position test_position = new Position(10,10);
-        player1.setPosition(test_position);
-
-        game.generateHTMLFiles();
-
+    @Test //checking that the previous positions are uncovered on the grid
+    public void HTML_uncoveredTilesTest() throws IOException {
+        game.generateHTMLFiles(map);
+        //the player has only visited the initial tile
+        //therefore there should only be one green tile uncovered
+        String green_hexcode = "#67E240";
+        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
+        assertTrue(file_content.contains(green_hexcode));
+       // int count = StringUtils.countMatches(String.valueOf(game.htmlFiles[0]), green_hexcode);
+       // assertEquals(1,count);
 
     }
 

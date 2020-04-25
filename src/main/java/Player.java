@@ -31,6 +31,7 @@ public class Player {
             setInitial();
         }
         //return once valid
+        this.map.getTile(x,y).setUncovered();
         return new Position(x,y);
 
     }
@@ -43,6 +44,7 @@ public class Player {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
+            this.map.getTile(x,y).setUncovered();
             return true;
         }
         return false;

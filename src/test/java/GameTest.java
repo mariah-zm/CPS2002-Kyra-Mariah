@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
@@ -17,16 +16,16 @@ public class GameTest {
     Game game;
     Map map;
     Player player1;
-    Player player2;
+   // Player player2;
 
     @Before
     public void setUp() throws Exception {
-        map = new Map(25);
+        map = new Map(4);
         game = new Game();
         player1 = new Player(map);
         game.players.add(player1);
-        player2 = new Player(map);
-        game.players.add(player2);
+       // player2 = new Player(map);
+        //game.players.add(player2);
 
     }
 
@@ -37,7 +36,7 @@ public class GameTest {
         game = null;
         map= null;
         player1 = null;
-        player2 = null;
+     //  player2 = null;
 
     }
 
@@ -100,21 +99,19 @@ public class GameTest {
         game.generateHTMLFiles(map);
         //the player has only visited the initial tile
         //therefore there should only be one green tile uncovered
-        String green_hexcode = "#67E240";
+        String green_hexcode = "<td><div class=\"grass\">";
         String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
         assertTrue(file_content.contains(green_hexcode));
-       // int count = StringUtils.countMatches(String.valueOf(game.htmlFiles[0]), green_hexcode);
-       // assertEquals(1,count);
+        int count = StringUtils.countMatches(file_content, green_hexcode);
+        assertEquals(1,count);
 
     }
 
     @Test
     public void HTML_currentPositionTest() throws IOException{
         game.generateHTMLFiles(map);
-       // player2.setPosition(new Position(5,5));
-        String currentPositionMark = "</p>&#9786;</p>";
-        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_2.html") ) );
-
+        String currentPositionMark = "</p>&#127939;</p>";
+        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
         assertTrue(file_content.contains(currentPositionMark));
 
 

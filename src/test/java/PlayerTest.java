@@ -21,6 +21,8 @@ public class PlayerTest {
     public void tearDown()
     {
         player = null;
+        map = null;
+        test_position = null;
     }
 
     @Test

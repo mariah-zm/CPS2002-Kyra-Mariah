@@ -8,7 +8,7 @@ public class Tile {
     public Tile(TileType type){
         this.type = type;
         this.uncovered = false;
-        this.html = "<td bgcolour=" + this.type.getHexCode() + ">";
+        this.html = "<td><div class=\""+ type.getHexCode()+ "\">";
 
     }
 
@@ -18,9 +18,9 @@ public class Tile {
     }
 
     //setter for uncovered
-    public void setUncovered(){
-        uncovered = true;
-    }
+   public void setUncovered() {
+       this.uncovered = true;
+   }
 
     //getter for uncovered
     public boolean getUncovered(){

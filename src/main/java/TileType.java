@@ -1,7 +1,7 @@
 public enum TileType {
-    GRASS("#67E240"),
-    WATER("#2FA6F1"),
-    TREASURE("#FFFB40");
+    GRASS("grass"),
+    WATER("water"),
+    TREASURE("treasure");
 
     private String hexCode;
 

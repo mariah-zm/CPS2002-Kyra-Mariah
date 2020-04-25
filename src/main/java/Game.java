@@ -52,7 +52,6 @@ public class Game {
 
 
         //contains the html code to be written to file
-        StringBuilder html = new StringBuilder();
 
         //this method will only execute on the initial generation
        if (htmlFiles == null) {
@@ -67,9 +66,25 @@ public class Game {
 
         //loop for each player
         for (i = 0; i < htmlFiles.length; i++) {
-            html.append("<html><head><title>table</title><style>" +
-                    "table{ border-collapse: collapse; width: 50%; } " +
-                    "td { border: 2 px solid black; padding: 15 px; }" +
+            StringBuilder html = new StringBuilder();
+            html.append("<html><head><title>Find the hidden treasure!</title><style>\n" +
+                    ".square {\n" +
+                            "  height: 50px;\n" +
+                            "  width: 50px;\n" +
+                            "  background-color: #E2D6D4;\n" +
+                            "}"+ ".grass {\n" +
+                            "  height: 50px;\n" +
+                            "  width: 50px;\n" +
+                            "  background-color: #67E240;\n" +
+                            "}"+ ".water {\n" +
+                    "  height: 50px;\n" +
+                    "  width: 50px;\n" +
+                    "  background-color: #2FA6F1;\n" +
+                    "}"+ ".treasure {\n" +
+                    "  height: 50px;\n" +
+                    "  width: 50px;\n" +
+                    "  background-color: #FFFB40;\n" +
+                    "}"+
                     "</style></head><body><table>");
 
             //nested-loop to parse through each tile in grid and writing html code accordingly
@@ -82,16 +97,16 @@ public class Game {
                     if (players.get(i).getMap().getTile(j, k).getUncovered()) {
                         html.append(players.get(i).getMap().getTile(j, k).getHtml());
                     } else {
-                        html.append("<td bgcolour=#808080>");
+                        html.append("<td><div class=\"square\">");
                     }
                     /* if the tile coordinates correspond to the player's current position
-                    the cell will contain a smiley to indicate the player's position
+                    the cell will contain a person to indicate the player's position
                      */
-
                     if( j==players.get(i).getCurrent().getX() && k==players.get(i).getCurrent().getY() ){
-                        html.append("</p>&#9786;</p>");
+                        html.append("</p>&#127939;</p>");
 
                     }
+                    html.append("</div>");
 
                   html.append("</td>");
                 }

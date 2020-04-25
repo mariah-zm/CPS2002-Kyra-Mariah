@@ -85,12 +85,15 @@ public class Game {
                         html.append("<td bgcolour=#808080>");
                     }
                     /* if the tile coordinates correspond to the player's current position
-                    the cell will contain an '*' to indicate the player's position
+                    the cell will contain a smiley to indicate the player's position
                      */
-                    if (players.get(i).getCurrent().equals(new Position(j, k))) {
-                        html.append("*");
+
+                    if( j==players.get(i).getCurrent().getX() && k==players.get(i).getCurrent().getY() ){
+                        html.append("</p>&#9786;</p>");
+
                     }
-                    html.append("</td>");
+
+                  html.append("</td>");
                 }
                 html.append("</tr>");
             }

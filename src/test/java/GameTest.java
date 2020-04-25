@@ -108,4 +108,16 @@ public class GameTest {
 
     }
 
+    @Test
+    public void HTML_currentPositionTest() throws IOException{
+        game.generateHTMLFiles(map);
+       // player2.setPosition(new Position(5,5));
+        String currentPositionMark = "</p>&#9786;</p>";
+        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_2.html") ) );
+
+        assertTrue(file_content.contains(currentPositionMark));
+
+
+    }
+
 }

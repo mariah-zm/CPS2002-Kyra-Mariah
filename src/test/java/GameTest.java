@@ -1,30 +1,23 @@
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.ExpectedSystemExit;
-import org.junit.contrib.java.lang.system.TextFromStandardInputStream;
 
 import static org.junit.Assert.*;
-import static org.junit.contrib.java.lang.system.TextFromStandardInputStream.emptyStandardInputStream;
 
 public class GameTest {
 
     Game game;
-
-    @Rule
-    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
-
-    @Rule
-    public final TextFromStandardInputStream systemInMock = emptyStandardInputStream();
+    Map map;
 
     @Before
-    public void setUp(){
+    public void setUp() throws Exception {
         game = new Game();
+        map = new Map(25);
+
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() throws Exception {
         game = null;
     }
 
@@ -46,39 +39,23 @@ public class GameTest {
     }
     @Test
     public void setMapSize_TooSmall() {
-        boolean result = game.setMapSize(4,4);
+        game.setNumPlayers(4);
+        boolean result = game.setMapSize(4);
         assertFalse(result);
     }
 
     @Test
     public void setMapSize_TooBig() {
-        boolean result = game.setMapSize(60,4);
+        game.setNumPlayers(8);
+        boolean result = game.setMapSize(60);
         assertFalse(result);
     }
 
     @Test
     public void setMapSize() {
-        boolean result = game.setMapSize(30,6);
+        game.setNumPlayers(6);
+        boolean result = game.setMapSize(30);
         assertTrue(result);
     }
 
-    @Test
-    public void main_InputsFoundAndCorrect(){
-        systemInMock.provideLines("2", "5");
-        exit.expectSystemExitWithStatus(0);
-        game.main(null);
-    }
-
-    @Test
-    public void main_InputsNotImmediatelyCorrect(){
-        systemInMock.provideLines("incorrect", "2", "incorrect", "5");
-        exit.expectSystemExitWithStatus(0);
-        game.main(null);
-    }
-
-    @Test
-    public void main_noInputFound(){
-        exit.expectSystemExitWithStatus(1);
-        game.main(null);
-    }
 }

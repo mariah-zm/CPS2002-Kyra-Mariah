@@ -18,7 +18,4 @@ public class PlayerStatusTest {
         assertEquals(PlayerStatus.WINS, PlayerStatus.getStatus(TileType.TREASURE));
     }
 
-    @Test
-    public void getStatus_Invalid(){
-    }
 }

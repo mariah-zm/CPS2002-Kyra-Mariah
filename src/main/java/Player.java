@@ -38,7 +38,7 @@ public class Player {
         int x = p.getX();
         int y = p.getY();
 
-        if (x > 0 && x < map.getSize() && y > 0 && y < map.getSize()) {
+        if (x >= 0 && x < map.getSize() && y >= 0 && y < map.getSize()) {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);

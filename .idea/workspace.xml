@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c72ca52-7138-4197-b3e5-5e534d04d670" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/PlayerStatusTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/PlayerStatusTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PlayerStatusTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/PlayerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PlayerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/PositionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/PositionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/PositionTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/PositionTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +46,7 @@
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/CPS2002-Kyra-Mariah.iml" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.PlayerTest">
     <configuration name="PlayerStatusTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CPS2002-Kyra-Mariah" />
       <option name="PACKAGE_NAME" value="" />
@@ -53,8 +56,40 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PlayerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CPS2002-Kyra-Mariah" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PlayerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayerTest.move_Left" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CPS2002-Kyra-Mariah" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PlayerTest" />
+      <option name="METHOD_NAME" value="move_Left" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlayerTest.move_Up" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="CPS2002-Kyra-Mariah" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="PlayerTest" />
+      <option name="METHOD_NAME" value="move_Up" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PlayerTest" />
+        <item itemvalue="JUnit.PlayerTest.move_Left" />
+        <item itemvalue="JUnit.PlayerTest.move_Up" />
         <item itemvalue="JUnit.PlayerStatusTest" />
       </list>
     </recent_temporary>
@@ -95,6 +130,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="added another .gitignore" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="93" y="93" width="1350" height="638" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog" timestamp="1588009591553">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="#com.intellij.execution.junit2.states.ComparisonFailureState$DiffDialog/0.0.1536.824@0.0.1536.824" timestamp="1588009591553" />
     <state x="618" y="301" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1588005789868">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -115,6 +154,38 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1588006176400" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1588010553843">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588010553843" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1588010553843">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1588010553843" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1588010553842">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1588010553842" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1588010553843">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1588010553843" />
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom" timestamp="1588009341484">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.bottom/0.0.1536.824@0.0.1536.824" timestamp="1588009341484" />
+    <state width="1493" height="261" key="GridCell.Tab.1.center" timestamp="1588009341483">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.center/0.0.1536.824@0.0.1536.824" timestamp="1588009341483" />
+    <state width="1493" height="261" key="GridCell.Tab.1.left" timestamp="1588009341483">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.left/0.0.1536.824@0.0.1536.824" timestamp="1588009341483" />
+    <state width="1493" height="261" key="GridCell.Tab.1.right" timestamp="1588009341483">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="261" key="GridCell.Tab.1.right/0.0.1536.824@0.0.1536.824" timestamp="1588009341483" />
     <state x="481" y="128" key="MultipleFileMergeDialog" timestamp="1588005722285">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

@@ -36,11 +36,11 @@ public class DirectionTest {
 
     @Test
     public void getDirection_RIGHT(){
-        assertEquals(Direction.UP, Direction.getDirection('R'));
+        assertEquals(Direction.RIGHT, Direction.getDirection('R'));
     }
 
     @Test
     public void getDirection_LEFT(){
-        assertEquals(Direction.UP, Direction.getDirection('L'));
+        assertEquals(Direction.LEFT, Direction.getDirection('L'));
     }
 }

@@ -12,9 +12,9 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
-        map = new Map(25);
-        player = new Player(map);
-        test_position = new Position(1,1);
+        this.map = new Map(25);
+        this.player = new Player(map);
+        this.test_position = new Position(1,1);
     }
 
     @After

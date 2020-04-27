@@ -7,7 +7,6 @@ public class Player {
     private Map map; //a copy of the generated map from the player's perspective
     private PlayerStatus status;
 
-
     //class constructor
     public Player(Map map) {
         this.initial = setInitial();

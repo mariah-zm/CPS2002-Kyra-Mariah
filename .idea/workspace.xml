@@ -44,6 +44,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="two.files.diff.last.used.file" value="$PROJECT_DIR$/CPS2002-Kyra-Mariah.iml" />
   </component>
   <component name="SvnConfiguration">
@@ -86,10 +87,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="618" y="301" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1536.824@0.0.1536.824" timestamp="1588005789868" />
-    <state x="503" y="257" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1588002813623">
+    <state x="503" y="257" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1588006209826">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="503" y="257" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1588002813623" />
+    <state x="503" y="257" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/0.0.1536.824@0.0.1536.824" timestamp="1588006209826" />
     <state x="382" y="8" key="CommitChangelistDialog2" timestamp="1588005329073">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

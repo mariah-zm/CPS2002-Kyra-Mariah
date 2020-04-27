@@ -78,10 +78,31 @@ public class Player {
         }
 
         //uncover discovered tile
-        map.getTile(X, Y).setUncovered();
+        map.getTile(current).setUncovered();
 
         //setting status according to discovered tile type
-        switch(map.getTile(X, Y).getType()){
+
+
+        return true;
+    }
+
+    //getter for current position
+    public Position getCurrent(){
+        return this.current;
+    }
+
+    //getter for player's map
+    public Map getMap(){
+        return this.map;
+    }
+
+    //getter for player's status
+    public PlayerStatus getStatus(){
+        return status;
+    }
+
+    public void setStatus(TileType type){
+        switch(map.getTile(current).getType()){
             case GRASS:
                 //if a player discovers a grass tile they are safe
                 status = PlayerStatus.SAFE;
@@ -101,22 +122,5 @@ public class Player {
             default:
                 throw new IndexOutOfBoundsException();
         }
-
-        return true;
-    }
-
-    //getter for current position
-    public Position getCurrent(){
-        return this.current;
-    }
-
-    //getter for player's map
-    public Map getMap(){
-        return this.map;
-    }
-
-    //getter for player's status
-    public PlayerStatus getStatus(){
-        return status;
     }
 }

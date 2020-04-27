@@ -96,7 +96,7 @@ public class MapTest{
         outerLoop:
         for(int i=0; i < map.getSize(); i++){
             for(int j=0; j < map.getSize(); j++){
-                if(map.getTile(i, j).getType() == TileType.TREASURE){
+                if(map.getTile(new Position(i, j)).getType() == TileType.TREASURE){
                     x=i;
                     y=j;
                     break outerLoop;
@@ -107,10 +107,10 @@ public class MapTest{
         List<Tile> surroundingTiles = new ArrayList<>();
 
         //creating a list of the surrounding tiles
-        if(map.isLegal(x+1,y)) surroundingTiles.add(map.getTile(x+1,y));
-        if(map.isLegal(x-1,y)) surroundingTiles.add(map.getTile(x-1,y));
-        if(map.isLegal(x,y+1)) surroundingTiles.add(map.getTile(x,y+1));
-        if(map.isLegal(x,y-1)) surroundingTiles.add(map.getTile(x,y-1));
+        if(map.isLegal(x+1,y)) surroundingTiles.add(map.getTile(new Position(x+1,y)));
+        if(map.isLegal(x-1,y)) surroundingTiles.add(map.getTile(new Position(x-1,y)));
+        if(map.isLegal(x,y+1)) surroundingTiles.add(map.getTile(new Position(x,y+1)));
+        if(map.isLegal(x,y-1)) surroundingTiles.add(map.getTile(new Position(x,y-1)));
 
         //asserting that at least one is a Grass Tile
         boolean notAllWater = surroundingTiles.stream().anyMatch(tile -> tile.getType().equals(TileType.GRASS));

@@ -107,4 +107,5 @@ public class PlayerTest {
     public void getMap(){
         assertEquals(map, player.getMap());
     }
+
 }

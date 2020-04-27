@@ -22,6 +22,10 @@ public class Tile {
        this.uncovered = true;
    }
 
+   public void setCovered(){
+        this.uncovered= false;
+   }
+
     //getter for uncovered
     public boolean getUncovered(){
         return uncovered;

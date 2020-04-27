@@ -115,4 +115,15 @@ public class Map {
         return x >= 0 && x < size && y >= 0 && y < size;
     }
 
+    public static Map copyMap(Map map){
+
+        Map mapcopy = new Map(map.getSize());
+        for(int i=0; i< map.getSize();i++){
+            for(int j=0; j<map.getSize(); j++){
+                mapcopy.grid = map.getGrid();
+            }
+        }
+        return mapcopy;
+
+    }
 }

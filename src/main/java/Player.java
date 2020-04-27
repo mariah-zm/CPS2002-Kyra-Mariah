@@ -2,10 +2,10 @@ import java.util.Random;
 
 public class Player {
 
-    private Position initial; //will store the randomly generated initial position
-    private Position current; //the player's position that will change throughout the game
+    public Position initial; //will store the randomly generated initial position
+    public Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
-    public int ID;
+
 
 
     //class constructor
@@ -13,6 +13,7 @@ public class Player {
         this.map = map;
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
+
     }
 
 
@@ -31,7 +32,7 @@ public class Player {
             setInitial();
         }
         //return once valid
-        this.map.getTile(x,y).setUncovered();
+      //  map.getTile(x,y).setUncovered();
         return new Position(x,y);
 
     }
@@ -44,6 +45,8 @@ public class Player {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
+            this.map.getTile(x,y).setUncovered();
+
             return true;
         }
         return false;

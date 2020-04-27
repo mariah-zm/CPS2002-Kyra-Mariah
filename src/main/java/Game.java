@@ -9,12 +9,10 @@ public class Game {
 
     private int turns;
     public ArrayList<Player> players = new ArrayList<Player>();
-   // private Map map;
-    public File[] htmlFiles=null;
+    private Map map;
+    // public File[] htmlFiles=null;
 
-    public BufferedWriter[] bw=null;//will allow us to write to files
-
-
+    //public BufferedWriter[] bw=null;//will allow us to write to files
 
 
     public boolean setNumPlayers(int playercount) {
@@ -44,80 +42,5 @@ public class Game {
             return false;
         }
         return true;
-    }
-
-    public void generateHTMLFiles(Map map) throws IOException {
-        //variables for loops
-        int i, j, k;
-
-
-        //contains the html code to be written to file
-
-        //this method will only execute on the initial generation
-       if (htmlFiles == null) {
-           htmlFiles = new File[players.size()];
-           bw=  new BufferedWriter[players.size()];
-        for (i = 0; i < htmlFiles.length; i++) {
-                //creating the file for the player
-                htmlFiles[i] = new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_" + (i + 1) + ".html");
-                bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
-            }
-      }
-
-        //loop for each player
-        for (i = 0; i < htmlFiles.length; i++) {
-            StringBuilder html = new StringBuilder();
-            html.append("<html><head><title>Find the hidden treasure!</title><style>\n" +
-                    ".square {\n" +
-                            "  height: 50px;\n" +
-                            "  width: 50px;\n" +
-                            "  background-color: #E2D6D4;\n" +
-                            "}"+ ".grass {\n" +
-                            "  height: 50px;\n" +
-                            "  width: 50px;\n" +
-                            "  background-color: #67E240;\n" +
-                            "}"+ ".water {\n" +
-                    "  height: 50px;\n" +
-                    "  width: 50px;\n" +
-                    "  background-color: #2FA6F1;\n" +
-                    "}"+ ".treasure {\n" +
-                    "  height: 50px;\n" +
-                    "  width: 50px;\n" +
-                    "  background-color: #FFFB40;\n" +
-                    "}"+
-                    "</style></head><body><table>");
-
-            //nested-loop to parse through each tile in grid and writing html code accordingly
-            for (j = 0; j < map.getSize(); j++) {
-                html.append("<tr>");
-                for (k = 0; k < map.getSize(); k++) {
-                    /*if the tile is uncovered then we get corresponding html code
-                    otherwise, tile is greyed out
-                     */
-                    if (players.get(i).getMap().getTile(j, k).getUncovered()) {
-                        html.append(players.get(i).getMap().getTile(j, k).getHtml());
-                    } else {
-                        html.append("<td><div class=\"square\">");
-                    }
-                    /* if the tile coordinates correspond to the player's current position
-                    the cell will contain a person to indicate the player's position
-                     */
-                    if( j==players.get(i).getCurrent().getX() && k==players.get(i).getCurrent().getY() ){
-                        html.append("</p>&#127939;</p>");
-
-                    }
-                    html.append("</div>");
-
-                  html.append("</td>");
-                }
-                html.append("</tr>");
-            }
-
-            html.append("</table></body></html>");
-
-            //writing the code to the corresponding file
-            bw[i].write(html.toString());
-            bw[i].close();
-        }
     }
 }

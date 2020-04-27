@@ -14,29 +14,31 @@ import static org.junit.Assert.*;
 public class GameTest {
 
     Game game;
-    Map map;
+    Map map1,map2;
     Player player1;
-   // Player player2;
+    Player player2;
 
     @Before
     public void setUp() throws Exception {
-        map = new Map(4);
+        map1 = new Map(4);
+        map2 = map1;
         game = new Game();
-        player1 = new Player(map);
+        player1 = new Player(map1);
         game.players.add(player1);
-       // player2 = new Player(map);
-        //game.players.add(player2);
+        player2 = new Player(map2);
+        game.players.add(player2);
 
     }
 
     @After
     public void tearDown() throws Exception {
-        game.htmlFiles = null;
+     //   game.htmlFiles = null;
         game.players =null;
         game = null;
-        map= null;
+        map1= null;
+        map2=null;
         player1 = null;
-     //  player2 = null;
+       player2 = null;
 
     }
 
@@ -75,46 +77,6 @@ public class GameTest {
         game.setNumPlayers(6);
         boolean result = game.setMapSize(30);
         assertTrue(result);
-    }
-
-    @Test //checking that the files are being generated
-    public void HTML_FileTest() throws IOException {
-
-        game.generateHTMLFiles(map);
-        assertNotNull(game.htmlFiles);
-    }
-
-
-        @Test //checking that the files have the correct name
-    public void HTML_FileNameTest() throws IOException {
-
-        game.generateHTMLFiles(map);
-        assertTrue(new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html").exists());
-       assertTrue(new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_2.html").exists());
-
-    }
-
-    @Test //checking that the previous positions are uncovered on the grid
-    public void HTML_uncoveredTilesTest() throws IOException {
-        game.generateHTMLFiles(map);
-        //the player has only visited the initial tile
-        //therefore there should only be one green tile uncovered
-        String green_hexcode = "<td><div class=\"grass\">";
-        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
-        assertTrue(file_content.contains(green_hexcode));
-        int count = StringUtils.countMatches(file_content, green_hexcode);
-        assertEquals(1,count);
-
-    }
-
-    @Test
-    public void HTML_currentPositionTest() throws IOException{
-        game.generateHTMLFiles(map);
-        String currentPositionMark = "</p>&#127939;</p>";
-        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
-        assertTrue(file_content.contains(currentPositionMark));
-
-
     }
 
 }

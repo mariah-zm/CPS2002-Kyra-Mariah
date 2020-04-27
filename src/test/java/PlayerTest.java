@@ -7,12 +7,11 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     Player player;
-    Map map;
+    Map map = new Map();
     Position test_position;
 
     @Before
     public void setUp() {
-        map =  new Map(25);
         player = new Player(map);
         test_position = new Position(1,1);
     }
@@ -25,16 +24,11 @@ public class PlayerTest {
 
     @Test
     public void setInitial() {
-        Position start = player.setInitial();
-        int x = start.getX();
-        int y = start.getY();
-        TileType result = player.getMap().getTile(x,y).getType();
-
-        assertEquals(TileType.GRASS, result);
     }
 
     @Test
-    public void move_Up() {
+    public void moveUp() {
+
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
         player.move(Direction.UP);
@@ -42,11 +36,13 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y-1, new_y);
+        assertEquals(y + 1, new_y);
+
     }
 
     @Test
-    public void move_Down() {
+    public void moveDown() {
+
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
         player.move(Direction.DOWN);
@@ -54,39 +50,42 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y+1, new_y);
+        assertEquals(y - 1, new_y);
     }
 
     @Test
-    public void move_Right() {
+    public void moveRight() {
+
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
         player.move(Direction.RIGHT);
         int new_x = player.getCurrent().getX();
         int new_y = player.getCurrent().getY();
 
-        assertEquals(x+1, new_x);
+        assertEquals(x + 1, new_x);
         assertEquals(y, new_y);
+
     }
 
     @Test
-    public void move_Left() {
+    public void moveLeft() {
+
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
         player.move(Direction.LEFT);
         int new_x = player.getCurrent().getX();
         int new_y = player.getCurrent().getY();
 
-        assertEquals(x-1, new_x);
+        assertEquals(x - 1, new_x);
         assertEquals(y, new_y);
     }
 
     @Test
     public void setPosition(){
-        player.setPosition(test_position);
+
+        player.setPosition(test_position, 20);
         int actual_x = player.getCurrent().getX();
         int actual_y = player.getCurrent().getY();
-
         assertEquals(1, actual_x);
         assertEquals(1,actual_y);
     }
@@ -94,17 +93,18 @@ public class PlayerTest {
 
     @Test
     public void getCurrent(){
-        player.setPosition(test_position);
+        player.setPosition(test_position, 20);
         Position current= player.getCurrent();
-        int x = current.getX();
+        int x =current.getX();
         int y = current.getY();
-
         assertEquals(x, test_position.getX());
         assertEquals(y, test_position.getY());
+
     }
 
     @Test
     public void getMap(){
-        assertEquals(map, player.getMap());
+
     }
+
 }

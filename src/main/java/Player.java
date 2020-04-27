@@ -5,12 +5,14 @@ public class Player {
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
+    private PlayerStatus status;
 
     //class constructor
     public Player(Map map) {
         this.map = map;
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
+        this.status = PlayerStatus.SAFE;
     }
 
     //setting random initial position
@@ -78,6 +80,28 @@ public class Player {
         //uncover discovered tile
         map.getTile(X, Y).setUncovered();
 
+        //setting status according to discovered tile type
+        switch(map.getTile(X, Y).getType()){
+            case GRASS:
+                //if a player discovers a grass tile they are safe
+                status = PlayerStatus.SAFE;
+                break;
+
+            case WATER:
+                //if player discovers a water tile they die and return to initial position
+                status = PlayerStatus.DEAD;
+                this.current = this.initial;
+                break;
+
+            case TREASURE:
+                //if player discovers a treasure tile they win the game
+                status = PlayerStatus.WINS;
+                break;
+
+            default:
+                throw new IndexOutOfBoundsException();
+        }
+
         return true;
     }
 
@@ -89,5 +113,10 @@ public class Player {
     //getter for player's map
     public Map getMap(){
         return this.map;
+    }
+
+    //getter for player's status
+    public PlayerStatus getStatus(){
+        return status;
     }
 }

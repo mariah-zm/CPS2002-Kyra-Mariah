@@ -21,11 +21,14 @@ public class HTMLGeneratorTest {
 
     @Before
     public void setUp() throws Exception {
-        generator = new HTMLGenerator();
         map1 = new Map(10);
         game = new Game();
         player1 = new Player(map1);
         game.players.add(player1);
+        generator = new HTMLGenerator();
+
+
+
 
     }
 
@@ -37,16 +40,11 @@ public class HTMLGeneratorTest {
         map1= null;
         player1 = null;
 
+
+
     }
 
 
-/*    @Test //checking that the files are being generated
-    public void HTML_FileTest() throws IOException {
-
-        generator.generateHTMLFiles(player1, game);
-        assertNotNull(generator.htmlFiles);
-    }
-*/
 
     @Test //checking that the files have the correct name
     public void HTML_FileNameTest() throws IOException {
@@ -58,7 +56,6 @@ public class HTMLGeneratorTest {
 
     @Test //checking that the previous positions are uncovered on the grid
     public void HTML_uncoveredTilesTest() throws IOException {
-        player1.setPosition(player1.initial);
         generator.generateHTMLFiles(player1);
 
         //the player has only visited the initial tile

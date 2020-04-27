@@ -2,56 +2,55 @@ import java.util.Random;
 
 public class Player {
 
-    public Position initial; //will store the randomly generated initial position
-    public Position current; //the player's position that will change throughout the game
-    private Map map; //a copy of the generated map from the player's perspective
+        public Position initial; //will store the randomly generated initial position
+        public Position current; //the player's position that will change throughout the game
+        private Map map; //a copy of the generated map from the player's perspective
 
 
 
-    //class constructor
-    public Player( Map map) {
-        this.map = map;
-        this.initial = setInitial();
-        this.current = this.initial; //this will start off as initial
+        //class constructor
+        public Player( Map map) {
+            this.map = map;
+            this.initial = setInitial();
+            this.current = this.initial; //this will start off as initial
 
-    }
-
-
-
-    //setting random initial position
-    public Position setInitial() {
-
-       Random rand = new Random();
-        int x, y;
-        //generating a random position
-        x = rand.nextInt(map.getSize());
-        y = rand.nextInt(map.getSize());
-        //validating that the randomly generated position is a Grass tile
-
-        if((map.getTile(x, y).getType() != TileType.GRASS)){
-            setInitial();
         }
-        //return once valid
-      //  map.getTile(x,y).setUncovered();
-        return new Position(x,y);
 
-    }
-    //checking if new coordinates are in map boundary
-    public boolean setPosition(Position p) {
-        int x = p.getX();
-        int y = p.getY();
 
-        if (x > 0 && x < map.getSize() && y > 0 && y < map.getSize()) {
-            //if legal move, set new position
-            this.current.setX(x);
-            this.current.setY(y);
-            this.map.getTile(x,y).setUncovered();
 
-            return true;
+        //setting random initial position
+        public Position setInitial() {
+
+            Random rand = new Random();
+            int x, y;
+            //generating a random position
+            x = rand.nextInt(map.getSize());
+            y = rand.nextInt(map.getSize());
+            //validating that the randomly generated position is a Grass tile
+
+            if((map.getTile(x, y).getType() != TileType.GRASS)){
+                setInitial();
+            }
+            //return once valid
+              map.getTile(x,y).setUncovered();
+            return new Position(x,y);
+
         }
-        return false;
-    }
+        //checking if new coordinates are in map boundary
+        public boolean setPosition(Position p) {
+            int x = p.getX();
+            int y = p.getY();
 
+            if (x > 0 && x < map.getSize() && y > 0 && y < map.getSize()) {
+                //if legal move, set new position
+                this.current.setX(x);
+                this.current.setY(y);
+                this.map.getTile(x,y).setUncovered();
+
+                return true;
+            }
+            return false;
+        }
     public boolean move(Direction direction) {
         //temporary variables to validate move
         int X = this.current.getX();

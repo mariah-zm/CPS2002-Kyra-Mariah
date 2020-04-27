@@ -70,7 +70,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void moveLeft() {
+    public void move_Left() {
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
         player.move(Direction.LEFT);
@@ -96,7 +96,7 @@ public class PlayerTest {
     public void getCurrent(){
         player.setPosition(test_position);
         Position current= player.getCurrent();
-        int x =current.getX();
+        int x = current.getX();
         int y = current.getY();
 
         assertEquals(x, test_position.getX());

@@ -11,12 +11,13 @@ public class Player {
         this.map = map;
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
-
     }
 
     //setting random initial position
     public Position setInitial() {
-       Random rand = new Random();
+        Random rand = new Random();
+        Random rand = new Random();
+
         int x, y;
         //generating a random position
         x = rand.nextInt(map.getSize());

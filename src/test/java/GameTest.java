@@ -58,10 +58,4 @@ public class GameTest {
         assertTrue(result);
     }
 
-    @Test
-    public void generateHTMLFiles() {
-
-    }
-
-
 }

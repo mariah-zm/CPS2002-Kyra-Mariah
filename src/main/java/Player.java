@@ -5,6 +5,7 @@ public class Player {
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
+    private PlayerStatus status;
 
 
     //class constructor
@@ -12,13 +13,25 @@ public class Player {
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
         this.map = map;
-
+        this.status = PlayerStatus.SAFE;
     }
 
     //setting random initial position
     public Position setInitial() {
+        Random rand = new Random();
 
-        return new Position(2,2);
+        int x, y;
+        //generating a random position
+        x = rand.nextInt(map.getSize());
+        y = rand.nextInt(map.getSize());
+
+        //validating that the randomly generated position is a Grass tile
+        if((map.getTile(new Position(x,y)).getType() != TileType.GRASS)){
+            setInitial();
+        }
+
+        //return once valid
+        return new Position(x,y);
     }
 
     //checking if new coordinates are in map boundary
@@ -26,7 +39,7 @@ public class Player {
         int x = p.getX();
         int y = p.getY();
 
-        if (x > 0 && x < size && y > 0 && y < size) {
+        if (x >= 0 && x < map.getSize() && y >= 0 && y < map.getSize()) {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
@@ -63,9 +76,15 @@ public class Player {
         if (!setPosition(new Position(X, Y), 50)) { //size will be obtained from map itself
             System.out.println("Illegal move.");
             return false;
-        }else {
-            return true;
         }
+
+        //uncover discovered tile
+        map.getTile(current).setUncovered();
+
+        //setting status according to discovered tile type
+        setStatus(map.getTile(current).getType());
+
+        return true;
     }
 
 
@@ -77,5 +96,14 @@ public class Player {
     //getter for player's map
     public Map getMap(){
         return this.map;
+    }
+
+    //getter for player's status
+    public PlayerStatus getStatus(){
+        return status;
+    }
+
+    public void setStatus(TileType type) {
+        this.status = PlayerStatus.getStatus(type);
     }
 }

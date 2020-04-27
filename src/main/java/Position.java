@@ -5,8 +5,8 @@ public class Position {
 
     //class constructor
     public Position(int x, int y) {
-        this.y = y;
         this.x = x;
+        this.y = y;
     }
 
     //setter for x-coordinate

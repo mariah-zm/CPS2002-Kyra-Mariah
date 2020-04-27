@@ -104,8 +104,8 @@ public class Map {
     }
 
     //returns tile
-    public Tile getTile(int x, int y){
-        return grid[x][y];
+    public Tile getTile(Position p){
+        return grid[p.getX()][p.getY()];
     }
 
     //checking whether given coordinates are within map boundaries

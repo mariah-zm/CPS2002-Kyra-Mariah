@@ -7,11 +7,12 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     Player player;
-    Map map = new Map();
+    Map map;
     Position test_position;
 
     @Before
     public void setUp() {
+        map = new Map(25);
         player = new Player(map);
         test_position = new Position(1,1);
     }
@@ -24,11 +25,15 @@ public class PlayerTest {
 
     @Test
     public void setInitial() {
+        Position start = player.setInitial();
+        TileType result = player.getMap().getTile(start).getType();
+
+        assertEquals(TileType.GRASS, result);
     }
 
     @Test
-    public void moveUp() {
-
+    public void move_Up() {
+        player.setPosition(test_position);
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
         player.move(Direction.UP);
@@ -37,12 +42,11 @@ public class PlayerTest {
 
         assertEquals(x, new_x);
         assertEquals(y + 1, new_y);
-
     }
 
     @Test
-    public void moveDown() {
-
+    public void move_Down() {
+        player.setPosition(test_position);
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
         player.move(Direction.DOWN);
@@ -54,8 +58,8 @@ public class PlayerTest {
     }
 
     @Test
-    public void moveRight() {
-
+    public void move_Right() {
+        player.setPosition(test_position);
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
         player.move(Direction.RIGHT);
@@ -64,42 +68,65 @@ public class PlayerTest {
 
         assertEquals(x + 1, new_x);
         assertEquals(y, new_y);
-
     }
 
     @Test
-    public void moveLeft() {
-
+    public void move_Left(){
+        player.setPosition(test_position);
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
         player.move(Direction.LEFT);
         int new_x = player.getCurrent().getX();
         int new_y = player.getCurrent().getY();
 
-        assertEquals(x - 1, new_x);
+        assertEquals(x-1, new_x);
         assertEquals(y, new_y);
     }
 
     @Test
-    public void setPosition(){
+    public void move_LegalMove(){
+        player.setPosition(test_position);
+        boolean result = player.move(Direction.RIGHT);
 
-        player.setPosition(test_position, 20);
-        int actual_x = player.getCurrent().getX();
-        int actual_y = player.getCurrent().getY();
-        assertEquals(1, actual_x);
-        assertEquals(1,actual_y);
+        assertTrue(result);
     }
 
+    @Test
+    public void move_IllegalMove(){
+        player.setPosition(new Position(0,0));
+        boolean result = player.move(Direction.LEFT);
+
+        assertFalse(result);
+    }
+
+    @Test
+    public void setPosition(){
+        player.setPosition(test_position);
+
+        assertEquals(1, player.getCurrent().getX());
+        assertEquals(1, player.getCurrent().getY());
+    }
+
+    @Test
+    public void setPosition_InMapBounds(){
+        boolean result = player.setPosition(test_position);
+
+        assertTrue(result);
+    }
+
+    public void setPosition_OutOfMapBounds(){
+        boolean result = player.setPosition(new Position(-1, -1));
+
+        assertFalse(result);
+    }
 
     @Test
     public void getCurrent(){
-        player.setPosition(test_position, 20);
-        Position current= player.getCurrent();
-        int x =current.getX();
-        int y = current.getY();
-        assertEquals(x, test_position.getX());
-        assertEquals(y, test_position.getY());
+        player.setPosition(test_position);
+        Position current = player.getCurrent();
 
+        assertEquals(1, current.getX());
+        assertEquals(1, current.getY());
     }
 
     @Test
@@ -107,4 +134,21 @@ public class PlayerTest {
 
     }
 
+    @Test
+    public void setStatus_getStatus_GRASS(){
+        player.setStatus(TileType.GRASS);
+        assertEquals(PlayerStatus.SAFE, player.getStatus());
+    }
+
+    @Test
+    public void setStatus_getStatus_WATER(){
+        player.setStatus(TileType.WATER);
+        assertEquals(PlayerStatus.DEAD, player.getStatus());
+    }
+
+    @Test
+    public void setStatus_getStatus_TREASURE(){
+        player.setStatus(TileType.TREASURE);
+        assertEquals(PlayerStatus.WINS, player.getStatus());
+    }
 }

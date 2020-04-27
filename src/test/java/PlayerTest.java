@@ -24,7 +24,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void setInitialTest() {
+    public void setInitial() {
         Position start = player.setInitial();
         int x = start.getX();
         int y = start.getY();
@@ -33,7 +33,7 @@ public class PlayerTest {
     }
 
     @Test
-    public void moveUp() {
+    public void move_Up() {
 
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
@@ -42,12 +42,12 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y + 1, new_y);
+        assertEquals(y-1, new_y);
 
     }
 
     @Test
-    public void moveDown() {
+    public void move_Down() {
 
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
@@ -56,11 +56,11 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y - 1, new_y);
+        assertEquals(y+1, new_y);
     }
 
     @Test
-    public void moveRight() {
+    public void move_Right() {
 
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
@@ -70,11 +70,10 @@ public class PlayerTest {
 
         assertEquals(x + 1, new_x);
         assertEquals(y, new_y);
-
     }
 
     @Test
-    public void moveLeft() {
+    public void move_Left() {
 
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
@@ -101,16 +100,15 @@ public class PlayerTest {
     public void getCurrent(){
         player.setPosition(test_position);
         Position current= player.getCurrent();
-        int x =current.getX();
+        int x = current.getX();
         int y = current.getY();
         assertEquals(x, test_position.getX());
         assertEquals(y, test_position.getY());
-
     }
 
     @Test
     public void getMap(){
-
+        assertEquals(map, player.getMap());
     }
 
 }

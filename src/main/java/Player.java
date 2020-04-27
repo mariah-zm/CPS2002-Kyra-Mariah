@@ -25,7 +25,7 @@ public class Player {
         y = rand.nextInt(map.getSize());
 
         //validating that the randomly generated position is a Grass tile
-        if((map.getTile(x, y).getType() != TileType.GRASS)){
+        if((map.getTile(new Position(x,y)).getType() != TileType.GRASS)){
             setInitial();
         }
 
@@ -81,7 +81,7 @@ public class Player {
         map.getTile(current).setUncovered();
 
         //setting status according to discovered tile type
-
+        setStatus(map.getTile(current).getType());
 
         return true;
     }
@@ -101,26 +101,7 @@ public class Player {
         return status;
     }
 
-    public void setStatus(TileType type){
-        switch(map.getTile(current).getType()){
-            case GRASS:
-                //if a player discovers a grass tile they are safe
-                status = PlayerStatus.SAFE;
-                break;
-
-            case WATER:
-                //if player discovers a water tile they die and return to initial position
-                status = PlayerStatus.DEAD;
-                this.current = this.initial;
-                break;
-
-            case TREASURE:
-                //if player discovers a treasure tile they win the game
-                status = PlayerStatus.WINS;
-                break;
-
-            default:
-                throw new IndexOutOfBoundsException();
-        }
+    public void setStatus(TileType type) {
+        this.status = PlayerStatus.getStatus(type);
     }
 }

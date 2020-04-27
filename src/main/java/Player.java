@@ -16,7 +16,6 @@ public class Player {
     //setting random initial position
     public Position setInitial() {
         Random rand = new Random();
-        Random rand = new Random();
 
         int x, y;
         //generating a random position
@@ -74,9 +73,12 @@ public class Player {
         if (!setPosition(new Position(X, Y))) { //size will be obtained from map itself
             System.out.println("Illegal move.");
             return false;
-        }else {
-            return true;
         }
+
+        //uncover discovered tile
+        map.getTile(X, Y).setUncovered();
+
+        return true;
     }
 
     //getter for current position

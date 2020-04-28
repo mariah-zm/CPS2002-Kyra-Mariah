@@ -50,5 +50,5 @@ public class HTMLGeneratorTest {
         assertTrue(file_content.contains(winnerMessage));
     }
 
-    //all other methods are tested in the GameTest class
+    //all other methods are tested in GameTest
 }

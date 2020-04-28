@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class HTMLGenerator {
 
-    public String headerHTML() {
+    public String headerHTML(int i) {
         StringBuilder html = new StringBuilder();
         html.append("<html><head>" +
                 "<body style=\"background-color: #28444B;\">" +
@@ -41,6 +41,7 @@ public class HTMLGenerator {
                 "<table style=\"border:1px solid black;margin-left:auto;margin-right:auto;\">\n" +
                 "<div class=\"header\">\n" +
                 "  <h1>FIND THE HIDDEN TREASURE</h1>\n" +
+                "<h2>Player "+ i +"</h2>"+
                 "</div>");
 
         return html.toString();

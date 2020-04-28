@@ -58,9 +58,9 @@ public class Game {
                     htmlFiles[i] = new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_" + (i + 1) + ".html");
                     bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
                     StringBuilder temp = new StringBuilder();
-                    temp.append(generator.headerHTML());
-                    temp.append(generator.gridHTML(players.get(i)));
+                    temp.append(generator.headerHTML(i+1));
                     temp.append(generator.winnerMessageHTML(players.get(i)));
+                    temp.append(generator.gridHTML(players.get(i)));
 
                     bw[i].write(temp.toString());
                     bw[i].close();

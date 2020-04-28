@@ -17,8 +17,6 @@ public class PositionTest {
         test_position = null;
     }
 
-
-
     @Test
     public void getX_test() {
        int x_coordinate = test_position.getX();
@@ -35,7 +33,6 @@ public class PositionTest {
         test_position.setX(2); //should change the x_coordinate
         //using the previously tested function
         assertEquals(2, test_position.getX());
-
     }
 
     @Test
@@ -43,6 +40,5 @@ public class PositionTest {
         test_position.setY(2); //should change the x_coordinate
         //using the previously tested function
         assertEquals(2, test_position.getY());
-
     }
 }

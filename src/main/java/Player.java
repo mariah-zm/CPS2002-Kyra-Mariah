@@ -1,69 +1,66 @@
-
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
 
-        public Position initial; //will store the randomly generated initial position
-        public Position current; //the player's position that will change throughout the game
-        private Map map; //a copy of the generated map from the player's perspective
-        public ArrayList<Tile> visitedTiles;
-        public PlayerStatus status;
+    private Position initial; //will store the randomly generated initial position
+    private Position current; //the player's position that will change throughout the game
+    private Map map; //a copy of the generated map from the player's perspective
+    public PlayerStatus status;
+    public ArrayList<Tile> visitedTiles;
+
+
+    //class constructor
+    public Player(Map map) {
+        this.map = map;
+        this.initial = setInitial();
+        this.current = this.initial; //this will start off as initial
+        this.status = PlayerStatus.SAFE;
+        visitedTiles = new ArrayList<>();
+        addVisited(this.initial);
+    }
+
+    private void addVisited(Position position){
+        int x = position.getX();
+        int y = position.getY();
+        visitedTiles.add(map.getTile(x,y));
+    }
 
 
 
+    //setting random initial position
+    public Position setInitial() {
+        Random rand = new Random();
 
-        //class constructor
-        public Player( Map map) {
-            this.map = map;
-            this.initial = setInitial();
-            this.current = this.initial; //this will start off as initial
-            this.status = PlayerStatus.SAFE;
-            visitedTiles = new ArrayList<>();
-            addVisited(this.initial);
-
-
-        }
-
-        private void addVisited(Position position){
-            int x = position.getX();
-            int y = position.getY();
-            visitedTiles.add(map.getTile(x,y));
-        }
-
-
-
-        //setting random initial position
-        public Position setInitial() {
-
-            Random rand = new Random();
-            int x, y;
+        int x, y;
+        //validating that the randomly generated position is a Grass tile
+        do{
             //generating a random position
             x = rand.nextInt(map.getSize());
             y = rand.nextInt(map.getSize());
-            //validating that the randomly generated position is a Grass tile
+        }while(map.getTile(x,y).getType() != TileType.GRASS);
 
-            if((map.getTile(x, y).getType() != TileType.GRASS)){
-              return setInitial();
-            }else {
-                //return once valid
-                return new Position(x, y);
-            }
-        }
-        //checking if new coordinates are in map boundary
-        public boolean setPosition(Position p) {
-            int x = p.getX();
-            int y = p.getY();
+        //return once valid
+        return new Position(x,y);
+    }
 
-            if (x > 0 && x < map.getSize() && y > 0 && y < map.getSize()) {
-                //if legal move, set new position
-                this.current.setX(x);
-                this.current.setY(y);
-                addVisited(current);
-                return true;
-            }
-            return false;
+    //checking if new coordinates are in map boundary
+    public boolean setPosition(Position p) {
+        int x = p.getX();
+        int y = p.getY();
+
+        if (x >= 0 && x < map.getSize() && y >= 0 && y < map.getSize()) {
+            //if legal move, set new position
+            this.current.setX(x);
+            this.current.setY(y);
+            addVisited(current);
+
+
+            return true;
         }
+        return false;
+    }
+
     public boolean move(Direction direction) {
         //temporary variables to validate move
         int X = this.current.getX();
@@ -89,14 +86,21 @@ public class Player {
         }
 
         //validating move - checking if legal
-        if (!setPosition(new Position(X, Y))) { //size will be obtained from map itself
+        if (!setPosition(new Position(X, Y))){ //size will be obtained from map itself
             System.out.println("Illegal move.");
             return false;
-        }else {
-            return true;
         }
-    }
 
+        //uncover discovered tile
+        map.getTile(current.getX(),current.getY()).setUncovered();
+
+        //setting status according to discovered tile type
+        setStatus(map.getTile(current.getX(),current.getY()).getType());
+        if(status == PlayerStatus.DEAD){
+            current = initial;
+        }
+        return true;
+    }
 
     //getter for current position
     public Position getCurrent(){
@@ -106,5 +110,15 @@ public class Player {
     //getter for player's map
     public Map getMap(){
         return this.map;
+    }
+
+    //getter for player's status
+    public PlayerStatus getStatus(){
+        return status;
+    }
+
+    //setter for status
+    public void setStatus(TileType type) {
+        this.status = PlayerStatus.getStatus(type);
     }
 }

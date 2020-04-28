@@ -23,4 +23,24 @@ public class DirectionTest {
     public void getRandomDirection(){
         assertTrue(values.contains(Direction.randomDirection()));
     }
+
+    @Test
+    public void getDirection_UP(){
+        assertEquals(Direction.UP, Direction.getDirection('U'));
+    }
+
+    @Test
+    public void getDirection_DOWN(){
+        assertEquals(Direction.DOWN, Direction.getDirection('D'));
+    }
+
+    @Test
+    public void getDirection_RIGHT(){
+        assertEquals(Direction.RIGHT, Direction.getDirection('R'));
+    }
+
+    @Test
+    public void getDirection_LEFT(){
+        assertEquals(Direction.LEFT, Direction.getDirection('L'));
+    }
 }

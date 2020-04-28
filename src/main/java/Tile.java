@@ -24,6 +24,7 @@ public class Tile {
 
    public void setCovered(){
         this.uncovered= false;
+
    }
 
     //getter for uncovered

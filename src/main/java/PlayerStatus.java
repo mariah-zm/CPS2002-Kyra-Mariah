@@ -1,10 +1,20 @@
+public enum PlayerStatus {
+    DEAD(TileType.WATER),
+    WINS(TileType.TREASURE),
+    SAFE(TileType.GRASS);
 
-    public enum PlayerStatus {
+    private TileType type;
 
-        DEAD,
-        WINS,
-        SAFE
-
+    PlayerStatus(TileType type){
+        this.type = type;
     }
 
-
+    public static PlayerStatus getStatus(TileType type) {
+        for (PlayerStatus status : values()) {
+            if (status.type.equals(type)) {
+                return status;
+            }
+        }
+        return null;
+    }
+}

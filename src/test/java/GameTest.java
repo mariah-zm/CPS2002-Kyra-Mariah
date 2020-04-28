@@ -131,10 +131,10 @@ public class GameTest {
 
     @Test
     //grid should not display water or treasure tiles at this point
-    public void HTML_noWater_noTreasure() throws IOException{
+    public void HTML_noWater() throws IOException{
         game.generateHTML();
         String waterMark = "<p>&#2FA6F1;</p>";
-        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\generated_HTML\\map_player_1.html") ) );
+        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
         assertFalse(file_content.contains(waterMark));
 
     }
@@ -142,7 +142,7 @@ public class GameTest {
     public void HTML_noTreasure() throws IOException {
         game.generateHTML();
      String treasureMark = "<p>&#FFFB40;</p>";
-     String file_content = new String(Files.readAllBytes(Paths.get("C:\\generated_HTML\\map_player_1.html")));
+     String file_content = new String(Files.readAllBytes(Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html")));
      assertFalse(file_content.contains(treasureMark));
  }
 

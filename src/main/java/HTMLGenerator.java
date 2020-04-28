@@ -9,12 +9,14 @@ public class HTMLGenerator {
     public String headerHTML(int i) {
         StringBuilder html = new StringBuilder();
         html.append("<html><head>" +
-                "<body style=\"background-color: #28444B;\">" +
                 "<style>\n" +
+                 "body {\n" +
+                " background-image: url(\"https://media.giphy.com/media/VwXcgwGIPyiiY/giphy.gif\");\n" +
+                " background-color: #cccccc;\n" +
+                "}"+
                 ".header {\n" +
                 "  padding: 60px;\n" +
                 "  text-align: center;\n" +
-                "  background: #28444B;\n" +
                 "  color: white;\n" +
                 "  font-size: 30px;\n" +
                 "  font-family: Arial;\n" +

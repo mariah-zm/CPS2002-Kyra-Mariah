@@ -17,6 +17,7 @@ public class GameTest {
     Map map1,map2;
     Player player1;
     Player player2;
+    HTMLGenerator generator;
 
     @Before
     public void setUp() throws Exception {
@@ -32,7 +33,7 @@ public class GameTest {
 
     @After
     public void tearDown() throws Exception {
-     //   game.htmlFiles = null;
+       game.htmlFiles = null;
         game.players =null;
         game = null;
         map1= null;
@@ -78,5 +79,72 @@ public class GameTest {
         boolean result = game.setMapSize(30);
         assertTrue(result);
     }
+
+    @Test //checking that the files are generated
+    public void HTML_FileTest() throws IOException {
+
+        game.generateHTML();
+        assertNotNull(game.htmlFiles);
+    }
+
+    @Test //checking that the files have the correct name
+    public void HTML_FileNameTest() throws IOException {
+
+        game.generateHTML();
+        assertTrue(new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html").exists());
+        assertTrue(new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_2.html").exists());
+
+
+    }
+
+    @Test //checking that the previous positions are uncovered on the grid for each individual player
+    public void HTML_uncoveredTilesTest_moreThanOnePlayer() throws IOException {
+
+        game.generateHTML();
+        //the player has only visited the initial tile
+        //therefore there should only be one green tile uncovered
+        String grass_code = "<td><div class=\"grass\">";
+
+        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
+        assertTrue(file_content.contains(grass_code));
+        int count = StringUtils.countMatches(file_content, grass_code);
+        assertEquals(1,count);
+
+        String file_content_player2 = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_2.html") ) );
+        assertTrue(file_content_player2.contains(grass_code));
+        int count2 = StringUtils.countMatches(file_content_player2, grass_code);
+        assertEquals(1,count2);
+
+    }
+
+
+    @Test
+    //current tile should contain a person symbol
+    public void HTML_currentPositionTest() throws IOException{
+        game.generateHTML();
+        String currentPositionMark = "<p>&#127939;</p>";
+        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
+        assertTrue(file_content.contains(currentPositionMark));
+
+
+    }
+
+    @Test
+    //grid should not display water or treasure tiles at this point
+    public void HTML_noWater_noTreasure() throws IOException{
+        game.generateHTML();
+        String waterMark = "<p>&#2FA6F1;</p>";
+        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
+        assertFalse(file_content.contains(waterMark));
+
+    }
+    @Test
+    public void HTML_noTreasure() throws IOException {
+        game.generateHTML();
+     String treasureMark = "<p>&#FFFB40;</p>";
+     String file_content = new String(Files.readAllBytes(Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html")));
+     assertFalse(file_content.contains(treasureMark));
+ }
+
 
 }

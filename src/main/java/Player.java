@@ -1,3 +1,5 @@
+
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
@@ -5,6 +7,9 @@ public class Player {
         public Position initial; //will store the randomly generated initial position
         public Position current; //the player's position that will change throughout the game
         private Map map; //a copy of the generated map from the player's perspective
+        public ArrayList<Tile> visitedTiles;
+        public PlayerStatus status;
+
 
 
 
@@ -13,7 +18,17 @@ public class Player {
             this.map = map;
             this.initial = setInitial();
             this.current = this.initial; //this will start off as initial
+            this.status = PlayerStatus.SAFE;
+            visitedTiles = new ArrayList<>();
+            addVisited(this.initial);
 
+
+        }
+
+        private void addVisited(Position position){
+            int x = position.getX();
+            int y = position.getY();
+            visitedTiles.add(map.getTile(x,y));
         }
 
 
@@ -29,12 +44,11 @@ public class Player {
             //validating that the randomly generated position is a Grass tile
 
             if((map.getTile(x, y).getType() != TileType.GRASS)){
-                setInitial();
+              return setInitial();
+            }else {
+                //return once valid
+                return new Position(x, y);
             }
-            //return once valid
-              map.getTile(x,y).setUncovered();
-            return new Position(x,y);
-
         }
         //checking if new coordinates are in map boundary
         public boolean setPosition(Position p) {
@@ -45,8 +59,7 @@ public class Player {
                 //if legal move, set new position
                 this.current.setX(x);
                 this.current.setY(y);
-                this.map.getTile(x,y).setUncovered();
-
+                addVisited(current);
                 return true;
             }
             return false;

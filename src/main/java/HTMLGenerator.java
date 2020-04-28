@@ -2,39 +2,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class HTMLGenerator {
 
-    //  public File htmlFiles = null;
-
-    //public BufferedWriter bw = null;//will allow us to write to files
-    public int playercounter = 1;
-
-    public void generateHTMLFiles(Player player) throws IOException {
-        //variables for loops
-        int i;
-        int j, k;
-        File htmlFiles = null;
-        BufferedWriter bw= null;
-        StringBuilder html=null;
-
-        //contains the html code to be written to file
-
-        //this method will only execute on the initial generation
-      /*  if (htmlFiles == null) {
-            htmlFiles = new File[game.players.size()];
-            bw = new BufferedWriter[game.players.size()];
-            for (i = 0; i < game.players.size(); i++) {*/
-        //creating the file for the player
-        htmlFiles = new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_" + (playercounter) + ".html");
-        bw = new BufferedWriter(new FileWriter(htmlFiles));
-        playercounter++;
-
-        //loop for each player
-        // for (i = 0; i < htmlFiles.length; i++) {
-        html = new StringBuilder();
+    public String headerHTML() {
+        StringBuilder html = new StringBuilder();
         html.append("<html><head>" +
-                "<body style=\"background-color: #28444B;\">"+
+                "<body style=\"background-color: #28444B;\">" +
                 "<style>\n" +
                 ".header {\n" +
                 "  padding: 60px;\n" +
@@ -44,7 +19,7 @@ public class HTMLGenerator {
                 "  font-size: 30px;\n" +
                 "  font-family: Arial;\n" +
                 "\n" +
-                "}"+
+                "}" +
                 ".square {\n" +
                 "  height: 50px;\n" +
                 "  width: 50px;\n" +
@@ -62,28 +37,42 @@ public class HTMLGenerator {
                 "  width: 50px;\n" +
                 "  background-color: #FFFB40;\n" +
                 "}" +
-                "</style></head></body>"+
+                "</style></head></body>" +
                 "<table style=\"border:1px solid black;margin-left:auto;margin-right:auto;\">\n" +
                 "<div class=\"header\">\n" +
                 "  <h1>FIND THE HIDDEN TREASURE</h1>\n" +
                 "</div>");
 
-        //nested-loop to parse through each tile in grid and writing html code accordingly
-        for (j = 0; j < player.getMap().getSize(); j++) {
+        return html.toString();
+    }
+
+    public String gridHTML(Player player) throws IOException {
+
+
+        Map map = player.getMap();
+        ArrayList<Tile> visited = player.visitedTiles;
+
+        StringBuilder html = new StringBuilder();
+        Tile[][] grid = map.getGrid();
+
+        for (int j = 0; j < map.getSize(); j++) {
             html.append("<tr>");
-            for (k = 0; k < player.getMap().getSize(); k++) {
-                    /*if the tile is uncovered then we get corresponding html code
+            for (int k = 0; k < map.getSize(); k++) {
+                //get current tile in loop
+                Tile current = grid[j][k];
+
+                /*if the tile is uncovered then we get corresponding html code
                     otherwise, tile is greyed out
                      */
-                if (player.getMap().getTile(j, k).getUncovered()) {
-                    html.append(player.getMap().getTile(j, k).getHtml());
+                if (visited.contains(current)) {
+                    html.append(current.getHtml());
                 } else {
                     html.append("<td><div class=\"square\">");
                 }
                     /* if the tile coordinates correspond to the player's current position
                     the cell will contain a person to indicate the player's position
                      */
-                if (j == player.getCurrent().getX() && k ==player.getCurrent().getY()) {
+                if (j == player.getCurrent().getX() && k == player.getCurrent().getY()) {
                     html.append("<p>&#127939;</p>");
                 }
                 if (player.getMap().getTile(j, k).getType() == TileType.TREASURE) {
@@ -97,13 +86,23 @@ public class HTMLGenerator {
                 html.append("</td>");
             }
             html.append("</tr>");
+
         }
 
         html.append("</table></body></html>");
-
-        //writing the code to the corresponding file
-        bw.write(html.toString());
-        bw.close();
+        return (html.toString());
     }
+
+    public String winnerMessageHTML(Player player){
+        String winnerMessage =  "<h2>WINNER! WINNER! WINNER!</h2>";
+        if(player.status==PlayerStatus.WINS){
+            return winnerMessage;
+        }else{
+            return "";
+        }
+    }
+
+
+
 }
 

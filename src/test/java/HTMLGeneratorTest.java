@@ -1,9 +1,8 @@
-import org.apache.commons.lang.StringUtils;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -40,43 +39,16 @@ public class HTMLGeneratorTest {
         map1= null;
         player1 = null;
 
-
-
-    }
-
-
-
-    @Test //checking that the files have the correct name
-    public void HTML_FileNameTest() throws IOException {
-
-        generator.generateHTMLFiles(player1);
-        assertTrue(new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html").exists());
-
-    }
-
-    @Test //checking that the previous positions are uncovered on the grid
-    public void HTML_uncoveredTilesTest() throws IOException {
-        generator.generateHTMLFiles(player1);
-
-        //the player has only visited the initial tile
-        //therefore there should only be one green tile uncovered
-        String grass_code = "<td><div class=\"grass\">";
-        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
-        assertTrue(file_content.contains(grass_code));
-        int count = StringUtils.countMatches(file_content, grass_code);
-        assertEquals(1,count);
-
     }
 
     @Test
-    //current tile should contain a person symbol
-    public void HTML_currentPositionTest() throws IOException{
-        player1.setPosition(player1.initial);
-        generator.generateHTMLFiles(player1);
-        String currentPositionMark = "<p>&#127939;</p>";
+    public void winnerMessageTest()throws IOException{
+        player1.status = PlayerStatus.WINS;
+        game.generateHTML();
+        String winnerMessage = "<h2>WINNER! WINNER! WINNER!</h2>";
         String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
-        assertTrue(file_content.contains(currentPositionMark));
-
-
+        assertTrue(file_content.contains(winnerMessage));
     }
+
+    //all other methods are tested in the GameTest class
 }

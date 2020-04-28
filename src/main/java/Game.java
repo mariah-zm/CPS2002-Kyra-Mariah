@@ -1,3 +1,4 @@
+import javax.swing.text.html.HTML;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -10,9 +11,9 @@ public class Game {
     private int turns;
     public ArrayList<Player> players = new ArrayList<Player>();
     private Map map;
-    // public File[] htmlFiles=null;
-
-    //public BufferedWriter[] bw=null;//will allow us to write to files
+    HTMLGenerator generator;
+    public File[] htmlFiles = null;
+   public BufferedWriter[] bw = null;
 
 
     public boolean setNumPlayers(int playercount) {
@@ -43,4 +44,28 @@ public class Game {
         }
         return true;
     }
-}
+
+    public void generateHTML() throws IOException {
+        generator = new HTMLGenerator();
+
+        for (int i = 0; i < players.size(); i++) {
+
+                htmlFiles = new File[players.size()];
+                bw = new BufferedWriter[players.size()];
+
+                for (i = 0; i < players.size(); i++) {
+                    //creating the file for the player
+                    htmlFiles[i] = new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_" + (i + 1) + ".html");
+                    bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
+                    StringBuilder temp = new StringBuilder();
+                    temp.append(generator.headerHTML());
+                    temp.append(generator.gridHTML(players.get(i)));
+                    temp.append(generator.winnerMessageHTML(players.get(i)));
+
+                    bw[i].write(temp.toString());
+                    bw[i].close();
+                    temp=null;
+                }
+            }
+        }
+    }

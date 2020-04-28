@@ -12,9 +12,9 @@ public class PlayerTest {
 
     @Before
     public void setUp() {
-        this.map = new Map(25);
-        this.player = new Player(map);
-        this.test_position = new Position(1,1);
+        map =  new Map(25);
+        player = new Player(map);
+        test_position = new Position(1,1);
     }
 
     @After
@@ -41,7 +41,7 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y + 1, new_y);
+        assertEquals(y-1, new_y);
     }
 
     @Test
@@ -54,7 +54,7 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y - 1, new_y);
+        assertEquals(y+1, new_y);
     }
 
     @Test
@@ -66,12 +66,12 @@ public class PlayerTest {
         int new_x = player.getCurrent().getX();
         int new_y = player.getCurrent().getY();
 
-        assertEquals(x + 1, new_x);
+        assertEquals(x+1, new_x);
         assertEquals(y, new_y);
     }
 
     @Test
-    public void move_Left(){
+    public void move_Left() {
         player.setPosition(test_position);
         int x = player.getCurrent().getX();
         int y = player.getCurrent().getY();
@@ -114,6 +114,7 @@ public class PlayerTest {
         assertTrue(result);
     }
 
+    @Test
     public void setPosition_OutOfMapBounds(){
         boolean result = player.setPosition(new Position(-1, -1));
 
@@ -131,7 +132,7 @@ public class PlayerTest {
 
     @Test
     public void getMap(){
-
+        assertEquals(map, player.getMap());
     }
 
     @Test
@@ -151,4 +152,5 @@ public class PlayerTest {
         player.setStatus(TileType.TREASURE);
         assertEquals(PlayerStatus.WINS, player.getStatus());
     }
+
 }

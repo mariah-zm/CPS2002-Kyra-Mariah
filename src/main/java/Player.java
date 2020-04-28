@@ -9,9 +9,9 @@ public class Player {
 
     //class constructor
     public Player(Map map) {
+        this.map = map;
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
-        this.map = map;
         this.status = PlayerStatus.SAFE;
     }
 
@@ -20,14 +20,12 @@ public class Player {
         Random rand = new Random();
 
         int x, y;
-        //generating a random position
-        x = rand.nextInt(map.getSize());
-        y = rand.nextInt(map.getSize());
-
         //validating that the randomly generated position is a Grass tile
-        if((map.getTile(new Position(x,y)).getType() != TileType.GRASS)){
-            setInitial();
-        }
+        do{
+            //generating a random position
+            x = rand.nextInt(map.getSize());
+            y = rand.nextInt(map.getSize());
+        }while(map.getTile(new Position(x,y)).getType() != TileType.GRASS);
 
         //return once valid
         return new Position(x,y);
@@ -55,10 +53,10 @@ public class Player {
         //setting new coordinates accordingly
         switch (direction) {
             case UP:
-                Y += 1; //y-coordinate moves up by 1
+                Y -= 1; //y-coordinate moves up by 1
                 break;
             case DOWN:
-                Y -= 1; //y-coordinate moves down by 1
+                Y += 1; //y-coordinate moves down by 1
                 break;
             case RIGHT:
                 X += 1; //x-coordinate moves right by 1
@@ -85,10 +83,8 @@ public class Player {
         if(status == PlayerStatus.DEAD){
             current = initial;
         }
-
         return true;
     }
-
 
     //getter for current position
     public Position getCurrent(){
@@ -105,6 +101,7 @@ public class Player {
         return status;
     }
 
+    //setter for status
     public void setStatus(TileType type) {
         this.status = PlayerStatus.getStatus(type);
     }

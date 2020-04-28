@@ -43,8 +43,7 @@ public class HTMLGenerator {
                 "<table style=\"border:1px solid black;margin-left:auto;margin-right:auto;\">\n" +
                 "<div class=\"header\">\n" +
                 "  <h1>FIND THE HIDDEN TREASURE</h1>\n" +
-                "<h2>Player "+ i +"</h2>"+
-                "</div>");
+                "<h2>Player "+ i +"</h2>");
 
         return html.toString();
     }
@@ -97,11 +96,11 @@ public class HTMLGenerator {
     }
 
     public String winnerMessageHTML(Player player){
-        String winnerMessage =  "<h2>WINNER! WINNER! WINNER!</h2>";
+        String winnerMessage =  "<h2>WINNER! WINNER! WINNER!</h2></div>)";
         if(player.status==PlayerStatus.WINS){
             return winnerMessage;
         }else{
-            return "";
+            return "</div>";
         }
     }
 

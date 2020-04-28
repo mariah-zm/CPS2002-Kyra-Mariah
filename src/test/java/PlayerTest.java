@@ -104,8 +104,8 @@ public class PlayerTest {
     public void setPosition(){
         player.setPosition(test_position);
 
-        assertEquals(1, player.getCurrent().getX());
-        assertEquals(1, player.getCurrent().getY());
+        assertEquals(2, player.getCurrent().getX());
+        assertEquals(2, player.getCurrent().getY());
     }
 
     @Test
@@ -127,8 +127,8 @@ public class PlayerTest {
         player.setPosition(test_position);
         Position current = player.getCurrent();
 
-        assertEquals(1, current.getX());
-        assertEquals(1, current.getY());
+        assertEquals(2, current.getX());
+        assertEquals(2, current.getY());
     }
 
     @Test

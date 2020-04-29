@@ -46,7 +46,7 @@ public class HTMLGeneratorTest {
         player1.status = PlayerStatus.WINS;
         game.generateHTML();
         String winnerMessage = "<h2>WINNER! WINNER! WINNER!</h2>";
-        String file_content = new String ( Files.readAllBytes( Paths.get("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_1.html") ) );
+        String file_content = new String ( Files.readAllBytes( Paths.get(Paths.get("").toAbsolutePath().toString()+"map_player_1.html") ) );
         assertTrue(file_content.contains(winnerMessage));
     }
 

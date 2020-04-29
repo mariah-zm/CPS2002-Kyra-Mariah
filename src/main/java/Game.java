@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -49,6 +50,8 @@ public class Game {
     public void generateHTML() throws IOException {
         generator = new HTMLGenerator();
 
+        File file = new File("src\\generated_HTML");
+        String path = file.getAbsolutePath();
         for (int i = 0; i < players.size(); i++) {
 
             htmlFiles = new File[players.size()];
@@ -56,7 +59,7 @@ public class Game {
 
             for (i = 0; i < players.size(); i++) {
                 //creating the file for the player
-                htmlFiles[i] = new File("C:\\Users\\kyra_\\OneDrive\\Desktop\\CPS2002\\src\\generated_HTML\\map_player_" + (i + 1) + ".html");
+                htmlFiles[i] = new File(path +"\\map_player_" + (i + 1) + ".html");
                 bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
                 StringBuilder temp = new StringBuilder();
                 temp.append(generator.headerHTML(i + 1));

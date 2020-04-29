@@ -3,6 +3,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -46,7 +47,7 @@ public class HTMLGeneratorTest {
         player1.status = PlayerStatus.WINS;
         game.generateHTML();
         String winnerMessage = "<h2>WINNER! WINNER! WINNER!</h2>";
-        String file_content = new String ( Files.readAllBytes( Paths.get(Paths.get("").toAbsolutePath().toString()+"map_player_1.html") ) );
+        String file_content = new String ( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
         assertTrue(file_content.contains(winnerMessage));
     }
 

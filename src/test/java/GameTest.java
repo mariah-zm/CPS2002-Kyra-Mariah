@@ -105,12 +105,12 @@ public class GameTest {
         //therefore there should only be one green tile uncovered
         String grass_code = "<td><div class=\"grass\">";
 
-        String file_content = new String ( Files.readAllBytes(Paths.get(Paths.get("").toAbsolutePath().toString() + "map_player_1.html")));
+        String file_content = new String( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
         assertTrue(file_content.contains(grass_code));
         int count = StringUtils.countMatches(file_content, grass_code);
         assertEquals(1,count);
 
-        String file_content_player2 = new String ( Files.readAllBytes( Paths.get(Paths.get("").toAbsolutePath().toString()+"map_player_2.html") ) );
+        String file_content_player2 = new String( Files.readAllBytes(Paths.get(game.htmlFiles[1].getAbsolutePath())));
         assertTrue(file_content_player2.contains(grass_code));
         int count2 = StringUtils.countMatches(file_content_player2, grass_code);
         assertEquals(1,count2);
@@ -123,7 +123,7 @@ public class GameTest {
     public void HTML_currentPositionTest() throws IOException{
         game.generateHTML();
         String currentPositionMark = "<p>&#127939;</p>";
-        String file_content = new String ( Files.readAllBytes( Paths.get(Paths.get("").toAbsolutePath().toString()+"map_player_1.html") ) );
+        String file_content = new String ( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
         assertTrue(file_content.contains(currentPositionMark));
 
 
@@ -131,20 +131,16 @@ public class GameTest {
 
     @Test
     //grid should not display water or treasure tiles at this point
-    public void HTML_noWater() throws IOException{
-        game.generateHTML();
-        String waterMark = "<p>&#2FA6F1;</p>";
-        String file_content = new String ( Files.readAllBytes( Paths.get(Paths.get("").toAbsolutePath().toString()+"map_player_1.html") ) );
-        assertFalse(file_content.contains(waterMark));
 
-    }
-    @Test
     public void HTML_noTreasure() throws IOException {
         game.generateHTML();
      String treasureMark = "<p>&#FFFB40;</p>";
-     String file_content = new String(Files.readAllBytes(Paths.get(Paths.get("").toAbsolutePath().toString()+"map_player_1.html")));
+     String waterMark = "<p>&#2FA6F1;</p>";
+     String file_content = new String( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
      assertFalse(file_content.contains(treasureMark));
+     assertFalse(file_content.contains(waterMark));
  }
+
 
 
 }

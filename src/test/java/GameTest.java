@@ -91,8 +91,8 @@ public class GameTest {
     public void HTML_FileNameTest() throws IOException {
 
         game.generateHTML();
-        assertTrue(new File(Paths.get("").toAbsolutePath().toString()+"map_player_1.html").exists());
-        assertTrue(new File(Paths.get("").toAbsolutePath().toString()+"map_player_2.html").exists());
+        assertTrue((String.valueOf(Paths.get(game.htmlFiles[0].getAbsolutePath()))).contains("map_player_1.html"));
+        assertTrue((String.valueOf(Paths.get(game.htmlFiles[1].getAbsolutePath()))).contains("map_player_2.html"));
 
 
     }

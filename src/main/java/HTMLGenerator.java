@@ -106,18 +106,25 @@ public class HTMLGenerator {
                         html.append("<p>&#128176;</p>");
                     }
                 }
+                    if (player.getMap().getTile(j, k).getType() == TileType.WATER) {
+                        if (player.getMap().getTile(j, k).getUncovered()) {
+                            html.append("<h2>YIKES! A water tile means you have to start again!</h2>");
+                        }
+                    }
 
-                html.append("</div>");
 
-                html.append("</td>");
+                    html.append("</div>");
+
+                    html.append("</td>");
+                }
+                html.append("</tr>");
+
             }
-            html.append("</tr>");
 
+            html.append("</table></body></html>");
+            return (html.toString());
         }
 
-        html.append("</table></body></html>");
-        return (html.toString());
-    }
 
     public String winnerMessageHTML(Player player){
         String winnerMessage =  "<h2>WINNER! WINNER! WINNER!</h2></div>)";

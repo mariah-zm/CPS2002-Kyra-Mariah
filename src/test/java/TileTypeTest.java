@@ -5,9 +5,9 @@ public class TileTypeTest {
 
     @Test
     public void getHexCode() {
-        assertEquals("#67E240", TileType.GRASS.getHexCode());
-        assertEquals("#2FA6F1", TileType.WATER.getHexCode());
-        assertEquals("#FFFB40", TileType.TREASURE.getHexCode());
+        assertEquals("grass", TileType.GRASS.getHexCode());
+        assertEquals("water", TileType.WATER.getHexCode());
+        assertEquals("treasure", TileType.TREASURE.getHexCode());
     }
 
 }

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Player {
@@ -5,7 +6,9 @@ public class Player {
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
-    private PlayerStatus status;
+    public PlayerStatus status;
+    public ArrayList<Tile> visitedTiles;
+
 
     //class constructor
     public Player(Map map) {
@@ -13,7 +16,17 @@ public class Player {
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
         this.status = PlayerStatus.SAFE;
+        visitedTiles = new ArrayList<>();
+        addVisited(this.initial);
     }
+
+    private void addVisited(Position position){
+        int x = position.getX();
+        int y = position.getY();
+        visitedTiles.add(map.getTile(x,y));
+    }
+
+
 
     //setting random initial position
     public Position setInitial() {
@@ -25,7 +38,7 @@ public class Player {
             //generating a random position
             x = rand.nextInt(map.getSize());
             y = rand.nextInt(map.getSize());
-        }while(map.getTile(new Position(x,y)).getType() != TileType.GRASS);
+        }while(map.getTile(x,y).getType() != TileType.GRASS);
 
         //return once valid
         return new Position(x,y);
@@ -40,6 +53,9 @@ public class Player {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
+            addVisited(current);
+
+
             return true;
         }
         return false;
@@ -53,10 +69,10 @@ public class Player {
         //setting new coordinates accordingly
         switch (direction) {
             case UP:
-                Y -= 1; //y-coordinate moves up by 1
+                Y += 1; //y-coordinate moves up by 1
                 break;
             case DOWN:
-                Y += 1; //y-coordinate moves down by 1
+                Y -= 1; //y-coordinate moves down by 1
                 break;
             case RIGHT:
                 X += 1; //x-coordinate moves right by 1
@@ -76,10 +92,10 @@ public class Player {
         }
 
         //uncover discovered tile
-        map.getTile(current).setUncovered();
+        map.getTile(current.getX(),current.getY()).setUncovered();
 
         //setting status according to discovered tile type
-        setStatus(map.getTile(current).getType());
+        setStatus(map.getTile(current.getX(),current.getY()).getType());
         if(status == PlayerStatus.DEAD){
             current = initial;
         }

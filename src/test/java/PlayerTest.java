@@ -14,20 +14,21 @@ public class PlayerTest {
     public void setUp() {
         map =  new Map(25);
         player = new Player(map);
-        test_position = new Position(1,1);
+        test_position = new Position(2,2);
     }
 
     @After
     public void tearDown()
     {
         player = null;
+        map = null;
+        test_position = null;
     }
 
     @Test
     public void setInitial() {
         Position start = player.setInitial();
-        TileType result = player.getMap().getTile(start).getType();
-
+        TileType result = player.getMap().getTile(start.getX(),start.getY()).getType();
         assertEquals(TileType.GRASS, result);
     }
 
@@ -41,7 +42,7 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y-1, new_y);
+        assertEquals(y+1, new_y);
     }
 
     @Test
@@ -54,7 +55,7 @@ public class PlayerTest {
         int new_y = player.getCurrent().getY();
 
         assertEquals(x, new_x);
-        assertEquals(y+1, new_y);
+        assertEquals(y-1, new_y);
     }
 
     @Test
@@ -103,8 +104,8 @@ public class PlayerTest {
     public void setPosition(){
         player.setPosition(test_position);
 
-        assertEquals(1, player.getCurrent().getX());
-        assertEquals(1, player.getCurrent().getY());
+        assertEquals(2, player.getCurrent().getX());
+        assertEquals(2, player.getCurrent().getY());
     }
 
     @Test
@@ -126,8 +127,8 @@ public class PlayerTest {
         player.setPosition(test_position);
         Position current = player.getCurrent();
 
-        assertEquals(1, current.getX());
-        assertEquals(1, current.getY());
+        assertEquals(2, current.getX());
+        assertEquals(2, current.getY());
     }
 
     @Test

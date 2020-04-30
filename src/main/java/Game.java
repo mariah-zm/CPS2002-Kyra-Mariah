@@ -1,10 +1,19 @@
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
 
     private int turns;
-    private Player[] players;
+    public ArrayList<Player> players = new ArrayList<Player>();
     private Map map;
+    HTMLGenerator generator;
+    public File[] htmlFiles = null;
+    public BufferedWriter[] bw = null;
 
     //validating user input for number of players
     public boolean setNumPlayers(int playerCount) {
@@ -20,10 +29,11 @@ public class Game {
     }
 
     //validating user input for map size
-    public boolean setMapSize(int size, int playerCount) {
+
+    public boolean setMapSize(int size) {
         final int MAX = 50;
         //setting minimum number of map size according to amount of players
-        final int MIN = playerCount <= 4 ? 5 : 8;
+        final int MIN = players.size() <= 4 ? 5 : 8;
 
         //validating given size
         if (MIN > size) {
@@ -34,6 +44,33 @@ public class Game {
             return false;
         }
         return true;
+
+    }
+
+    public void generateHTML() throws IOException {
+        generator = new HTMLGenerator();
+
+        File file = new File("src\\generated_HTML");
+        String path = file.getAbsolutePath();
+        for (int i = 0; i < players.size(); i++) {
+
+            htmlFiles = new File[players.size()];
+            bw = new BufferedWriter[players.size()];
+
+            for (i = 0; i < players.size(); i++) {
+                //creating the file for the player
+                htmlFiles[i] = new File(path +"\\map_player_" + (i + 1) + ".html");
+                bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
+                StringBuilder temp = new StringBuilder();
+                temp.append(generator.headerHTML(i + 1));
+                temp.append(generator.winnerMessageHTML(players.get(i)));
+                temp.append(generator.gridHTML(players.get(i)));
+
+                bw[i].write(temp.toString());
+                bw[i].close();
+                temp = null;
+            }
+        }
     }
 
     public static void main(String[] args){
@@ -59,15 +96,13 @@ public class Game {
                 }
             } while (!inputAccepted);
 
-            //initialising players array
-            game.players = new Player[playerCount];
 
             //validating map size
             do {
                 System.out.println("Enter map size: ");
                 if (scanner.hasNextInt()) {
                     size = scanner.nextInt();
-                    inputAccepted = game.setMapSize(size, playerCount);
+                    inputAccepted = game.setMapSize(size);
                 } else {
                     scanner.nextLine();
                     System.out.println("Not an integer!");

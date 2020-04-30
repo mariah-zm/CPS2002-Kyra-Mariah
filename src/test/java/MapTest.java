@@ -66,20 +66,6 @@ public class MapTest{
         assertEquals(expected, occurrences);
     }
 
-    @Test
-    public void isLegal_Correct(){
-        int x = 5;
-        int y = 5;
-        assertTrue(map.isLegal(x, y));
-    }
-
-    @Test
-    public void isLegal_Incorrect(){
-        int x = 26;
-        int y = -1;
-        assertFalse(map.isLegal(x,y));
-    }
-
     //testing number of water tiles
     @Test
     public void numberOfWaterTiles(){
@@ -89,6 +75,7 @@ public class MapTest{
     }
 
     //testing that tiles surrounding treasure tile are not all water tiles
+    @Test
     public void reachable(){
         int x=0, y=0; //coordinates of treasure tile
 
@@ -96,7 +83,7 @@ public class MapTest{
         outerLoop:
         for(int i=0; i < map.getSize(); i++){
             for(int j=0; j < map.getSize(); j++){
-                if(map.getTile(new Position(i, j)).getType() == TileType.TREASURE){
+                if(map.getTile(i, j).getType() == TileType.TREASURE){
                     x=i;
                     y=j;
                     break outerLoop;
@@ -107,10 +94,10 @@ public class MapTest{
         List<Tile> surroundingTiles = new ArrayList<>();
 
         //creating a list of the surrounding tiles
-        if(map.isLegal(x+1,y)) surroundingTiles.add(map.getTile(new Position(x+1,y)));
-        if(map.isLegal(x-1,y)) surroundingTiles.add(map.getTile(new Position(x-1,y)));
-        if(map.isLegal(x,y+1)) surroundingTiles.add(map.getTile(new Position(x,y+1)));
-        if(map.isLegal(x,y-1)) surroundingTiles.add(map.getTile(new Position(x,y-1)));
+        if(map.isLegal(x+1,y)) surroundingTiles.add(map.getTile(x+1,y));
+        if(map.isLegal(x-1,y)) surroundingTiles.add(map.getTile(x-1,y));
+        if(map.isLegal(x,y+1)) surroundingTiles.add(map.getTile(x,y+1));
+        if(map.isLegal(x,y-1)) surroundingTiles.add(map.getTile(x,y-1));
 
         //asserting that at least one is a Grass Tile
         boolean notAllWater = surroundingTiles.stream().anyMatch(tile -> tile.getType().equals(TileType.GRASS));

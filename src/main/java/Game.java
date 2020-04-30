@@ -47,6 +47,14 @@ public class Game {
 
     }
 
+    public void createPlayers(int playercount, Map map){
+
+        for(int i =0; i< playercount; ++i){
+            Player player = new Player(map);
+            players.add(player);
+        }
+    }
+
     public void generateHTML() throws IOException {
         generator = new HTMLGenerator();
 
@@ -112,6 +120,8 @@ public class Game {
 
             //initialising the map
             game.map = new Map(size);
+            game.createPlayers(playerCount, game.map);
+            game.generateHTML();
 
         }catch (Exception e){
             System.exit(1);

@@ -14,20 +14,13 @@ import static org.junit.Assert.*;
 public class GameTest {
 
     Game game;
-    Map map1,map2;
-    Player player1;
-    Player player2;
-    HTMLGenerator generator;
+    Map map1;
 
     @Before
     public void setUp() throws Exception {
         map1 = new Map(4);
-        map2 = map1;
         game = new Game();
-        player1 = new Player(map1);
-        game.players.add(player1);
-        player2 = new Player(map2);
-        game.players.add(player2);
+
 
     }
 
@@ -37,9 +30,7 @@ public class GameTest {
         game.players =null;
         game = null;
         map1= null;
-        map2=null;
-        player1 = null;
-       player2 = null;
+
 
     }
 
@@ -83,13 +74,14 @@ public class GameTest {
     @Test //checking that the files are generated
     public void HTML_FileTest() throws IOException {
 
+        game.createPlayers(2,map1);
         game.generateHTML();
         assertNotNull(game.htmlFiles);
     }
 
     @Test //checking that the files have the correct name
     public void HTML_FileNameTest() throws IOException {
-
+        game.createPlayers(2,map1);
         game.generateHTML();
         assertTrue((String.valueOf(Paths.get(game.htmlFiles[0].getAbsolutePath()))).contains("map_player_1.html"));
         assertTrue((String.valueOf(Paths.get(game.htmlFiles[1].getAbsolutePath()))).contains("map_player_2.html"));
@@ -100,6 +92,7 @@ public class GameTest {
     @Test //checking that the previous positions are uncovered on the grid for each individual player
     public void HTML_uncoveredTilesTest_moreThanOnePlayer() throws IOException {
 
+        game.createPlayers(2,map1);
         game.generateHTML();
         //the player has only visited the initial tile
         //therefore there should only be one green tile uncovered
@@ -121,6 +114,7 @@ public class GameTest {
     @Test
     //current tile should contain a person symbol
     public void HTML_currentPositionTest() throws IOException{
+        game.createPlayers(2,map1);
         game.generateHTML();
         String currentPositionMark = "<p>&#127939;</p>";
         String file_content = new String ( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
@@ -133,6 +127,7 @@ public class GameTest {
     //grid should not display water or treasure tiles at this point
 
     public void HTML_noTreasure() throws IOException {
+        game.createPlayers(2,map1);
         game.generateHTML();
      String treasureMark = "<p>&#FFFB40;</p>";
      String waterMark = "<p>&#2FA6F1;</p>";
@@ -142,5 +137,10 @@ public class GameTest {
  }
 
 
+    @Test
+    public void createPlayersTest() {
+        game.createPlayers(3, map1);
+        assertEquals(3, game.players.size());
 
+    }
 }

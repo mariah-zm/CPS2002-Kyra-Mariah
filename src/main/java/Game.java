@@ -36,10 +36,10 @@ public class Game {
         final int MIN = players.size() <= 4 ? 5 : 8;
 
         //validating given size
-        if (MIN >= size) {
+        if (MIN > size) {
             System.out.println("Given map size is too small.");
             return false;
-        } else if (MAX <= size) {
+        } else if (MAX < size) {
             System.out.println("Given map size is too big.");
             return false;
         }
@@ -72,6 +72,7 @@ public class Game {
             }
         }
     }
+
     public static void main(String[] args){
         //starting the game
         Game game = new Game();

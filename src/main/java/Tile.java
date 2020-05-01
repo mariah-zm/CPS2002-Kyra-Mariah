@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Tile {
 
     private TileType type;
@@ -20,6 +22,7 @@ public class Tile {
     //setter for uncovered
    public void setUncovered() {
        this.uncovered = true;
+
    }
 
    public void setCovered(){
@@ -28,8 +31,9 @@ public class Tile {
    }
 
     //getter for uncovered
-    public boolean getUncovered(){
-        return uncovered;
+    public ArrayList getUncovered(Player player){
+
+        return player.visitedTiles;
     }
 
     //getter for html

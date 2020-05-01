@@ -53,8 +53,6 @@ public class Player {
             this.current.setX(x);
             this.current.setY(y);
             addVisited(current);
-
-
             return true;
         }
         return false;
@@ -89,14 +87,17 @@ public class Player {
             System.out.println("Illegal move.");
             return false;
         }
-
         //uncover discovered tile
-        map.getTile(current.getX(),current.getY()).setUncovered();
+       addVisited(new Position(current.getX(),current.getY()));
 
         //setting status according to discovered tile type
         setStatus(map.getTile(current.getX(),current.getY()).getType());
         if(status == PlayerStatus.DEAD){
             current = initial;
+        }
+
+        if(status == PlayerStatus.WINS){
+            Game.won = true;
         }
         return true;
     }

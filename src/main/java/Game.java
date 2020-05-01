@@ -14,6 +14,7 @@ public class Game {
     HTMLGenerator generator;
     public File[] htmlFiles = null;
     public BufferedWriter[] bw = null;
+    public static boolean won = false;
 
     //validating user input for number of players
     public boolean setNumPlayers(int playerCount) {
@@ -53,6 +54,18 @@ public class Game {
             Player player = new Player(map);
             players.add(player);
         }
+    }
+
+    public int findWinner(){
+        int winner =0;
+        for(int i =0; i< players.size(); i++){
+            if (players.get(i).getStatus()==PlayerStatus.WINS){
+                winner = i+1;
+            }
+        }
+
+        return winner;
+
     }
 
     public void generateHTML() throws IOException {
@@ -122,6 +135,38 @@ public class Game {
             game.map = new Map(size);
             game.createPlayers(playerCount, game.map);
             game.generateHTML();
+
+            do {
+                for (int i = 0; i < game.players.size(); ++i) {
+                    System.out.println("Player " + (i + 1) + ": Enter direction (U,D,R,L):");
+                    String direction = scanner.nextLine();
+                    Direction move;
+                    switch (direction) {
+                        case "U":
+                            move = Direction.UP;
+                            break;
+                        case "D":
+                            move = Direction.DOWN;
+                            break;
+                        case "L":
+                            move = Direction.LEFT;
+                            break;
+                        case "R":
+                            move = Direction.RIGHT;
+                            break;
+                        default:
+                            move = Direction.randomDirection();
+                            break;
+                    }
+                    game.players.get(i).move(move);
+                }
+                game.generateHTML();
+
+            }while(!won);
+
+
+            System.out.println("\n\n\t\tGAME OVER!");
+            System.out.println("\n\n\t\tPLAYER "+ game.findWinner()+" WINS!");
 
         }catch (Exception e){
             System.exit(1);

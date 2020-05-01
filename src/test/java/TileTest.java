@@ -6,15 +6,19 @@ import static org.junit.Assert.*;
 public class TileTest {
 
     Tile tile;
+    Player player;
 
     @Before
     public void setUp(){
         tile = new Tile(TileType.GRASS);
+
+        player = new Player( new Map(10));
     }
 
     @After
     public void tearDown(){
         tile = null;
+        player = null;
     }
 
     @Test
@@ -23,14 +27,10 @@ public class TileTest {
         assertEquals(TileType.GRASS, type);
     }
 
-    @Test
-    public void setUncovered(){
-        tile.setUncovered();
-        assertTrue(tile.getUncovered());
-    }
+
 
     @Test
     public void getUncovered(){
-        assertFalse(tile.getUncovered());
+        assertFalse(tile.getUncovered(player).contains(tile));
     }
 }

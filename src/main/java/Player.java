@@ -9,7 +9,6 @@ public class Player {
     public PlayerStatus status;
     public ArrayList<Tile> visitedTiles;
 
-
     //class constructor
     public Player(Map map) {
         this.map = map;
@@ -26,8 +25,6 @@ public class Player {
         visitedTiles.add(map.getTile(x,y));
     }
 
-
-
     //setting random initial position
     public Position setInitial() {
         Random rand = new Random();
@@ -38,9 +35,9 @@ public class Player {
               x = rand.nextInt(map.getSize());
               y = rand.nextInt(map.getSize());
           }while(map.getTile(x,y).getType() != TileType.GRASS);
-            //return once valid
-        return new Position(x, y);
 
+        //return once valid
+        return new Position(x, y);
     }
 
     //checking if new coordinates are in map boundary
@@ -87,17 +84,14 @@ public class Player {
             System.out.println("Illegal move.");
             return false;
         }
+
         //uncover discovered tile
-       addVisited(new Position(current.getX(),current.getY()));
+        addVisited(new Position(X,Y));
 
         //setting status according to discovered tile type
         setStatus(map.getTile(current.getX(),current.getY()).getType());
         if(status == PlayerStatus.DEAD){
             current = initial;
-        }
-
-        if(status == PlayerStatus.WINS){
-            Game.won = true;
         }
         return true;
     }

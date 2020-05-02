@@ -76,16 +76,16 @@ public class Map {
                 Direction direction = Direction.randomDirection();
                 switch (direction) {
                     case UP:
-                        tempY -= 1;
-                        break;
-                    case DOWN:
-                        tempY += 1;
-                        break;
-                    case LEFT:
                         tempX -= 1;
                         break;
-                    case RIGHT:
+                    case DOWN:
                         tempX += 1;
+                        break;
+                    case LEFT:
+                        tempY -= 1;
+                        break;
+                    case RIGHT:
+                        tempY += 1;
                         break;
                     default:
                         throw new IndexOutOfBoundsException();

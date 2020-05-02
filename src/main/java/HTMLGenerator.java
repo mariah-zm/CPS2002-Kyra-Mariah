@@ -9,7 +9,7 @@ public class HTMLGenerator {
     public String headerHTML(int i) {
         //contains html for page header, background, instruction bar, and the map
         StringBuilder html = new StringBuilder();
-        html.append("<html><head> <style>" +
+        html.append("<html><head><style>" +
                 "body {background-image: url(\"https://media.giphy.com/media/VwXcgwGIPyiiY/giphy.gif\");" +
                 "background-color: #cccccc;" +
                 "font-family: \"Lato\", sans-serif;}" +
@@ -23,16 +23,16 @@ public class HTMLGenerator {
 
                 ".sidebar .closebtn { position: absolute;top: 0; right: 25px;font-size: 25px; margin-left: 50px;}" +
 
-                ".openbtn { font-size: 25px;cursor: pointer;background-color: #111;color: white; padding: 10px 15px;border: none; }" +
+                ".openbtn { font-size: 16px;cursor: pointer;background-color: #111;color: white; padding: 10px 15px;border: none; }" +
 
                 ".openbtn:hover {background-color: #444;}" +
                 "#main {transition: margin-left .5s;padding: 16px;}" +
 
                 ".header {\n" +
-                "  padding: 60px;\n" +
+                "  padding: 20px;\n" +
                 "  text-align: center;\n" +
                 "  color: white;\n" +
-                "  font-size: 30px;\n" +
+                "  font-size: 16px;\n" +
                 "  font-family: Arial;\n" +
                 "\n" +
                 "}" +
@@ -67,7 +67,7 @@ public class HTMLGenerator {
                 "<table style=\"border:1px solid black;margin-left:auto;margin-right:auto;\">\n" +
                 "<div class=\"header\">\n" +
                 "  <h1>FIND THE HIDDEN TREASURE</h1>\n" +
-                "<h2>Player " + i + "</h2>");
+                "<h2>Player " + i + "</h2>\n<h3>Reload the page to see your updated moves<h3>");
 
         return html.toString();
     }

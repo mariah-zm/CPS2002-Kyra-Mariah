@@ -54,16 +54,16 @@ public class Player {
         //setting new coordinates accordingly
         switch (direction) {
             case UP:
-                Y += 1; //y-coordinate moves up by 1
+                X -= 1; //x-coordinate moves up by 1
                 break;
             case DOWN:
-                Y -= 1; //y-coordinate moves down by 1
+                X += 1; //x-coordinate moves down by 1
                 break;
             case RIGHT:
-                X += 1; //x-coordinate moves right by 1
+                Y += 1; //y-coordinate moves right by 1
                 break;
             case LEFT:
-                X -= 1; //x-coordinate moves left by 1
+                Y -= 1; //y-coordinate moves left by 1
                 break;
             default:
                 //in the case of an invalid token the player does not move

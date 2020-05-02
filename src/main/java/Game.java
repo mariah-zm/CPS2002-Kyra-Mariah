@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -99,10 +100,24 @@ public class Game {
         }
     }
 
+    //opens the html files
+    public void openHTML(String path){
+        try{
+            Process process = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + path);
+            process.waitFor();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+
     public static void main(String[] args){
         //starting the game
         Game game = new Game();
         Scanner scanner = new Scanner(System.in);
+        //variables to control movement logic
+        Direction move;
+        String moveInput;
 
         try{
             //variables for user input for map size and number of players
@@ -141,32 +156,35 @@ public class Game {
             game.setPlayers();
             game.generateHTML();
 
+            System.out.println("Launching Game...");
+
+            for(int f=0; f<game.htmlFiles.length; f++){
+                game.openHTML(game.htmlFiles[f].getPath());
+            }
+
             do {
                 for (int i = 0; i < game.players.length; ++i) {
-                    System.out.println("Player " + (i + 1) + ": Enter direction (U,D,R,L):");
-                    String direction = scanner.nextLine();
-                    Direction move;
-                    switch (direction) {
-                        case "U":
-                            move = Direction.UP;
-                            break;
-                        case "D":
-                            move = Direction.DOWN;
-                            break;
-                        case "L":
-                            move = Direction.LEFT;
-                            break;
-                        case "R":
-                            move = Direction.RIGHT;
-                            break;
-                        default:
-                            move = Direction.randomDirection();
-                            break;
-                    }
-                    game.players[i].move(move);
+                    System.out.println("Player " + (i + 1));
+                    //game.
+                    do {
+                        System.out.println("Enter direction (U,D,R,L):");
+                        moveInput = scanner.next();
+                        //getting corresponding direction
+                        move = Direction.getDirection(moveInput.charAt(0));
+
+                        //direction validation
+                        if(move == null){
+                            System.out.println("Please enter a valid direction.");
+                            inputAccepted = false;
+                        }
+                        else{
+                            game.players[i].move(move);
+                            inputAccepted = true;
+                        }
+                    }while(!inputAccepted);
                 }
                 game.generateHTML();
-
+                //condition for winning game
             }while(!won);
 
 

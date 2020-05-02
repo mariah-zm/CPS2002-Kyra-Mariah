@@ -12,7 +12,7 @@ public class Player {
     public Player(Map map) {
         this.map = map;
         this.initial = setInitial();
-        this.current = this.initial; //this will start off as initial
+        this.current = new Position(this.initial.getX(),this.initial.getY()); //this will start off as initial
         this.status = PlayerStatus.SAFE;
     }
 

@@ -49,7 +49,8 @@ public class Game {
     public Player[] createPlayers(int playerCount, Map map){
         Player[] players = new Player[playerCount];
         for(int i=0; i< playerCount; ++i){
-            players[i] = new Player(map);
+            Map newMap = new Map(map.getGrid());
+            players[i] = new Player(newMap);
         }
         return players;
     }

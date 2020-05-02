@@ -7,8 +7,6 @@ public class Player {
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
     public PlayerStatus status;
-    public ArrayList<Tile> visitedTiles;
-
 
     //class constructor
     public Player(Map map) {
@@ -16,17 +14,7 @@ public class Player {
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
         this.status = PlayerStatus.SAFE;
-        visitedTiles = new ArrayList<>();
-        addVisited(this.initial);
     }
-
-    private void addVisited(Position position){
-        int x = position.getX();
-        int y = position.getY();
-        visitedTiles.add(map.getTile(x,y));
-    }
-
-
 
     //setting random initial position
     public Position setInitial() {
@@ -38,9 +26,9 @@ public class Player {
               x = rand.nextInt(map.getSize());
               y = rand.nextInt(map.getSize());
           }while(map.getTile(x,y).getType() != TileType.GRASS);
-            //return once valid
-        return new Position(x, y);
 
+        //return once valid
+        return new Position(x, y);
     }
 
     //checking if new coordinates are in map boundary
@@ -52,7 +40,6 @@ public class Player {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
-            addVisited(current);
             return true;
         }
         return false;
@@ -87,17 +74,14 @@ public class Player {
             System.out.println("Illegal move.");
             return false;
         }
+
         //uncover discovered tile
-       addVisited(new Position(current.getX(),current.getY()));
+        map.getTile(X,Y).setUncovered();
 
         //setting status according to discovered tile type
         setStatus(map.getTile(current.getX(),current.getY()).getType());
         if(status == PlayerStatus.DEAD){
             current = initial;
-        }
-
-        if(status == PlayerStatus.WINS){
-            Game.won = true;
         }
         return true;
     }

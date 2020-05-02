@@ -73,8 +73,6 @@ public class HTMLGenerator {
     }
 
     public String gridHTML(Player player) throws IOException {
-
-
         Map map = player.getMap();
         ArrayList<Tile> visited = player.visitedTiles;
 

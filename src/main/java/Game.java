@@ -82,16 +82,7 @@ public class Game {
             bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
 
             temp.append(generator.headerHTML(i+1));
-
-            //appending message
-            if(players[i].getStatus() == PlayerStatus.WINS){
-                temp.append(generator.winnerMessageHTML());
-            }
-
-            if(players[i].getStatus() == PlayerStatus.DEAD){
-                temp.append(generator.diesMessageHTML());
-            }
-
+            temp.append(generator.moveMessage(players[i].getStatus()));
             temp.append(generator.gridHTML(players[i]));
 
             bw[i].write(temp.toString());

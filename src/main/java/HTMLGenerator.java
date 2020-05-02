@@ -72,7 +72,7 @@ public class HTMLGenerator {
         return html.toString();
     }
 
-    public String gridHTML(Player player) throws IOException {
+    public String gridHTML(Player player){
         Map map = player.getMap();
         StringBuilder html = new StringBuilder();
         //will store current parsed tile
@@ -110,15 +110,23 @@ public class HTMLGenerator {
         return (html.toString());
     }
 
-    //message displayed when the player wins the game
-    public String winnerMessageHTML() {
-        return "<h2>WELL DONE, YOU FOUND THE TREASURE!</h2></div>)";
-    }
+    public String moveMessage(PlayerStatus status){
+        switch(status){
+            case SAFE:
+                //message displayed when the player discovers grass tile
+                return "<h2>Press U, D, L or R to move.</h2></div>";
 
-    //message displayed when the player dies
-    public String diesMessageHTML() {
-        return "<h2>YIKES! You discovered a water tile. Start again from your initial position.</h2></div>)";
-    }
+            case WINS:
+                //message displayed when the player discovers treasure tile
+                return "<h2>WELL DONE, YOU FOUND THE TREASURE!</h2></div>";
 
+            case DEAD:
+                //message displayed when the player discovers water tile
+                return "<h2>YIKES! You discovered a water tile. Start again from your initial position.</h2></div>";
+
+            default:
+                return "</div>";
+        }
+    }
 }
 

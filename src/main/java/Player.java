@@ -6,7 +6,7 @@ public class Player {
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
-    public PlayerStatus status;
+    private PlayerStatus status;
 
     //class constructor
     public Player(Map map) {

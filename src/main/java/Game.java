@@ -48,10 +48,10 @@ public class Game {
 
     }
 
-    public void createPlayers(int playercount, Map map){
-
-        for(int i =0; i< playercount; ++i){
-            Player player = new Player(map);
+    public void createPlayers(int playerCount, Map map){
+        for(int i =0; i< playerCount; ++i){
+            Map newMap = new Map(map.getGrid());
+            Player player = new Player(newMap);
             players.add(player);
         }
     }

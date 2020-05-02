@@ -11,29 +11,21 @@ public class Tile {
         this.type = type;
         this.uncovered = false;
         this.html = "<td><div class=\""+ type.getHexCode()+ "\">";
-
     }
 
     //getter for type
     public TileType getType() {
-        return type;
+        return this.type;
     }
 
     //setter for uncovered
-   public void setUncovered() {
-       this.uncovered = true;
-
-   }
-
-   public void setCovered(){
-        this.uncovered= false;
-
-   }
+    public void setUncovered(){
+        this.uncovered = true;
+    }
 
     //getter for uncovered
-    public ArrayList getUncovered(Player player){
-
-        return player.visitedTiles;
+    public boolean getUncovered(){
+        return this.uncovered;
     }
 
     //getter for html

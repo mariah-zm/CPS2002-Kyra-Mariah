@@ -2,14 +2,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game {
 
-    public Player [] players;
-    private Map map;
+    private Player [] players;
+    public Map map;
     HTMLGenerator generator;
     public File[] htmlFiles = null;
     public BufferedWriter[] bw = null;
@@ -24,6 +22,8 @@ public class Game {
             System.out.println("Only between 2 and 8 players are accepted.");
             return false;
         }
+
+        players = new Player[playerCount];
         return true;
     }
 
@@ -45,53 +45,82 @@ public class Game {
 
     }
 
-    //creates the array of players
-    public Player[] createPlayers(int playerCount, Map map){
-        Player[] players = new Player[playerCount];
-        for(int i=0; i< playerCount; ++i){
+    //setter for players array
+    public void setPlayers(){
+        for(int i =0; i<players.length; ++i){
             Map newMap = new Map(map.getGrid());
             players[i] = new Player(newMap);
         }
-        return players;
+    }
+
+    //getter for players array
+    public Player[] getPlayers(){
+        return this.players;
+    }
+
+    public int findWinner(){
+        int winner =0;
+        for(int i =0; i< players.length; i++){
+            if (players[i].getStatus()==PlayerStatus.WINS){
+                winner = i+1;
+            }
+        }
+        return winner;
     }
 
     public void generateHTML() throws IOException {
         generator = new HTMLGenerator();
         String path = "src\\generated_HTML";
 
+        StringBuilder temp = new StringBuilder();
+
         //creating the folder where the HTML files will be stored
         File folder = new File(path);
         folder.mkdir();
 
+        htmlFiles = new File[players.length];
+        bw = new BufferedWriter[players.length];
+
         for (int i = 0; i < players.length; i++) {
-            htmlFiles = new File[players.length];
-            bw = new BufferedWriter[players.length];
+            //creating the file for the player
+            htmlFiles[i] = new File(path + "\\map_player_" + (i+1) + ".html");
+            bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
 
-            for (i = 0; i < players.length; i++) {
-                //creating the file for the player
-                htmlFiles[i] = new File(path + "\\map_player_" + (i + 1) + ".html");
-                bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
-                StringBuilder temp = new StringBuilder();
-                temp.append(generator.headerHTML(i + 1));
-                //temp.append(generator.winnerMessageHTML(players[i]));
-                temp.append(generator.gridHTML(players[i]));
+            temp.append(generator.headerHTML(i+1));
+            temp.append(generator.moveMessage(players[i].getStatus()));
+            temp.append(generator.gridHTML(players[i]));
 
-                bw[i].write(temp.toString());
-                bw[i].close();
-                temp = null;
-            }
+            bw[i].write(temp.toString());
+            bw[i].close();
+            temp.setLength(0);
         }
     }
+
+    //opens the html files
+    public void openHTML(String path){
+        try{
+            Process process = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + path);
+            process.waitFor();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
 
     public static void main(String[] args){
         //starting the game
         Game game = new Game();
         Scanner scanner = new Scanner(System.in);
+        //variables to control movement logic
+        Direction move;
+        String moveInput;
+        //variables to control when game ends
+        boolean isGameWon = false;
 
         try{
             //variables for user input for map size and number of players
             boolean inputAccepted;
-            int size = 0, playerCount = 0;
+            int size = 0, playerCount;
 
             //validating number of players
             do {
@@ -105,7 +134,6 @@ public class Game {
                     inputAccepted = false;
                 }
             } while (!inputAccepted);
-
 
             //validating map size
             do {
@@ -122,12 +150,41 @@ public class Game {
 
             //initialising the map
             game.map = new Map(size);
-            game.players = game.createPlayers(playerCount, game.map);
+
+            //initialising players array
+            game.setPlayers();
             game.generateHTML();
 
             System.out.println("Launching Game...");
 
+            //opening html files for all players
+            for(int f=0; f<game.htmlFiles.length; f++){
+                game.openHTML(game.htmlFiles[f].getPath());
+            }
 
+            do {
+                for (int i = 0; i < game.players.length; ++i) {
+                    System.out.println("Player " + (i + 1));
+                    do {
+                        System.out.println("Enter direction (U,D,R,L):");
+                        moveInput = scanner.next();
+                        //getting corresponding direction
+                        move = Direction.getDirection(moveInput.charAt(0));
+
+                        //direction validation
+                        if(move == null){
+                            System.out.println("Please enter a valid direction.");
+                            inputAccepted = false;
+                        }
+                        else{
+                            game.players[i].move(move);
+                            inputAccepted = true;
+                        }
+                    }while(!inputAccepted);
+                }
+                game.generateHTML();
+                //condition for winning game
+            }while(!isGameWon);
 
         }catch (Exception e){
             System.exit(1);

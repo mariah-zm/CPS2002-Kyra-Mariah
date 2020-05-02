@@ -14,24 +14,18 @@ import static org.junit.Assert.*;
 public class GameTest {
 
     Game game;
-    Map map1;
+    Map map;
 
     @Before
-    public void setUp() throws Exception {
-        map1 = new Map(4);
-        game = new Game();
-
-
+    public void setUp(){
+        this.game = new Game();
+        this.map = new Map(10);
     }
 
     @After
-    public void tearDown() throws Exception {
-       game.htmlFiles = null;
-        game.players =null;
-        game = null;
-        map1= null;
-
-
+    public void tearDown(){
+        this.game = null;
+        this.map = null;
     }
 
     @Test
@@ -45,11 +39,13 @@ public class GameTest {
         boolean result = game.setNumPlayers(10);
         assertFalse(result);
     }
+
     @Test
-    public void setNumPlayers() {
+    public void setNumPlayers_Correct() {
         boolean result = game.setNumPlayers(5);
         assertTrue(result);
     }
+
     @Test
     public void setMapSize_TooSmall() {
         game.setNumPlayers(4);
@@ -65,80 +61,93 @@ public class GameTest {
     }
 
     @Test
-    public void setMapSize() {
+    public void setMapSize_Correct() {
         game.setNumPlayers(6);
         boolean result = game.setMapSize(30);
         assertTrue(result);
     }
 
-    @Test //checking that the files are generated
+    //checking that the files are generated
+    @Test
     public void HTML_FileTest() throws IOException {
-
-        game.createPlayers(2,map1);
+        game.setNumPlayers(2);
+        game.map = new Map(5);
+        game.setPlayers();
         game.generateHTML();
         assertNotNull(game.htmlFiles);
     }
 
-    @Test //checking that the files have the correct name
+    //checking that the files have the correct name
+    @Test
     public void HTML_FileNameTest() throws IOException {
-        game.createPlayers(2,map1);
+        game.setNumPlayers(2);
+        game.map = new Map(5);
+        game.setPlayers();
         game.generateHTML();
         assertTrue((String.valueOf(Paths.get(game.htmlFiles[0].getAbsolutePath()))).contains("map_player_1.html"));
         assertTrue((String.valueOf(Paths.get(game.htmlFiles[1].getAbsolutePath()))).contains("map_player_2.html"));
-
-
     }
 
-    @Test //checking that the previous positions are uncovered on the grid for each individual player
+    //checking that the previous positions are uncovered on the grid for each individual player
+    @Test
     public void HTML_uncoveredTilesTest_moreThanOnePlayer() throws IOException {
-
-        game.createPlayers(2,map1);
+        game.setNumPlayers(2);
+        game.map = new Map(5);
+        game.setPlayers();
         game.generateHTML();
         //the player has only visited the initial tile
         //therefore there should only be one green tile uncovered
         String grass_code = "<td><div class=\"grass\">";
 
-        String file_content = new String( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
-        assertTrue(file_content.contains(grass_code));
+        String file_content = new String(Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
         int count = StringUtils.countMatches(file_content, grass_code);
         assertEquals(1,count);
 
         String file_content_player2 = new String( Files.readAllBytes(Paths.get(game.htmlFiles[1].getAbsolutePath())));
-        assertTrue(file_content_player2.contains(grass_code));
         int count2 = StringUtils.countMatches(file_content_player2, grass_code);
         assertEquals(1,count2);
-
     }
 
-
-    @Test
     //current tile should contain a person symbol
+    @Test
     public void HTML_currentPositionTest() throws IOException{
-        game.createPlayers(2,map1);
+        game.setNumPlayers(2);
+        game.map = new Map(5);
+        game.setPlayers();
         game.generateHTML();
         String currentPositionMark = "<p>&#127939;</p>";
         String file_content = new String ( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
         assertTrue(file_content.contains(currentPositionMark));
+    }
 
-
+    //grid should not display water or treasure tiles at this point
+<<<<<<< HEAD
+=======
+    @Test
+>>>>>>> develop
+    public void HTML_noTreasure() throws IOException {
+        game.setNumPlayers(2);
+        game.map = new Map(5);
+        game.setPlayers();
+        game.generateHTML();
+        String treasureMark = "<p>&#FFFB40;</p>";
+        String waterMark = "<p>&#2FA6F1;</p>";
+        String file_content = new String( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
+        assertFalse(file_content.contains(treasureMark));
+        assertFalse(file_content.contains(waterMark));
     }
 
     @Test
-    //grid should not display water or treasure tiles at this point
-    public void HTML_noTreasure() throws IOException {
-        game.createPlayers(2,map1);
-        game.generateHTML();
-     String treasureMark = "<p>&#FFFB40;</p>";
-     String waterMark = "<p>&#2FA6F1;</p>";
-     String file_content = new String( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
-     assertFalse(file_content.contains(treasureMark));
-     assertFalse(file_content.contains(waterMark));
- }
-
-
-    @Test
     public void createPlayersTest() {
+<<<<<<< HEAD
         Player[] players = game.createPlayers(3, map1);
         assertEquals(3, players.length);
+=======
+        game.setNumPlayers(2);
+        game.map = new Map(5);
+        game.setPlayers();
+        int result = game.getPlayers().length;
+        assertEquals(2, result);
+>>>>>>> develop
     }
 }

@@ -6,7 +6,7 @@ public class Player {
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
-    public PlayerStatus status;
+    private PlayerStatus status;
 
     //class constructor
     public Player(Map map) {
@@ -22,11 +22,12 @@ public class Player {
 
         int x, y;
         //validating that the randomly generated position is a Grass tile
-          do {  //generating a random position
-              x = rand.nextInt(map.getSize());
-              y = rand.nextInt(map.getSize());
-          }while(map.getTile(x,y).getType() != TileType.GRASS);
+        do {  //generating a random position
+            x = rand.nextInt(map.getSize());
+            y = rand.nextInt(map.getSize());
+        }while(map.getTile(x,y).getType() != TileType.GRASS);
 
+        map.getTile(x,y).setUncovered();
         //return once valid
         return new Position(x, y);
     }
@@ -53,16 +54,16 @@ public class Player {
         //setting new coordinates accordingly
         switch (direction) {
             case UP:
-                Y += 1; //y-coordinate moves up by 1
+                X -= 1; //x-coordinate moves up by 1
                 break;
             case DOWN:
-                Y -= 1; //y-coordinate moves down by 1
+                X += 1; //x-coordinate moves down by 1
                 break;
             case RIGHT:
-                X += 1; //x-coordinate moves right by 1
+                Y += 1; //y-coordinate moves right by 1
                 break;
             case LEFT:
-                X -= 1; //x-coordinate moves left by 1
+                Y -= 1; //y-coordinate moves left by 1
                 break;
             default:
                 //in the case of an invalid token the player does not move

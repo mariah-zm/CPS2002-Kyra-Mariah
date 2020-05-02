@@ -41,8 +41,8 @@ public class PlayerTest {
         int new_x = player.getCurrent().getX();
         int new_y = player.getCurrent().getY();
 
-        assertEquals(x, new_x);
-        assertEquals(y+1, new_y);
+        assertEquals(x-1, new_x);
+        assertEquals(y, new_y);
     }
 
     @Test
@@ -54,8 +54,8 @@ public class PlayerTest {
         int new_x = player.getCurrent().getX();
         int new_y = player.getCurrent().getY();
 
-        assertEquals(x, new_x);
-        assertEquals(y-1, new_y);
+        assertEquals(x+1, new_x);
+        assertEquals(y, new_y);
     }
 
     @Test
@@ -67,8 +67,8 @@ public class PlayerTest {
         int new_x = player.getCurrent().getX();
         int new_y = player.getCurrent().getY();
 
-        assertEquals(x+1, new_x);
-        assertEquals(y, new_y);
+        assertEquals(x, new_x);
+        assertEquals(y+1, new_y);
     }
 
     @Test
@@ -80,8 +80,8 @@ public class PlayerTest {
         int new_x = player.getCurrent().getX();
         int new_y = player.getCurrent().getY();
 
-        assertEquals(x-1, new_x);
-        assertEquals(y, new_y);
+        assertEquals(x, new_x);
+        assertEquals(y-1, new_y);
     }
 
     @Test

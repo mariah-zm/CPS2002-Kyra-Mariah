@@ -73,36 +73,31 @@ public class HTMLGenerator {
     }
 
     public String gridHTML(Player player) throws IOException {
-
-
         Map map = player.getMap();
-        ArrayList<Tile> visited = player.visitedTiles;
-
         StringBuilder html = new StringBuilder();
-        Tile[][] grid = map.getGrid();
+        //will store current parsed tile
+        Tile current;
 
         for (int j = 0; j < map.getSize(); j++) {
             html.append("<tr>");
             for (int k = 0; k < map.getSize(); k++) {
-                //get current tile in loop
-                Tile current = grid[j][k];
+                current = map.getTile(j,k);
 
                 /*if the tile is uncovered then we get corresponding html code
-                    otherwise, tile is greyed out
-                     */
-                if (visited.contains(current)) {
+                 *otherwise, tile is greyed out*/
+                if (current.getUncovered()) {
                     html.append(current.getHtml());
                 } else {
                     html.append("<td><div class=\"square\">");
                 }
-                    /* if the tile coordinates correspond to the player's current position
-                    the cell will contain a person to indicate the player's position
-                     */
+
+                /*if the tile coordinates correspond to the player's current position
+                 *the cell will contain a person to indicate the player's position*/
                 if (j == player.getCurrent().getX() && k == player.getCurrent().getY()) {
                     html.append("<p>&#127939;</p>");
                 }
                 if (player.getMap().getTile(j, k).getType() == TileType.TREASURE) {
-                    if (player.visitedTiles.contains(current)) {
+                    if (current.getUncovered()) {
                         html.append("<p>&#128176;</p>");
                     }
                 }
@@ -128,8 +123,5 @@ public class HTMLGenerator {
             return "</div>";
         }
     }
-
-
-
 }
 

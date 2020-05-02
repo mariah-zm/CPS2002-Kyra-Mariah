@@ -10,16 +10,26 @@ import static org.junit.Assert.*;
 public class MapTest{
 
     Map map;
+    Map newMap;
     List<Tile> grid;
+    List<Tile> newGrid;
 
     @Before
     public void setUp() throws Exception {
         map = new Map(25);
+        newMap = new Map(map.getGrid());
 
         grid = new ArrayList<>();
         for(Tile[] row : map.getGrid()){
             for(Tile tile : row){
                 grid.add(tile);
+            }
+        }
+
+        newGrid = new ArrayList<>();
+        for(Tile[] row : newMap.getGrid()){
+            for(Tile tile : row){
+                newGrid.add(tile);
             }
         }
     }
@@ -28,6 +38,18 @@ public class MapTest{
     public void tearDown() throws Exception {
         map = null;
         grid = null;
+    }
+
+    //testing that the copied grid is the exactly the same
+    @Test
+    public void copyGrid(){
+        boolean result = true;
+        for(int i=0; i<map.getSize(); i++){
+            if(grid.get(i).getType() != newGrid.get(i).getType()){
+                result = false;
+            }
+        }
+        assertTrue(result);
     }
 
     //test for size getter

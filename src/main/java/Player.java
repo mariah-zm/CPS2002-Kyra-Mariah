@@ -7,7 +7,6 @@ public class Player {
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
     public PlayerStatus status;
-    public ArrayList<Tile> visitedTiles;
 
     //class constructor
     public Player(Map map) {
@@ -15,14 +14,6 @@ public class Player {
         this.initial = setInitial();
         this.current = this.initial; //this will start off as initial
         this.status = PlayerStatus.SAFE;
-        visitedTiles = new ArrayList<>();
-        addVisited(this.initial);
-    }
-
-    private void addVisited(Position position){
-        int x = position.getX();
-        int y = position.getY();
-        visitedTiles.add(map.getTile(x,y));
     }
 
     //setting random initial position
@@ -49,7 +40,6 @@ public class Player {
             //if legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
-            addVisited(current);
             return true;
         }
         return false;
@@ -86,7 +76,7 @@ public class Player {
         }
 
         //uncover discovered tile
-        addVisited(new Position(X,Y));
+        map.getTile(X,Y).setUncovered();
 
         //setting status according to discovered tile type
         setStatus(map.getTile(current.getX(),current.getY()).getType());

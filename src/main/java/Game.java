@@ -158,6 +158,7 @@ public class Game {
 
             System.out.println("Launching Game...");
 
+            //opening html files for all players
             for(int f=0; f<game.htmlFiles.length; f++){
                 game.openHTML(game.htmlFiles[f].getPath());
             }
@@ -165,7 +166,6 @@ public class Game {
             do {
                 for (int i = 0; i < game.players.length; ++i) {
                     System.out.println("Player " + (i + 1));
-                    //game.
                     do {
                         System.out.println("Enter direction (U,D,R,L):");
                         moveInput = scanner.next();

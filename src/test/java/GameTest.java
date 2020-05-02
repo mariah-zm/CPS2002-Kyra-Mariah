@@ -121,10 +121,7 @@ public class GameTest {
     }
 
     //grid should not display water or treasure tiles at this point
-<<<<<<< HEAD
-=======
     @Test
->>>>>>> develop
     public void HTML_noTreasure() throws IOException {
         game.setNumPlayers(2);
         game.map = new Map(5);
@@ -139,15 +136,10 @@ public class GameTest {
 
     @Test
     public void createPlayersTest() {
-<<<<<<< HEAD
-        Player[] players = game.createPlayers(3, map1);
-        assertEquals(3, players.length);
-=======
         game.setNumPlayers(2);
         game.map = new Map(5);
         game.setPlayers();
         int result = game.getPlayers().length;
         assertEquals(2, result);
->>>>>>> develop
     }
 }

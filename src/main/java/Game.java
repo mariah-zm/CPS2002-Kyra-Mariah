@@ -2,12 +2,16 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
 
     private Player [] players;
+    private List<Integer> winners = new ArrayList<>();
     public Map map;
+
     HTMLGenerator generator;
     public File[] htmlFiles = null;
     public BufferedWriter[] bw = null;
@@ -58,12 +62,6 @@ public class Game {
         return this.players;
     }
 
-    //getting the list of winner
-    public String getWinners(){
-        StringBuilder winners = new StringBuilder();
-        return winners.toString();
-    }
-
     public void generateHTML() throws IOException {
         generator = new HTMLGenerator();
         String path = "src\\generated_HTML";
@@ -100,6 +98,20 @@ public class Game {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    //printing the list of winner
+    public void listOfWinners() {
+        StringBuilder listOfWinners = new StringBuilder("Player " + winners.get(0));
+
+        for (int i = 1; i < winners.size(); i++) {
+            if (i + 1 == winners.size()) {
+                listOfWinners.append(" and Player ").append(winners.get(i));
+            } else {
+                listOfWinners.append(", Player ").append(winners.get(i));
+            }
+        }
+        System.out.println("GAME OVER!\nCongratulations " + listOfWinners + ", you win the game!");
     }
 
     public static void main(String[] args){
@@ -173,10 +185,17 @@ public class Game {
                             inputAccepted = false;
                         }
                         else{
-                            game.players[i].move(move);
-                            inputAccepted = true;
-                            if(game.players[i].getStatus() == PlayerStatus.WINS){
-                                isGameWon = true;
+                            if(game.players[i].move(move)){
+                                inputAccepted = true;
+
+                                //if treasure tile is found by the player, game ends
+                                if(game.players[i].getStatus() == PlayerStatus.WINS){
+                                    if (!isGameWon) isGameWon = true;
+                                    game.winners.add(i);
+                                }
+                            }
+                            else{
+                                inputAccepted = false;
                             }
                         }
                     }while(!inputAccepted);
@@ -184,7 +203,7 @@ public class Game {
                 game.generateHTML();
             }while(!isGameWon);
 
-
+            game.listOfWinners();
 
         }catch (Exception e){
             System.exit(1);

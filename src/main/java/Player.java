@@ -82,7 +82,7 @@ public class Player {
         //setting status according to discovered tile type
         setStatus(map.getTile(current.getX(),current.getY()).getType());
         if(status == PlayerStatus.DEAD){
-            current = initial;
+            setPosition(initial);
         }
         return true;
     }

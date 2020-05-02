@@ -89,12 +89,12 @@ public class Player {
 
     //getter for current position
     public Position getCurrent(){
-        return this.current;
+        return current;
     }
 
     //getter for player's map
     public Map getMap(){
-        return this.map;
+        return map;
     }
 
     //getter for player's status
@@ -104,6 +104,6 @@ public class Player {
 
     //setter for status
     public void setStatus(TileType type) {
-        this.status = PlayerStatus.getStatus(type);
+        status = PlayerStatus.getStatus(type);
     }
 }

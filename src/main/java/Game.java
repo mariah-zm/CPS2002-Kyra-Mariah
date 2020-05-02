@@ -58,14 +58,10 @@ public class Game {
         return this.players;
     }
 
-    public int findWinner(){
-        int winner =0;
-        for(int i =0; i< players.length; i++){
-            if (players[i].getStatus()==PlayerStatus.WINS){
-                winner = i+1;
-            }
-        }
-        return winner;
+    //getting the list of winner
+    public String getWinners(){
+        StringBuilder winners = new StringBuilder();
+        return winners.toString();
     }
 
     public void generateHTML() throws IOException {
@@ -105,7 +101,6 @@ public class Game {
             ex.printStackTrace();
         }
     }
-
 
     public static void main(String[] args){
         //starting the game
@@ -163,6 +158,7 @@ public class Game {
             }
 
             do {
+                //getting players' moves
                 for (int i = 0; i < game.players.length; ++i) {
                     System.out.println("Player " + (i + 1));
                     do {
@@ -179,12 +175,16 @@ public class Game {
                         else{
                             game.players[i].move(move);
                             inputAccepted = true;
+                            if(game.players[i].getStatus() == PlayerStatus.WINS){
+                                isGameWon = true;
+                            }
                         }
                     }while(!inputAccepted);
                 }
                 game.generateHTML();
-                //condition for winning game
             }while(!isGameWon);
+
+
 
         }catch (Exception e){
             System.exit(1);

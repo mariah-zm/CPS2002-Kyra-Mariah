@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class HTMLGenerator {
 
     public String headerHTML(int i) {
-        //contains html for page header, background, instuction bar, and the map
+        //contains html for page header, background, instruction bar, and the map
         StringBuilder html = new StringBuilder();
         html.append("<html><head> <style>" +
                 "body {background-image: url(\"https://media.giphy.com/media/VwXcgwGIPyiiY/giphy.gif\");" +
@@ -92,10 +92,12 @@ public class HTMLGenerator {
                 }
 
                 /*if the tile coordinates correspond to the player's current position
-                 *the cell will contain a person to indicate the player's position*/
+                 *the cell will contain an icon to indicate the player's position*/
                 if (j == player.getCurrent().getX() && k == player.getCurrent().getY()) {
                     html.append("<p>&#127939;</p>");
                 }
+
+                //if the tile is a treasure tile, an icon will be added to the cell
                 if (player.getMap().getTile(j, k).getType() == TileType.TREASURE) {
                     if (current.getUncovered()) {
                         html.append("<p>&#128176;</p>");
@@ -110,6 +112,7 @@ public class HTMLGenerator {
         return (html.toString());
     }
 
+    //message to be displayed on top of the grid according to the player's status
     public String moveMessage(PlayerStatus status){
         switch(status){
             case SAFE:

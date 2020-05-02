@@ -8,8 +8,8 @@ import java.util.Scanner;
 
 public class Game {
 
-    public Player [] players;
-    private Map map;
+    private Player [] players;
+    public Map map;
     HTMLGenerator generator;
     public File[] htmlFiles = null;
     public BufferedWriter[] bw = null;
@@ -25,6 +25,8 @@ public class Game {
             System.out.println("Only between 2 and 8 players are accepted.");
             return false;
         }
+
+        players = new Player[playerCount];
         return true;
     }
 
@@ -47,11 +49,17 @@ public class Game {
 
     }
 
-    public void createPlayers(int playerCount, Map map){
-        for(int i =0; i<playerCount; ++i){
+    //setter for players array
+    public void setPlayers(){
+        for(int i =0; i<players.length; ++i){
             Map newMap = new Map(map.getGrid());
             players[i] = new Player(newMap);
         }
+    }
+
+    //getter for players array
+    public Player[] getPlayers(){
+        return this.players;
     }
 
     public int findWinner(){
@@ -73,10 +81,10 @@ public class Game {
         File folder = new File(path);
         folder.mkdir();
 
-        for (int i = 0; i < players.length; i++) {
-            htmlFiles = new File[players.length];
-            bw = new BufferedWriter[players.length];
+        htmlFiles = new File[players.length];
+        bw = new BufferedWriter[players.length];
 
+        for (int i = 0; i < players.length; i++) {
             //creating the file for the player
             htmlFiles[i] = new File(path + "\\map_player_" + (i+1) + ".html");
             bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
@@ -114,9 +122,6 @@ public class Game {
                 }
             } while (!inputAccepted);
 
-            //initialising players array
-            game.players = new Player[playerCount];
-
             //validating map size
             do {
                 System.out.println("Enter map size: ");
@@ -132,8 +137,8 @@ public class Game {
 
             //initialising the map
             game.map = new Map(size);
-
-            game.createPlayers(playerCount, game.map);
+            //initialising players array
+            game.setPlayers();
             game.generateHTML();
 
             do {

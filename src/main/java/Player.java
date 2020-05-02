@@ -22,11 +22,12 @@ public class Player {
 
         int x, y;
         //validating that the randomly generated position is a Grass tile
-          do {  //generating a random position
-              x = rand.nextInt(map.getSize());
-              y = rand.nextInt(map.getSize());
-          }while(map.getTile(x,y).getType() != TileType.GRASS);
+        do {  //generating a random position
+            x = rand.nextInt(map.getSize());
+            y = rand.nextInt(map.getSize());
+        }while(map.getTile(x,y).getType() != TileType.GRASS);
 
+        map.getTile(x,y).setUncovered();
         //return once valid
         return new Position(x, y);
     }

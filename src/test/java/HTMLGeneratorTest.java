@@ -24,8 +24,33 @@ public class HTMLGeneratorTest {
         generator = null;
     }
 
+    //ensuring headerHTML is returned and not null
     @Test
-    public void moveMessage_GRASS()throws IOException{
+    public void headerHTML_NotNullOrEmpty(){
+        String html = generator.headerHTML(1);
+        assertNotNull(html);
+        assertFalse(html.isEmpty());
+    }
+
+    //checking that the player number is displayed
+    @Test
+    public void headerHTML_ContainsPlayerNumber(){
+        String html = generator.headerHTML(1);
+        String playerNumber = "Player 1";
+        assertTrue(html.contains(playerNumber));
+    }
+
+    //ensuring gridHTML is returned and not null
+    @Test
+    public void gridHTML_NotNullOrEmpty(){
+        Player player = new Player(new Map(5));
+        String html = generator.gridHTML(player);
+        assertNotNull(html);
+        assertFalse(html.isEmpty());
+    }
+
+    @Test
+    public void moveMessage_GRASS(){
         PlayerStatus status = PlayerStatus.SAFE;
         String message = "<h2>Press U, D, L or R to move.</h2></div>";
         assertEquals(message, generator.moveMessage(status));

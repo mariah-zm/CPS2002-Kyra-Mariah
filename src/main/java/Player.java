@@ -3,10 +3,10 @@ import java.util.Random;
 
 public class Player {
 
-    private Position initial; //will store the randomly generated initial position
+    public Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
     private Map map; //a copy of the generated map from the player's perspective
-    private PlayerStatus status;
+    public PlayerStatus status;
 
     //class constructor
     public Player(Map map) {
@@ -48,8 +48,8 @@ public class Player {
 
     public boolean move(Direction direction) {
         //temporary variables to validate move
-        int X = this.current.getX();
-        int Y = this.current.getY();
+        int X = current.getX();
+        int Y = current.getY();
 
         //setting new coordinates accordingly
         switch (direction) {
@@ -81,9 +81,7 @@ public class Player {
 
         //setting status according to discovered tile type
         setStatus(map.getTile(current.getX(),current.getY()).getType());
-        if(status == PlayerStatus.DEAD){
-            setPosition(initial);
-        }
+
         return true;
     }
 

@@ -191,7 +191,10 @@ public class Game {
                                 //if treasure tile is found by the player, game ends
                                 if(game.players[i].getStatus() == PlayerStatus.WINS){
                                     if (!isGameWon) isGameWon = true;
-                                    game.winners.add(i);
+                                    game.winners.add(i+1);
+                                }
+                                if(game.players[i].status == PlayerStatus.DEAD){
+                                    game.players[i].setPosition(game.players[i].initial);
                                 }
                             }
                             else{

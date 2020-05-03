@@ -2,10 +2,6 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,8 +13,6 @@ public class GameTest {
 
     Game game;
     Map map;
-
-    //@Mock private Runtime mockRuntime;
 
     @Before
     public void setUp(){
@@ -138,20 +132,31 @@ public class GameTest {
         assertFalse(file_content.contains(waterMark));
     }
 
-    /*
+    //testing that the files are opened
     @Test
-    public void openHTML_FileOpened() throws IOException {
-        game.setNumPlayers(2);
-        game.map = new Map(5);
-        game.createPlayers();
-        game.generateHTML();
+    public void openHTML_FileOpened(){
+        boolean isAsserted;
 
-        String path = game.htmlFiles[0].getAbsolutePath();
+        try {
+            game.setNumPlayers(2);
+            game.map = new Map(5);
+            game.createPlayers();
+            game.generateHTML();
 
-        game.openHTML(path);
-        when(Runtime.getRuntime()).thenReturn(mockRuntime);
-        verify(mockRuntime.exec(path));
-    }*/
+            String path1 = game.htmlFiles[0].getAbsolutePath();
+            String path2 = game.htmlFiles[1].getAbsolutePath();
+
+            game.openHTML(path1);
+            game.openHTML(path2);
+
+            isAsserted = true;
+        }
+        catch(Exception ex){
+            isAsserted = false;
+        }
+
+        assertTrue(isAsserted);
+    }
 
     @Test
     public void createPlayersTest() {

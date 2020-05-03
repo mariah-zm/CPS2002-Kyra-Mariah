@@ -1,15 +1,9 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-
 public class HTMLGenerator {
 
     public String headerHTML(int i) {
         //contains html for page header, background, instruction bar, and the map
-        StringBuilder html = new StringBuilder();
-        html.append("<html><head><style>" +
+
+        return "<html><head><style>" +
                 "body {background-image: url(\"https://media.giphy.com/media/VwXcgwGIPyiiY/giphy.gif\");" +
                 "background-color: #cccccc;" +
                 "font-family: \"Lato\", sans-serif;}" +
@@ -67,9 +61,7 @@ public class HTMLGenerator {
                 "<table style=\"border:1px solid black;margin-left:auto;margin-right:auto;\">\n" +
                 "<div class=\"header\">\n" +
                 "  <h1>FIND THE HIDDEN TREASURE</h1>\n" +
-                "<h2>Player " + i + "</h2>\n<h3>Reload the page to see your updated moves<h3>");
-
-        return html.toString();
+                "<h2>Player " + i + "</h2>\n<h3>Reload the page to see your updated moves<h3>";
     }
 
     public String gridHTML(Player player){

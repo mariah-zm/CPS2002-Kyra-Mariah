@@ -4,3 +4,4 @@ target/*
 lib/*
 CPS2002-Kyra-Mariah.iml
 _config.yml
+generated_HTML/*

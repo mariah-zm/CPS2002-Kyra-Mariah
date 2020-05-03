@@ -28,5 +28,6 @@ INSTRUCTIONS FOR PLAYER
 -The colour of the tile selected will be revealed after each move. 
 
 -If you accidently step on a water tile, you will return to your initial position. 
+
 -Keep trying your luck, until you locate the treasure!
 

@@ -1,16 +1,16 @@
 public enum TileType {
-    GRASS("#67E240"),
-    WATER("#2FA6F1"),
-    TREASURE("#FFFB40");
+    GRASS("grass"),
+    WATER("water"),
+    TREASURE("treasure");
 
-    private String hexCode;
+    private String key;
 
     TileType(String fffb40) {
-        hexCode = fffb40;
+        key = fffb40;
     }
 
-    //returns the corresponding hexadecimal colour number which will be used for html
-    public String getHexCode(){
-        return hexCode;
+    //returns the corresponding key which will be used for html code generation
+    public String getKey(){
+        return key;
     }
 }

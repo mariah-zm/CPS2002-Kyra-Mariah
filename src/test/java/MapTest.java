@@ -3,6 +3,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -10,24 +12,43 @@ import static org.junit.Assert.*;
 public class MapTest{
 
     Map map;
+    Map newMap;
     List<Tile> grid;
+    List<Tile> newGrid;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         map = new Map(25);
+        newMap = new Map(map.getGrid());
 
         grid = new ArrayList<>();
         for(Tile[] row : map.getGrid()){
-            for(Tile tile : row){
-                grid.add(tile);
-            }
+            Collections.addAll(grid, row);
+        }
+
+        newGrid = new ArrayList<>();
+        for(Tile[] row : newMap.getGrid()){
+            newGrid.addAll(Arrays.asList(row));
         }
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown(){
         map = null;
         grid = null;
+    }
+
+    //testing that the copied grid is the exactly the same
+    @Test
+    public void copyGrid(){
+        boolean result = true;
+        for(int i=0; i<map.getSize(); i++){
+            if (grid.get(i).getType() != newGrid.get(i).getType()) {
+                result = false;
+                break;
+            }
+        }
+        assertTrue(result);
     }
 
     //test for size getter
@@ -66,20 +87,6 @@ public class MapTest{
         assertEquals(expected, occurrences);
     }
 
-    @Test
-    public void isLegal_Correct(){
-        int x = 5;
-        int y = 5;
-        assertTrue(map.isLegal(x, y));
-    }
-
-    @Test
-    public void isLegal_Incorrect(){
-        int x = 26;
-        int y = -1;
-        assertFalse(map.isLegal(x,y));
-    }
-
     //testing number of water tiles
     @Test
     public void numberOfWaterTiles(){
@@ -89,6 +96,7 @@ public class MapTest{
     }
 
     //testing that tiles surrounding treasure tile are not all water tiles
+    @Test
     public void reachable(){
         int x=0, y=0; //coordinates of treasure tile
 

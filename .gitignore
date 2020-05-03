@@ -1,0 +1,6 @@
+# Default ignored files
+.idea/*
+target/*
+lib/*
+CPS2002-Kyra-Mariah.iml
+src/generated_HTML/*

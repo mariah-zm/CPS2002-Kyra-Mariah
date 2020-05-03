@@ -12,6 +12,22 @@ public class Map {
         generate();
     }
 
+    //second constructor to be used to copy another map
+    public Map(Tile[][] grid){
+        this.size = grid.length;
+        this.grid = new Tile[size][size];
+        copyGrid(grid);
+    }
+
+    //creates a new map object with the same Tile but different reference
+    private void copyGrid(Tile[][] grid){
+        for(int i=0; i<size; i++){
+            for(int j=0; j<size; j++){
+                this.grid[i][j] = new Tile(grid[i][j].getType());
+            }
+        }
+    }
+
     //getter for grid
     public Tile[][] getGrid() {
         return grid;
@@ -60,16 +76,16 @@ public class Map {
                 Direction direction = Direction.randomDirection();
                 switch (direction) {
                     case UP:
-                        tempY -= 1;
-                        break;
-                    case DOWN:
-                        tempY += 1;
-                        break;
-                    case LEFT:
                         tempX -= 1;
                         break;
-                    case RIGHT:
+                    case DOWN:
                         tempX += 1;
+                        break;
+                    case LEFT:
+                        tempY -= 1;
+                        break;
+                    case RIGHT:
+                        tempY += 1;
                         break;
                     default:
                         throw new IndexOutOfBoundsException();

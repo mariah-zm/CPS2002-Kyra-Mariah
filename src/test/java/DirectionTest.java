@@ -43,4 +43,7 @@ public class DirectionTest {
     public void getDirection_LEFT(){
         assertEquals(Direction.LEFT, Direction.getDirection('L'));
     }
+
+    @Test
+    public void getDirection_NULL(){ assertEquals(null, Direction.getDirection('s'));}
 }

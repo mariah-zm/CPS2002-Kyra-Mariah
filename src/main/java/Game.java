@@ -1,15 +1,12 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Game {
 
-    private Player [] players;
-    private List<Integer> winners = new ArrayList<>();
+    public Player [] players;
+    public List<Integer> winners = new ArrayList<>();
     public Map map;
 
     HTMLGenerator generator;
@@ -49,19 +46,15 @@ public class Game {
 
     }
 
-    //setter for players array
-    public void setPlayers(){
+    //creating the players - passing a new object of Map
+    public void createPlayers(){
         for(int i =0; i<players.length; ++i){
             Map newMap = new Map(map.getGrid());
             players[i] = new Player(newMap);
         }
     }
 
-    //getter for players array
-    public Player[] getPlayers(){
-        return this.players;
-    }
-
+    //generating the html files for each player
     public void generateHTML() throws IOException {
         generator = new HTMLGenerator();
         String path = "src\\generated_HTML";
@@ -86,6 +79,7 @@ public class Game {
 
             bw[i].write(temp.toString());
             bw[i].close();
+            //resetting StringBuilder
             temp.setLength(0);
         }
     }
@@ -95,13 +89,13 @@ public class Game {
         try{
             Process process = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + path);
             process.waitFor();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     //printing the list of winner
-    public void listOfWinners() {
+    public String listOfWinners() {
         StringBuilder listOfWinners = new StringBuilder("Player " + winners.get(0));
 
         for (int i = 1; i < winners.size(); i++) {
@@ -111,7 +105,7 @@ public class Game {
                 listOfWinners.append(", Player ").append(winners.get(i));
             }
         }
-        System.out.println("GAME OVER!\nCongratulations " + listOfWinners + ", you win the game!");
+        return "GAME OVER!\nCongratulations " + listOfWinners + ", you win the game!";
     }
 
     public static void main(String[] args){
@@ -159,10 +153,10 @@ public class Game {
             game.map = new Map(size);
 
             //initialising players array
-            game.setPlayers();
+            game.createPlayers();
             game.generateHTML();
 
-            System.out.println("Launching Game...");
+            System.out.println("\n\nLaunching Game...\n");
 
             //opening html files for all players
             for(int f=0; f<game.htmlFiles.length; f++){
@@ -172,6 +166,7 @@ public class Game {
             do {
                 //getting players' moves
                 for (int i = 0; i < game.players.length; ++i) {
+                    System.out.println("\n*\t*\t*\t*\t*\t*\t*\t*\n");
                     System.out.println("Player " + (i + 1));
                     do {
                         System.out.println("Enter direction (U,D,R,L):");
@@ -193,8 +188,8 @@ public class Game {
                                     if (!isGameWon) isGameWon = true;
                                     game.winners.add(i+1);
                                 }
-                                if(game.players[i].status == PlayerStatus.DEAD){
-                                    game.players[i].setPosition(game.players[i].initial);
+                                if(game.players[i].getStatus() == PlayerStatus.DEAD){
+                                    game.players[i].setPosition(game.players[i].getInitial());
                                 }
                             }
                             else{
@@ -206,7 +201,7 @@ public class Game {
                 game.generateHTML();
             }while(!isGameWon);
 
-            game.listOfWinners();
+            System.out.println(game.listOfWinners());
 
         }catch (Exception e){
             System.exit(1);

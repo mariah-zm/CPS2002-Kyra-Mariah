@@ -1,10 +1,12 @@
 import org.apache.commons.lang.StringUtils;
-import org.codehaus.plexus.util.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
-import java.io.File;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -15,6 +17,8 @@ public class GameTest {
 
     Game game;
     Map map;
+
+    //@Mock private Runtime mockRuntime;
 
     @Before
     public void setUp(){
@@ -72,7 +76,7 @@ public class GameTest {
     public void HTML_FileTest() throws IOException {
         game.setNumPlayers(2);
         game.map = new Map(5);
-        game.setPlayers();
+        game.createPlayers();
         game.generateHTML();
         assertNotNull(game.htmlFiles);
     }
@@ -82,7 +86,7 @@ public class GameTest {
     public void HTML_FileNameTest() throws IOException {
         game.setNumPlayers(2);
         game.map = new Map(5);
-        game.setPlayers();
+        game.createPlayers();
         game.generateHTML();
         assertTrue((String.valueOf(Paths.get(game.htmlFiles[0].getAbsolutePath()))).contains("map_player_1.html"));
         assertTrue((String.valueOf(Paths.get(game.htmlFiles[1].getAbsolutePath()))).contains("map_player_2.html"));
@@ -93,7 +97,7 @@ public class GameTest {
     public void HTML_uncoveredTilesTest_moreThanOnePlayer() throws IOException {
         game.setNumPlayers(2);
         game.map = new Map(5);
-        game.setPlayers();
+        game.createPlayers();
         game.generateHTML();
         //the player has only visited the initial tile
         //therefore there should only be one green tile uncovered
@@ -113,7 +117,7 @@ public class GameTest {
     public void HTML_currentPositionTest() throws IOException{
         game.setNumPlayers(2);
         game.map = new Map(5);
-        game.setPlayers();
+        game.createPlayers();
         game.generateHTML();
         String currentPositionMark = "<p>&#127939;</p>";
         String file_content = new String ( Files.readAllBytes(Paths.get(game.htmlFiles[0].getAbsolutePath())));
@@ -125,7 +129,7 @@ public class GameTest {
     public void HTML_noTreasure() throws IOException {
         game.setNumPlayers(2);
         game.map = new Map(5);
-        game.setPlayers();
+        game.createPlayers();
         game.generateHTML();
         String treasureMark = "<p>&#FFFB40;</p>";
         String waterMark = "<p>&#2FA6F1;</p>";
@@ -134,12 +138,57 @@ public class GameTest {
         assertFalse(file_content.contains(waterMark));
     }
 
+    /*
+    @Test
+    public void openHTML_FileOpened() throws IOException {
+        game.setNumPlayers(2);
+        game.map = new Map(5);
+        game.createPlayers();
+        game.generateHTML();
+
+        String path = game.htmlFiles[0].getAbsolutePath();
+
+        game.openHTML(path);
+        when(Runtime.getRuntime()).thenReturn(mockRuntime);
+        verify(mockRuntime.exec(path));
+    }*/
+
     @Test
     public void createPlayersTest() {
         game.setNumPlayers(2);
         game.map = new Map(5);
-        game.setPlayers();
-        int result = game.getPlayers().length;
+        game.createPlayers();
+        int result = game.players.length;
         assertEquals(2, result);
+    }
+
+    //testing that the correct list of winners is returned - 1 winner
+    @Test
+    public void listOfWinners_1(){
+        game.winners.add(1);
+
+        String result = game.listOfWinners();
+        assertTrue(result.contains("Player 1"));
+    }
+
+    //testing that the correct list of winners is returned - 2 winners
+    @Test
+    public void listOfWinners_2(){
+        game.winners.add(1);
+        game.winners.add(2);
+
+        String result = game.listOfWinners();
+        assertTrue(result.contains("Player 1 and Player 2"));
+    }
+
+    //testing that the correct list of winners is returned - 3 winners
+    @Test
+    public void listOfWinners_3(){
+        game.winners.add(1);
+        game.winners.add(2);
+        game.winners.add(3);
+
+        String result = game.listOfWinners();
+        assertTrue(result.contains("Player 1, Player 2 and Player 3"));
     }
 }

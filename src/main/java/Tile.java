@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class Tile {
 
     private TileType type;
@@ -10,7 +8,7 @@ public class Tile {
     public Tile(TileType type){
         this.type = type;
         this.uncovered = false;
-        this.html = "<td><div class=\""+ type.getHexCode()+ "\">";
+        this.html = "<td><div class=\""+ type.getKey()+ "\">";
     }
 
     //getter for type

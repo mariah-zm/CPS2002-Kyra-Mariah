@@ -1,4 +1,3 @@
-import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -102,7 +101,10 @@ public class PlayerTest {
     }
 
     @Test
-    public void move_ToWater(){
+    public void move_NullDirection(){
+        boolean result = player.move(null);
+
+        assertFalse(result);
     }
 
     @Test

@@ -101,13 +101,6 @@ public class PlayerTest {
     }
 
     @Test
-    public void move_NullDirection(){
-        boolean result = player.move(null);
-
-        assertFalse(result);
-    }
-
-    @Test
     public void setPosition(){
         player.setPosition(test_position);
 

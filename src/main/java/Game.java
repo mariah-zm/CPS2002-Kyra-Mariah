@@ -161,8 +161,7 @@ public class Game {
 
             //opening html files for all players
             for(int f=0; f<game.htmlFiles.length; f++){
-                //game.openHTML(game.htmlFiles[f].getPath());
-                Desktop.getDesktop().browse(game.htmlFiles[f].toURI());
+                game.openHTML(game.htmlFiles[f].getPath());
             }
 
             do {

@@ -12,7 +12,7 @@ public class Player {
     public Player(Map map) {
         this.map = map;
         this.initial = setInitial();
-        this.current = this.initial; //this will start off as initial
+        this.current = new Position(this.initial.getX(),this.initial.getY()); //this will start off as initial
         this.status = PlayerStatus.SAFE;
     }
 
@@ -48,8 +48,8 @@ public class Player {
 
     public boolean move(Direction direction) {
         //temporary variables to validate move
-        int X = this.current.getX();
-        int Y = this.current.getY();
+        int X = current.getX();
+        int Y = current.getY();
 
         //setting new coordinates accordingly
         switch (direction) {
@@ -81,20 +81,22 @@ public class Player {
 
         //setting status according to discovered tile type
         setStatus(map.getTile(current.getX(),current.getY()).getType());
-        if(status == PlayerStatus.DEAD){
-            current = initial;
-        }
         return true;
+    }
+
+    //getter for initial position
+    public Position getInitial(){
+        return initial;
     }
 
     //getter for current position
     public Position getCurrent(){
-        return this.current;
+        return current;
     }
 
     //getter for player's map
     public Map getMap(){
-        return this.map;
+        return map;
     }
 
     //getter for player's status
@@ -104,6 +106,6 @@ public class Player {
 
     //setter for status
     public void setStatus(TileType type) {
-        this.status = PlayerStatus.getStatus(type);
+        status = PlayerStatus.getStatus(type);
     }
 }

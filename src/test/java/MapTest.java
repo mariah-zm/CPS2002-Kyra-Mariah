@@ -3,6 +3,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -15,27 +17,23 @@ public class MapTest{
     List<Tile> newGrid;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
         map = new Map(25);
         newMap = new Map(map.getGrid());
 
         grid = new ArrayList<>();
         for(Tile[] row : map.getGrid()){
-            for(Tile tile : row){
-                grid.add(tile);
-            }
+            Collections.addAll(grid, row);
         }
 
         newGrid = new ArrayList<>();
         for(Tile[] row : newMap.getGrid()){
-            for(Tile tile : row){
-                newGrid.add(tile);
-            }
+            newGrid.addAll(Arrays.asList(row));
         }
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown(){
         map = null;
         grid = null;
     }
@@ -45,8 +43,9 @@ public class MapTest{
     public void copyGrid(){
         boolean result = true;
         for(int i=0; i<map.getSize(); i++){
-            if(grid.get(i).getType() != newGrid.get(i).getType()){
+            if (grid.get(i).getType() != newGrid.get(i).getType()) {
                 result = false;
+                break;
             }
         }
         assertTrue(result);

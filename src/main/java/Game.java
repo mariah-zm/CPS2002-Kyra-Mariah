@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -160,7 +161,8 @@ public class Game {
 
             //opening html files for all players
             for(int f=0; f<game.htmlFiles.length; f++){
-                game.openHTML(game.htmlFiles[f].getPath());
+                //game.openHTML(game.htmlFiles[f].getPath());
+                Desktop.getDesktop().browse(game.htmlFiles[f].toURI());
             }
 
             do {

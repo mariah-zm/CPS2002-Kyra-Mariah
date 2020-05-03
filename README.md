@@ -10,9 +10,12 @@ INSTRUCTIONS FOR LAUNCH
 
 -Clone the repository in a Java IDE. 
 
--Locate the Treasure Game.bat file and modify the path to your jar file. This is an essential step in launching the game.
+-Locate the ‘Treasure Game.bat’ file
 
--Once that is done, run the main() method from the Game class. 
+-Edit the file using a notepad to update the path of the jar file. The .jar file can be found in the same directory of the .bat file.
+
+-You can play the game by running the Treasure Game.bat file
+
 
 INSTRUCTIONS FOR PLAYER
 

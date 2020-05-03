@@ -58,7 +58,8 @@ public class Game {
     //generating the html files for each player
     public void generateHTML() throws IOException {
         generator = new HTMLGenerator();
-        String path = "src\\generated_HTML";
+        final String dir = System.getProperty("user.dir");
+        String path = dir + "\\Desktop\\generated_HTML";
 
         StringBuilder temp = new StringBuilder();
 

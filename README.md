@@ -1,7 +1,7 @@
 
 # TREASURE GAME
 
-* * Written by Mariah Zammit & Kyra Fenech * *
+*Written by Mariah Zammit & Kyra Fenech*
 
 The game's objective is to locate the treasure on the given map before your opponents do. This multiplayer game can be played by 2-8 users, with map-sizes ranging from 5x5 to 50x50. The map layout also includes grass tiles which the player can walk on, as well as a number of water tile obstacles which send the players back to their initial position. To make things more interesting, all tiles are covered before the player reaches them!
 

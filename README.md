@@ -14,7 +14,7 @@ The game's objective is to locate the treasure on the given map before your oppo
 4. Run the Treasure Game.bat file to play the game.
 
 
-### Instructiond for Players
+### Instructions for Players
 
 1. Enter the number of players and desired map size in the console when prompted. 
 2. Your respective maps will open automatically in your defualt browser. 

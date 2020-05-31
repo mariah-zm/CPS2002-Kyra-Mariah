@@ -5,7 +5,8 @@
 
 The game's objective is to locate the treasure on the given map before your opponents do. This multiplayer game can be played by 2-8 users, with map-sizes ranging from 5x5 to 50x50. The map layout also includes grass tiles which the player can walk on, as well as a number of water tile obstacles which send the players back to their initial position. To make things more interesting, all tiles are covered before the player reaches them!
 
-## INSTRUCTIONS FOR LAUNCH
+
+### Instructions for Launch
 
 1. Clone the repository in a Java IDE.
 2. Locate the ‘Treasure Game.bat’ file.
@@ -13,7 +14,7 @@ The game's objective is to locate the treasure on the given map before your oppo
 4. Run the Treasure Game.bat file to play the game.
 
 
-# INSTRUCTIONS FOR PLAYER
+### Instructiond for Players
 
 1. Enter the number of players and desired map size in the console when prompted. 
 2. Your respective maps will open automatically in your defualt browser. 

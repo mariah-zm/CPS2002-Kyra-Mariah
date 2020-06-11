@@ -7,12 +7,13 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     Player player;
-    Map map;
+    Map map = Map.getInstance();
     Position test_position;
 
     @Before
     public void setUp() {
-        map =  new Map(25);
+        map.setSize(10, 5);
+        map.generate();
         player = new Player(map);
         test_position = new Position(2,2);
     }

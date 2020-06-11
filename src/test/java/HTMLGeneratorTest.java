@@ -3,24 +3,23 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import static org.junit.Assert.*;
 
 public class HTMLGeneratorTest {
 
     HTMLGenerator generator;
+    Map map = Map.getInstance();
 
     @Before
-    public void setUp() throws Exception {
-        generator = new HTMLGenerator();
+    public void setUp(){
+        map.setSize(10, 2);
+        map.generate();
+
+        generator = new HTMLGenerator(map);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown(){
         generator = null;
     }
 
@@ -43,7 +42,7 @@ public class HTMLGeneratorTest {
     //ensuring gridHTML is returned and not null
     @Test
     public void gridHTML_NotNullOrEmpty(){
-        Player player = new Player(new Map(5));
+        Player player = new Player(map);
         String html = generator.gridHTML(player);
         assertNotNull(html);
         assertFalse(html.isEmpty());
@@ -57,14 +56,14 @@ public class HTMLGeneratorTest {
     }
 
     @Test
-    public void moveMessage_WATER()throws IOException{
+    public void moveMessage_WATER(){
         PlayerStatus status = PlayerStatus.DEAD;
         String message = "<h2>YIKES! You discovered a water tile. Start again from your initial position.</h2></div>";
         assertEquals(message, generator.moveMessage(status));
     }
 
     @Test
-    public void moveMessage_TREASURE()throws IOException{
+    public void moveMessage_TREASURE(){
         PlayerStatus status = PlayerStatus.WINS;
         String message = "<h2>WELL DONE, YOU FOUND THE TREASURE!</h2></div>";
         assertEquals(message, generator.moveMessage(status));

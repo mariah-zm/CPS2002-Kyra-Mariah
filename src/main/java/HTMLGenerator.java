@@ -1,8 +1,13 @@
 public class HTMLGenerator {
 
-    public String headerHTML(int i) {
-        //contains html for page header, background, instruction bar, and the map
+    Map map;
 
+    public HTMLGenerator(Map map){
+        this.map = map;
+    }
+
+    //contains html for page header, background, instruction bar, and the map
+    public String headerHTML(int i) {
         return "<html><head><style>" +
                 "body {background-image: url(\"https://media.giphy.com/media/VwXcgwGIPyiiY/giphy.gif\");" +
                 "background-color: #cccccc;" +
@@ -65,19 +70,20 @@ public class HTMLGenerator {
     }
 
     public String gridHTML(Player player){
-        Map map = player.getMap();
+        int mapSize = map.getSize();
         StringBuilder html = new StringBuilder();
+
         //will store current parsed tile
         Tile current;
 
-        for (int j = 0; j < map.getSize(); j++) {
+        for (int j = 0; j < mapSize; j++) {
             html.append("<tr>");
-            for (int k = 0; k < map.getSize(); k++) {
+            for (int k = 0; k < mapSize; k++) {
                 current = map.getTile(j, k);
 
-                /*if the tile is uncovered then we get corresponding html code
+                /*if the tile is discovered then we get corresponding html code
                  *otherwise, tile is greyed out*/
-                if (current.getUncovered()) {
+                if (player.getDiscoveredTiles().contains(current)) {
                     html.append(current.getHtml());
                 } else {
                     html.append("<td><div class=\"square\">");
@@ -87,14 +93,19 @@ public class HTMLGenerator {
                  *the cell will contain an icon to indicate the player's position*/
                 if (j == player.getCurrent().getX() && k == player.getCurrent().getY()) {
                     html.append("<p>&#127939;</p>");
-                }
-
-                //if the tile is a treasure tile, an icon will be added to the cell
-                if (player.getMap().getTile(j, k).getType() == TileType.TREASURE) {
-                    if (current.getUncovered()) {
-                        html.append("<p>&#128176;</p>");
+                    //if the tile is a treasure tile, an icon will be added to the cell
+                    if (current.getType() == TileType.TREASURE) {
+                            html.append("<p>&#128176;</p>");
                     }
                 }
+
+                /*if the tile is a treasure tile, an icon will be added to the cell
+                if (current.getType() == TileType.TREASURE) {
+                    if (player.getDiscoveredTiles().contains(current)) {
+                        html.append("<p>&#128176;</p>");
+                    }
+                }*/
+
                 html.append("</div>");
                 html.append("</td>");
             }

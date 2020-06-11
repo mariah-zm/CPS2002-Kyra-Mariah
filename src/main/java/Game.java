@@ -9,7 +9,7 @@ public class Game {
     public List<Integer> winners = new ArrayList<>();
     public Map map = Map.getInstance();
 
-    HTMLGenerator generator = new HTMLGenerator(map);;
+    HTMLGenerator generator = new HTMLGenerator();
     public File[] htmlFiles = null;
     public BufferedWriter[] bw = null;
 
@@ -103,7 +103,7 @@ public class Game {
         try{
             //variables for user input for map size and number of players
             boolean inputAccepted;
-            int size = 0, playerCount = 0;
+            int size, playerCount = 0;
 
             //validating number of players
             do {

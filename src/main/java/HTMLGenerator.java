@@ -1,11 +1,5 @@
 public class HTMLGenerator {
 
-    Map map;
-
-    public HTMLGenerator(Map map){
-        this.map = map;
-    }
-
     //contains html for page header, background, instruction bar, and the map
     public String headerHTML(int i) {
         return "<html><head><style>" +
@@ -70,7 +64,9 @@ public class HTMLGenerator {
     }
 
     public String gridHTML(Player player){
+        Map map = player.getMap();
         int mapSize = map.getSize();
+
         StringBuilder html = new StringBuilder();
 
         //will store current parsed tile
@@ -92,11 +88,13 @@ public class HTMLGenerator {
                 /*if the tile coordinates correspond to the player's current position
                  *the cell will contain an icon to indicate the player's position*/
                 if (j == player.getCurrent().getX() && k == player.getCurrent().getY()) {
-                    html.append("<p>&#127939;</p>");
+                    html.append("<p>");
                     //if the tile is a treasure tile, an icon will be added to the cell
                     if (current.getType() == TileType.TREASURE) {
-                            html.append("<p>&#128176;</p>");
+                            html.append("&#128176;");
                     }
+                    html.append("&#127939;");
+                    html.append("</p>");
                 }
 
                 /*if the tile is a treasure tile, an icon will be added to the cell

@@ -8,14 +8,10 @@ import static org.junit.Assert.*;
 public class HTMLGeneratorTest {
 
     HTMLGenerator generator;
-    Map map = Map.getInstance();
 
     @Before
     public void setUp(){
-        map.setSize(10, 2);
-        map.generate();
-
-        generator = new HTMLGenerator(map);
+        generator = new HTMLGenerator();
     }
 
     @After
@@ -42,6 +38,10 @@ public class HTMLGeneratorTest {
     //ensuring gridHTML is returned and not null
     @Test
     public void gridHTML_NotNullOrEmpty(){
+        Map map = Map.getInstance();
+        map.setSize(10, 2);
+        map.generate();
+
         Player player = new Player(map);
         String html = generator.gridHTML(player);
         assertNotNull(html);

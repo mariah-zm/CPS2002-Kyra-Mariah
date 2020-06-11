@@ -7,12 +7,13 @@ import static org.junit.Assert.*;
 public class PlayerTest {
 
     Player player;
-    Map map;
+    Map map = Map.getInstance();
     Position test_position;
 
     @Before
     public void setUp() {
-        map =  new Map(25);
+        map.setSize(10, 5);
+        map.generate();
         player = new Player(map);
         test_position = new Position(2,2);
     }
@@ -25,9 +26,10 @@ public class PlayerTest {
         test_position = null;
     }
 
+    //ensuring the initial position is set to a Grass tile
     @Test
     public void setInitial() {
-        Position start = player.setInitial();
+        Position start = player.getInitial();
         TileType result = player.getMap().getTile(start.getX(),start.getY()).getType();
         assertEquals(TileType.GRASS, result);
     }
@@ -152,6 +154,14 @@ public class PlayerTest {
     public void setStatus_getStatus_TREASURE(){
         player.setStatus(TileType.TREASURE);
         assertEquals(PlayerStatus.WINS, player.getStatus());
+    }
+
+    @Test
+    public void getDiscoveredTiles_ContainsInitial(){
+        int x = player.getInitial().getX();
+        int y = player.getInitial().getY();
+        Tile tile = map.getTile(x, y);
+        assertTrue(player.getDiscoveredTiles().contains(tile));
     }
 
 }

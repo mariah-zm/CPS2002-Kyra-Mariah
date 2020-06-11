@@ -7,9 +7,9 @@ public class Game {
 
     public Player [] players;
     public List<Integer> winners = new ArrayList<>();
-    public Map map;
+    public Map map = Map.getInstance();
 
-    HTMLGenerator generator;
+    HTMLGenerator generator = new HTMLGenerator();
     public File[] htmlFiles = null;
     public BufferedWriter[] bw = null;
 
@@ -28,35 +28,15 @@ public class Game {
         return true;
     }
 
-    //validating user input for map size
-    public boolean setMapSize(int size) {
-        final int MAX = 50;
-        //setting minimum number of map size according to amount of players
-        final int MIN = players.length <= 4 ? 5 : 8;
-
-        //validating given size
-        if (MIN > size) {
-            System.out.println("Given map size is too small.");
-            return false;
-        } else if (MAX < size) {
-            System.out.println("Given map size is too big.");
-            return false;
-        }
-        return true;
-
-    }
-
     //creating the players - passing a new object of Map
     public void createPlayers(){
         for(int i =0; i<players.length; ++i){
-            Map newMap = new Map(map.getGrid());
-            players[i] = new Player(newMap);
+            players[i] = new Player(map);
         }
     }
 
     //generating the html files for each player
     public void generateHTML() throws IOException {
-        generator = new HTMLGenerator();
         //gets the user directory
         final String dir = System.getProperty("user.dir");
         String path = dir + "\\generated_HTML";
@@ -123,7 +103,7 @@ public class Game {
         try{
             //variables for user input for map size and number of players
             boolean inputAccepted;
-            int size = 0, playerCount;
+            int size, playerCount = 0;
 
             //validating number of players
             do {
@@ -143,7 +123,7 @@ public class Game {
                 System.out.println("Enter map size: ");
                 if (scanner.hasNextInt()) {
                     size = scanner.nextInt();
-                    inputAccepted = game.setMapSize(size);
+                    inputAccepted = game.map.setSize(size, playerCount);
                 } else {
                     scanner.nextLine();
                     System.out.println("Not an integer!");
@@ -151,8 +131,8 @@ public class Game {
                 }
             } while (!inputAccepted);
 
-            //initialising the map
-            game.map = new Map(size);
+            //generating the map with tiles
+            game.map.generate();
 
             //initialising players array
             game.createPlayers();

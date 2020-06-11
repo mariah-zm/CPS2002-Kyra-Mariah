@@ -2,35 +2,39 @@ import java.util.Random;
 
 public class Map {
 
+    //singleton instance
+    private static Map instance = null;
+
     private int size;
     private Tile[][] grid;
 
     //class constructor
-    public Map(int size) {
-        this.size = size;
-        this.grid = new Tile[size][size];
-        generate();
+    private Map(){
     }
 
-    //second constructor to be used to copy another map
-    public Map(Tile[][] grid){
-        this.size = grid.length;
-        this.grid = new Tile[size][size];
-        copyGrid(grid);
+    public static Map getInstance(){
+        if(instance == null) instance = new Map();
+
+        return instance;
     }
 
-    //creates a new map object with the same Tile but different reference
-    private void copyGrid(Tile[][] grid){
-        for(int i=0; i<size; i++){
-            for(int j=0; j<size; j++){
-                this.grid[i][j] = new Tile(grid[i][j].getType());
-            }
+    //setter with validation
+    public boolean setSize(int size, int players) {
+        final int MAX = 50;
+        //setting minimum number of map size according to amount of players
+        final int MIN = players <= 4 ? 5 : 8;
+
+        //validating given size
+        if (MIN > size) {
+            System.out.println("Given map size is too small.");
+            return false;
+        } else if (MAX < size) {
+            System.out.println("Given map size is too big.");
+            return false;
         }
-    }
 
-    //getter for grid
-    public Tile[][] getGrid() {
-        return grid;
+        this.size = size;
+        return true;
     }
 
     //getter for size
@@ -38,14 +42,21 @@ public class Map {
         return size;
     }
 
+    //getter for grid
+    public Tile[][] getGrid() {
+        return grid;
+    }
+
     //filling the grid elements with tile types
-    private void generate() {
+    public void generate() {
+        this.grid = new Tile[size][size];
+
         //Setting the Treasure tile
         Random rnd = new Random();
         int treasureX = rnd.nextInt(this.size);
         int treasureY = rnd.nextInt(this.size);
 
-        this.grid[treasureX][treasureY] = new Tile(TileType.TREASURE);
+        this.grid[treasureX][treasureY] = new Tile(TileType.TREASURE, new Position(treasureX, treasureY));
 
         //Setting number of grass tiles
         int numOfGrassTiles = (int) ((size * size) * 0.80) - 1;
@@ -97,7 +108,7 @@ public class Map {
                     if(grid[tempX][tempY] == null){
                         x = tempX;
                         y = tempY;
-                        grid[x][y] = new Tile(TileType.GRASS);
+                        grid[x][y] = new Tile(TileType.GRASS, new Position(x, y));
                         tileSet = true;
                     }
                 } else {
@@ -113,7 +124,7 @@ public class Map {
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 if (grid[x][y] == null) {
-                    grid[x][y] = new Tile(TileType.WATER);
+                    grid[x][y] = new Tile(TileType.WATER, new Position(x, y));
                 }
             }
         }

@@ -12,18 +12,17 @@ import static org.junit.Assert.*;
 public class GameTest {
 
     Game game;
-    Map map;
 
     @Before
     public void setUp(){
         this.game = new Game();
-        this.map = new Map(10);
+        game.map.setSize(10, 5);
+        game.map.generate();
     }
 
     @After
     public void tearDown(){
         this.game = null;
-        this.map = null;
     }
 
     @Test
@@ -44,32 +43,10 @@ public class GameTest {
         assertTrue(result);
     }
 
-    @Test
-    public void setMapSize_TooSmall() {
-        game.setNumPlayers(4);
-        boolean result = game.setMapSize(4);
-        assertFalse(result);
-    }
-
-    @Test
-    public void setMapSize_TooBig() {
-        game.setNumPlayers(8);
-        boolean result = game.setMapSize(60);
-        assertFalse(result);
-    }
-
-    @Test
-    public void setMapSize_Correct() {
-        game.setNumPlayers(6);
-        boolean result = game.setMapSize(30);
-        assertTrue(result);
-    }
-
     //checking that the files are generated
     @Test
     public void HTML_FileTest() throws IOException {
         game.setNumPlayers(2);
-        game.map = new Map(5);
         game.createPlayers();
         game.generateHTML();
         assertNotNull(game.htmlFiles);
@@ -79,7 +56,6 @@ public class GameTest {
     @Test
     public void HTML_FileNameTest() throws IOException {
         game.setNumPlayers(2);
-        game.map = new Map(5);
         game.createPlayers();
         game.generateHTML();
         assertTrue((String.valueOf(Paths.get(game.htmlFiles[0].getAbsolutePath()))).contains("map_player_1.html"));
@@ -90,7 +66,6 @@ public class GameTest {
     @Test
     public void HTML_uncoveredTilesTest_moreThanOnePlayer() throws IOException {
         game.setNumPlayers(2);
-        game.map = new Map(5);
         game.createPlayers();
         game.generateHTML();
         //the player has only visited the initial tile
@@ -110,7 +85,6 @@ public class GameTest {
     @Test
     public void HTML_currentPositionTest() throws IOException{
         game.setNumPlayers(2);
-        game.map = new Map(5);
         game.createPlayers();
         game.generateHTML();
         String currentPositionMark = "<p>&#127939;</p>";
@@ -122,7 +96,6 @@ public class GameTest {
     @Test
     public void HTML_noTreasure() throws IOException {
         game.setNumPlayers(2);
-        game.map = new Map(5);
         game.createPlayers();
         game.generateHTML();
         String treasureMark = "<p>&#FFFB40;</p>";
@@ -139,7 +112,6 @@ public class GameTest {
 
         try {
             game.setNumPlayers(2);
-            game.map = new Map(5);
             game.createPlayers();
             game.generateHTML();
 
@@ -161,10 +133,18 @@ public class GameTest {
     @Test
     public void createPlayersTest() {
         game.setNumPlayers(2);
-        game.map = new Map(5);
         game.createPlayers();
         int result = game.players.length;
         assertEquals(2, result);
+    }
+
+    //testing singleton pattern
+    @Test
+    public void sameMapInstanceTest(){
+        game.setNumPlayers(2);
+        game.createPlayers();
+
+        assertEquals(game.players[0].getMap().hashCode(), game.players[1].getMap().hashCode());
     }
 
     //testing that the correct list of winners is returned - 1 winner

@@ -1,11 +1,14 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Player {
 
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
-    private Map map; //a copy of the generated map from the player's perspective
+    private Map map; //holds a reference to the singleton instance
     private PlayerStatus status;
+    private List<Tile> discoveredTiles;
 
     //class constructor
     public Player(Map map) {
@@ -13,6 +16,9 @@ public class Player {
         this.initial = setInitial();
         this.current = new Position(this.initial.getX(),this.initial.getY()); //this will start off as initial
         this.status = PlayerStatus.SAFE;
+
+        this.discoveredTiles = new ArrayList<>();
+        discoveredTiles.add(map.getTile(initial.getX(), initial.getY()));
     }
 
     //setting random initial position
@@ -26,7 +32,6 @@ public class Player {
             y = rand.nextInt(map.getSize());
         }while(map.getTile(x,y).getType() != TileType.GRASS);
 
-        map.getTile(x,y).setUncovered();
         //return once valid
         return new Position(x, y);
     }
@@ -75,8 +80,8 @@ public class Player {
             return false;
         }
 
-        //uncover discovered tile
-        map.getTile(X,Y).setUncovered();
+        //adds discovered tile
+        discoveredTiles.add(map.getTile(X, Y));
 
         //setting status according to discovered tile type
         setStatus(map.getTile(current.getX(),current.getY()).getType());
@@ -106,5 +111,10 @@ public class Player {
     //setter for status
     public void setStatus(TileType type) {
         status = PlayerStatus.getStatus(type);
+    }
+
+    //getter for the list of tiles the player visited
+    public List<Tile> getDiscoveredTiles() {
+        return discoveredTiles;
     }
 }

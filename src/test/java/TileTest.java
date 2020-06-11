@@ -9,7 +9,7 @@ public class TileTest {
 
     @Before
     public void setUp(){
-        tile = new Tile(TileType.GRASS);
+        tile = new Tile(TileType.GRASS, new Position(1, 0));
     }
 
     @After
@@ -24,24 +24,21 @@ public class TileTest {
         assertEquals(TileType.GRASS, type);
     }
 
-    //test for uncovered setter
-    @Test
-    public void setUncovered(){
-        tile.setUncovered();
-        assertTrue(tile.getUncovered());
-    }
-
-    //test for uncovered getter
-    @Test
-    public void getUncovered(){
-        assertFalse(tile.getUncovered());
-    }
-
     //test for html getter
     @Test
     public void getHTML(){
         String html = tile.getHtml();
         assertEquals("<td><div class=\"grass\">", html);
+    }
+
+    //test for position getter
+    @Test
+    public void getPosition(){
+        int x = 1;
+        int y = 0;
+
+        assertEquals(x, tile.getPosition().getX());
+        assertEquals(y, tile.getPosition().getY());
     }
 
 }

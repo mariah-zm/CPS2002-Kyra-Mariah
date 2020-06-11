@@ -1,13 +1,12 @@
 public class Tile {
 
     private TileType type;
-    private boolean uncovered;
+    Position position;
     private String html;
 
-
-    public Tile(TileType type){
+    public Tile(TileType type, Position position){
         this.type = type;
-        this.uncovered = false;
+        this.position = position;
         this.html = "<td><div class=\""+ type.getKey()+ "\">";
     }
 
@@ -16,19 +15,14 @@ public class Tile {
         return this.type;
     }
 
-    //setter for uncovered
-    public void setUncovered(){
-        this.uncovered = true;
-    }
-
-    //getter for uncovered
-    public boolean getUncovered(){
-        return this.uncovered;
-    }
-
     //getter for html
     public String getHtml(){
         return html;
+    }
+
+    //getter for position
+    public Position getPosition(){
+        return position;
     }
 
 }

@@ -3,7 +3,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,24 +10,17 @@ import static org.junit.Assert.*;
 
 public class MapTest{
 
-    Map map;
-    Map newMap;
+    Map map = Map.getInstance();
     List<Tile> grid;
-    List<Tile> newGrid;
 
     @Before
     public void setUp(){
-        map = new Map(25);
-        newMap = new Map(map.getGrid());
+        map.setSize(25, 5);
+        map.generate();
 
         grid = new ArrayList<>();
         for(Tile[] row : map.getGrid()){
             Collections.addAll(grid, row);
-        }
-
-        newGrid = new ArrayList<>();
-        for(Tile[] row : newMap.getGrid()){
-            newGrid.addAll(Arrays.asList(row));
         }
     }
 
@@ -38,29 +30,42 @@ public class MapTest{
         grid = null;
     }
 
-    //testing that the copied grid is the exactly the same
-    @Test
-    public void copyGrid(){
-        boolean result = true;
-        for(int i=0; i<map.getSize(); i++){
-            if (grid.get(i).getType() != newGrid.get(i).getType()) {
-                result = false;
-                break;
-            }
-        }
-        assertTrue(result);
-    }
-
-    //test for size getter
+    //test for size getter and setter
     @Test
     public void getSize(){
         assertEquals(25, map.getSize());
     }
 
+    //testing setter - not valid
+    @Test
+    public void setSize_TooSmall() {
+        boolean result = map.setSize(4, 4);
+        assertFalse(result);
+    }
+
+    //testing setter - not valid
+    @Test
+    public void setSize_TooBig() {
+        boolean result = map.setSize(60, 8);
+        assertFalse(result);
+    }
+
+    //testing setter - valid
+    @Test
+    public void setSize_Correct() {
+        boolean result = map.setSize(30, 6);
+        assertTrue(result);
+    }
+
     //testing that the correct number of tiles is generated
     @Test
-    public void gridSize(){
-        assertEquals(25*25, grid.size());
+    public void gridSize() {
+        map.setSize(25, 5);
+        map.generate();
+
+        int size = map.getGrid().length * map.getGrid()[0].length;
+
+        assertEquals(25*25, size);
     }
 
     //testing that map is generated and no elements remain empty
@@ -73,8 +78,6 @@ public class MapTest{
     //testing that the map contains one and only one treasure tile
     @Test
     public void treasureTile(){
-        /*boolean containsTile = grid.stream().anyMatch(tile -> tile.getType().equals(TileType.TREASURE));
-        assertTrue(containsTile);*/
         int occurrences = (int) grid.stream().filter(tile -> tile.getType().equals(TileType.TREASURE)).count();
         assertEquals(1, occurrences);
     }

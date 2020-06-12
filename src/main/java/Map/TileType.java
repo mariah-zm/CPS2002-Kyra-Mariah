@@ -1,3 +1,5 @@
+package Map;
+
 public enum TileType {
     GRASS("grass"),
     WATER("water"),

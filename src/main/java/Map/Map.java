@@ -1,22 +1,13 @@
-import java.util.Random;
+package Map;
 
-public class Map {
+import Direction.Direction;
+import Position.Position;
 
-    //singleton instance
-    private static Map instance = null;
-
-    private int size;
-    private Tile[][] grid;
-
-    //class constructor
-    private Map(){
-    }
-
-    public static Map getInstance(){
-        if(instance == null) instance = new Map();
-
-        return instance;
-    }
+public abstract class Map {
+    protected int size = 0;
+    protected Tile[][] grid;
+    //map singleton
+    protected static Map map = null;
 
     //setter with validation
     public boolean setSize(int size, int players) {
@@ -47,30 +38,11 @@ public class Map {
         return grid;
     }
 
-    //filling the grid elements with tile types
-    public void generate() {
-        this.grid = new Tile[size][size];
 
-        //Setting the Treasure tile
-        Random rnd = new Random();
-        int treasureX = rnd.nextInt(this.size);
-        int treasureY = rnd.nextInt(this.size);
-
-        this.grid[treasureX][treasureY] = new Tile(TileType.TREASURE, new Position(treasureX, treasureY));
-
-        //Setting number of grass tiles
-        int numOfGrassTiles = (int) ((size * size) * 0.80) - 1;
-
-        //Setting the Grass tiles
-        setGrass(treasureX, treasureY, numOfGrassTiles);
-
-        //Setting the remaining empty tiles as Water tiles
-        setWater();
-    }
 
     //setting a number of tile types as grass
     //includes path validation
-    private void setGrass(int tX, int tY, int num) {
+    public void setGrass(int tX, int tY, int num) {
         //variable to store position of tiles to be set as grass
         int x = tX;
         int y = tY;
@@ -120,7 +92,7 @@ public class Map {
     }
 
     //setting the remaining tiles as water tiles
-    private void setWater() {
+    public void setWater() {
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 if (grid[x][y] == null) {
@@ -139,5 +111,8 @@ public class Map {
     public boolean isLegal(int x, int y){
         return x >= 0 && x < size && y >= 0 && y < size;
     }
+
+    public abstract void generate();
+
 
 }

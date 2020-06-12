@@ -1,3 +1,5 @@
+package Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,9 +10,9 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class MapTest{
+public class AbstractMapTest {
 
-    Map map = Map.getInstance();
+    Map map = HazardMap.getInstance();
     List<Tile> grid;
 
     @Before
@@ -29,8 +31,6 @@ public class MapTest{
         map = null;
         grid = null;
     }
-
-    //test for size getter and setter
     @Test
     public void getSize(){
         assertEquals(25, map.getSize());
@@ -74,32 +74,14 @@ public class MapTest{
         boolean containsNull = (grid.contains(null)) && (map.getGrid() != null);
         assertFalse(containsNull);
     }
-
-    //testing that the map contains one and only one treasure tile
     @Test
     public void treasureTile(){
         int occurrences = (int) grid.stream().filter(tile -> tile.getType().equals(TileType.TREASURE)).count();
         assertEquals(1, occurrences);
     }
 
-    //testing number of grass tiles
-    @Test
-    public void numberOfGrassTiles(){
-        int occurrences = (int) grid.stream().filter(tile -> tile.getType().equals(TileType.GRASS)).count();
-        int expected = (int) (grid.size()*0.80)-1;
-        assertEquals(expected, occurrences);
-    }
-
-    //testing number of water tiles
-    @Test
-    public void numberOfWaterTiles(){
-        int occurrences = (int) grid.stream().filter(tile -> tile.getType().equals(TileType.WATER)).count();
-        int expected = grid.size() - (int) (grid.size()*0.80);
-        assertEquals(expected, occurrences);
-    }
 
     //testing that tiles surrounding treasure tile are not all water tiles
-    @Test
     public void reachable(){
         int x=0, y=0; //coordinates of treasure tile
 
@@ -123,7 +105,7 @@ public class MapTest{
         if(map.isLegal(x,y+1)) surroundingTiles.add(map.getTile(x,y+1));
         if(map.isLegal(x,y-1)) surroundingTiles.add(map.getTile(x,y-1));
 
-        //asserting that at least one is a Grass Tile
+        //asserting that at least one is a Grass Map.Tile
         boolean notAllWater = surroundingTiles.stream().anyMatch(tile -> tile.getType().equals(TileType.GRASS));
         assertTrue(notAllWater);
     }

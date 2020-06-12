@@ -1,3 +1,4 @@
+import Map.SafeMap;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -16,8 +17,9 @@ public class GameTest {
     @Before
     public void setUp(){
         this.game = new Game();
-        game.map.setSize(10, 5);
-        game.map.generate();
+        Game.map = SafeMap.getInstance();
+        Game.map.setSize(10, 5);
+        Game.map.generate();
     }
 
     @After

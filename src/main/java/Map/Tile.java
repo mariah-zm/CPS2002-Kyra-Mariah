@@ -1,3 +1,7 @@
+package Map;
+
+import Position.Position;
+
 public class Tile {
 
     private TileType type;

@@ -1,4 +1,6 @@
 
+import Map.Map;
+import Map.SafeMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +40,7 @@ public class HTMLGeneratorTest {
     //ensuring gridHTML is returned and not null
     @Test
     public void gridHTML_NotNullOrEmpty(){
-        Map map = Map.getInstance();
+        Map map = SafeMap.getInstance();
         map.setSize(10, 2);
         map.generate();
 

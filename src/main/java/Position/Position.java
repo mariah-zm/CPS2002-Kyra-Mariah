@@ -1,3 +1,5 @@
+package Position;
+
 public class Position {
 
     private int x; //x-coordinate

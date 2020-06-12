@@ -1,3 +1,6 @@
+import Map.Map;
+import Map.Tile;
+import Map.TileType;
 public class HTMLGenerator {
 
     //contains html for page header, background, instruction bar, and the map
@@ -98,7 +101,7 @@ public class HTMLGenerator {
                 }
 
                 /*if the tile is a treasure tile, an icon will be added to the cell
-                if (current.getType() == TileType.TREASURE) {
+                if (current.getType() == Map.TileType.TREASURE) {
                     if (player.getDiscoveredTiles().contains(current)) {
                         html.append("<p>&#128176;</p>");
                     }

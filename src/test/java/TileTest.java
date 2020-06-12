@@ -1,3 +1,6 @@
+import Map.Tile;
+import Map.TileType;
+import Position.Position;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

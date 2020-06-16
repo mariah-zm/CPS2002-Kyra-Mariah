@@ -1,16 +1,24 @@
+package Game;
+
 import Direction.Direction;
+import HTML.HTMLGenerator;
 import Map.*;
+import Map.Map;
+import Team.Player;
+import Team.PlayerStatus;
+import Team.Team;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Game {
 
     public Player [] players;
+    public Team[] teams;
+    public int numberofTeams =0;
     public List<Integer> winners = new ArrayList<>();
-    static Map map;
+    public static Map map;
 
     HTMLGenerator generator = new HTMLGenerator();
     public File[] htmlFiles = null;
@@ -38,6 +46,23 @@ public class Game {
         }
     }
 
+    public void teamFormation(){
+        //randomly reordering players
+        Collections.shuffle(Arrays.asList(players));
+        //creating teams
+        teams = new Team[numberofTeams];
+        for(int i =0; i<numberofTeams; i++){
+            teams[i]= new Team(i+1);
+        }
+        //assigning a team to each player
+        int teamNo=0;
+        for(Player player: players){
+            player.addToTeam(teams[teamNo]);
+            teamNo++;
+            teamNo = teamNo % numberofTeams;
+
+        }
+    }
     //generating the html files for each player
     public void generateHTML() throws IOException {
         //gets the user directory
@@ -81,13 +106,13 @@ public class Game {
 
     //printing the list of winner
     public String listOfWinners() {
-        StringBuilder listOfWinners = new StringBuilder("Player " + winners.get(0));
+        StringBuilder listOfWinners = new StringBuilder("Team.Player " + winners.get(0));
 
         for (int i = 1; i < winners.size(); i++) {
             if (i + 1 == winners.size()) {
-                listOfWinners.append(" and Player ").append(winners.get(i));
+                listOfWinners.append(" and Team.Player ").append(winners.get(i));
             } else {
-                listOfWinners.append(", Player ").append(winners.get(i));
+                listOfWinners.append(", Team.Player ").append(winners.get(i));
             }
         }
         return "GAME OVER!\nCongratulations " + listOfWinners + ", you win the game!";
@@ -169,7 +194,7 @@ public class Game {
             game.createPlayers();
             game.generateHTML();
 
-            System.out.println("\n\nLaunching Game...\n");
+            System.out.println("\n\nLaunching Game.Game...\n");
 
             //opening html files for all players
             for(int f=0; f<game.htmlFiles.length; f++){
@@ -180,7 +205,7 @@ public class Game {
                 //getting players' moves
                 for (int i = 0; i < game.players.length; ++i) {
                     System.out.println("\n*\t*\t*\t*\t*\t*\t*\t*\n");
-                    System.out.println("Player " + (i + 1));
+                    System.out.println("Team.Player " + (i + 1));
                     do {
                         System.out.println("Enter direction (U,D,R,L):");
                         moveInput = scanner.next();

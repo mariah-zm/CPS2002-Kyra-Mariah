@@ -81,6 +81,7 @@ public class AbstractMapTest {
     }
 
 
+
     //testing that tiles surrounding treasure tile are not all water tiles
     public void reachable(){
         int x=0, y=0; //coordinates of treasure tile

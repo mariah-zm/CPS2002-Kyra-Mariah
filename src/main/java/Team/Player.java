@@ -1,12 +1,15 @@
+package Team;
+
 import Direction.Direction;
 import Position.Position;
 import Map.*;
+import Game.Game;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Player {
+public class Player extends Observer {
 
     private Position initial; //will store the randomly generated initial position
     private Position current; //the player's position that will change throughout the game
@@ -53,6 +56,13 @@ public class Player {
         }
         return false;
     }
+
+    public void addToTeam(Team team){
+        //assigning this team as this player's subject
+        this.subject = team;
+        observers.add(this);
+    }
+
 
     public boolean move(Direction direction) {
         //temporary variables to validate move
@@ -121,4 +131,15 @@ public class Player {
     public List<Tile> getDiscoveredTiles() {
         return discoveredTiles;
     }
+
+    @Override
+    public void update() {
+        //exposing tiles for all players in a certain team
+        Map map = Game.map;
+        Position discoveredPos = this.subject.getSubjectPosition();
+        Tile discoveredTile = map.getTile(discoveredPos.getX(),discoveredPos.getY());
+        this.discoveredTiles.add(discoveredTile);
+    }
+
+
 }

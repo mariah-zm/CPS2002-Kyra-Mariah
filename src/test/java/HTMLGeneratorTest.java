@@ -1,6 +1,9 @@
 
+import HTML.HTMLGenerator;
 import Map.Map;
 import Map.SafeMap;
+import Team.Player;
+import Team.PlayerStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +36,7 @@ public class HTMLGeneratorTest {
     @Test
     public void headerHTML_ContainsPlayerNumber(){
         String html = generator.headerHTML(1);
-        String playerNumber = "Player 1";
+        String playerNumber = "Team.Player 1";
         assertTrue(html.contains(playerNumber));
     }
 

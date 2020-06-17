@@ -68,7 +68,7 @@ public class HTMLGenerator {
                 "<table style=\"border:1px solid black;margin-left:auto;margin-right:auto;\">\n" +
                 "<div class=\"header\">\n" +
                 "  <h1>FIND THE HIDDEN TREASURE</h1>\n" +
-                "<h2>Team.Player " + i + "</h2>\n<h3>Reload the page to see your updated moves<h3>";
+                "<h2>Player " + i + "</h2>\n<h3>Reload the page to see your updated moves<h3>";
     }
 
     public String gridHTML(Player player){

@@ -156,7 +156,7 @@ public class GameTest {
         game.winners.add(1);
 
         String result = game.listOfWinners();
-        assertTrue(result.contains("Team.Player 1"));
+        assertTrue(result.contains("Player 1"));
     }
 
     //testing that the correct list of winners is returned - 2 winners
@@ -166,7 +166,7 @@ public class GameTest {
         game.winners.add(2);
 
         String result = game.listOfWinners();
-        assertTrue(result.contains("Team.Player 1 and Team.Player 2"));
+        assertTrue(result.contains("Player 1 and Player 2"));
     }
 
     //testing that the correct list of winners is returned - 3 winners
@@ -177,6 +177,6 @@ public class GameTest {
         game.winners.add(3);
 
         String result = game.listOfWinners();
-        assertTrue(result.contains("Team.Player 1, Team.Player 2 and Team.Player 3"));
+        assertTrue(result.contains("Player 1, Player 2 and Player 3"));
     }
 }

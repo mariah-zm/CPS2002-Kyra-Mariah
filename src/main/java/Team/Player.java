@@ -16,13 +16,16 @@ public class Player extends Observer {
     private Map map; //holds a reference to the singleton instance
     private PlayerStatus status;
     private List<Tile> discoveredTiles;
+    public int ID;
+
 
     //class constructor
-    public Player(Map map) {
+    public Player(Map map, int ID) {
         this.map = map;
         this.initial = setInitial();
         this.current = new Position(this.initial.getX(),this.initial.getY()); //this will start off as initial
         this.status = PlayerStatus.SAFE;
+        this.ID = ID;
 
         this.discoveredTiles = new ArrayList<>();
         discoveredTiles.add(map.getTile(initial.getX(), initial.getY()));
@@ -60,7 +63,7 @@ public class Player extends Observer {
     public void addToTeam(Team team){
         //assigning this team as this player's subject
         this.subject = team;
-        observers.add(this);
+        this.subject.observers.add(this);
     }
 
 
@@ -121,6 +124,9 @@ public class Player extends Observer {
     public PlayerStatus getStatus(){
         return status;
     }
+
+    public int getID(){ return ID;}
+
 
     //setter for status
     public void setStatus(TileType type) {

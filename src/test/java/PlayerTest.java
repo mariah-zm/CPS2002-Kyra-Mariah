@@ -19,7 +19,7 @@ public class PlayerTest {
     public void setUp() {
         map.setSize(10, 5);
         map.generate();
-        player = new Player(map);
+        player = new Player(map, 1);
         test_position = new Position(2,2);
     }
 

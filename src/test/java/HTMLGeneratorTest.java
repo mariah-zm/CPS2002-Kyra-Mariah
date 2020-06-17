@@ -36,7 +36,7 @@ public class HTMLGeneratorTest {
     @Test
     public void headerHTML_ContainsPlayerNumber(){
         String html = generator.headerHTML(1);
-        String playerNumber = "Team.Player 1";
+        String playerNumber = "Player 1";
         assertTrue(html.contains(playerNumber));
     }
 
@@ -47,7 +47,7 @@ public class HTMLGeneratorTest {
         map.setSize(10, 2);
         map.generate();
 
-        Player player = new Player(map);
+        Player player = new Player(map,1);
         String html = generator.gridHTML(player);
         assertNotNull(html);
         assertFalse(html.isEmpty());

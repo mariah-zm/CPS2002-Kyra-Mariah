@@ -6,7 +6,7 @@ import Map.*;
 import Map.Map;
 import Team.Player;
 import Team.PlayerStatus;
-import Team.Team;
+import Team.*;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 import java.io.*;
@@ -15,7 +15,6 @@ import java.util.*;
 public class Game {
 
     public Player [] players;
-    public Team[] teams;
     public int numberofTeams =0;
     public List<Integer> winners = new ArrayList<>();
     public static Map map;
@@ -42,26 +41,25 @@ public class Game {
     //creating the players - passing a new object of Map.Map
     public void createPlayers(){
         for(int i =0; i<players.length; ++i){
-            players[i] = new Player(map);
+            players[i] = new Player(map, i+1);
         }
     }
 
-    public void teamFormation(){
+    public List<Team> teamFormation(){
         //randomly reordering players
         Collections.shuffle(Arrays.asList(players));
-        //creating teams
-        teams = new Team[numberofTeams];
-        for(int i =0; i<numberofTeams; i++){
-            teams[i]= new Team(i+1);
+        List<Team> teams = new ArrayList<>();
+        for (int i = 0; i < numberofTeams; i++) {
+            teams.add(new Team(i));
         }
-        //assigning a team to each player
-        int teamNo=0;
-        for(Player player: players){
-            player.addToTeam(teams[teamNo]);
-            teamNo++;
-            teamNo = teamNo % numberofTeams;
-
+        // assigning players to teams
+        int j = 0;
+        for (Player player : players) {
+            player.addToTeam(teams.get(j));
+            j = (j + 1) % teams.size();
         }
+        displayTeams(teams);
+        return teams;
     }
     //generating the html files for each player
     public void generateHTML() throws IOException {
@@ -106,23 +104,154 @@ public class Game {
 
     //printing the list of winner
     public String listOfWinners() {
-        StringBuilder listOfWinners = new StringBuilder("Team.Player " + winners.get(0));
+        StringBuilder listOfWinners = new StringBuilder(" Player " + winners.get(0));
 
         for (int i = 1; i < winners.size(); i++) {
             if (i + 1 == winners.size()) {
-                listOfWinners.append(" and Team.Player ").append(winners.get(i));
+                listOfWinners.append(" and Player ").append(winners.get(i));
             } else {
-                listOfWinners.append(", Team.Player ").append(winners.get(i));
+                listOfWinners.append(", Player ").append(winners.get(i));
             }
         }
         return "GAME OVER!\nCongratulations " + listOfWinners + ", you win the game!";
     }
+
+    public boolean acceptNumTeams(){
+        Scanner scanner = new Scanner(System.in);
+        boolean inputAccepted;
+        do {
+            System.out.println("Enter number of teams:");
+            if (scanner.hasNextInt()) {
+                numberofTeams = scanner.nextInt();
+                inputAccepted = true;
+            } else {
+                scanner.nextLine();
+                System.out.println("Not an integer!");
+                inputAccepted = false;
+            }
+            if(numberofTeams <2){
+                System.out.println("Number of teams must be at least 2.");
+                inputAccepted = false;
+            }
+        }while (!inputAccepted);
+        return true;
+    }
+
+    public void displayTeams(List<Team> teams) {
+        for (int i = 0; i < teams.size(); i++) {
+            System.out.println("****************");
+            System.out.println("Team " + (i+1));
+           // List players = teams.get(i).getObservers();
+            for (Object player : teams.get(i).getObservers())
+                System.out.println("Player " + ((Player) player).getID());
+        }
+        System.out.println("* * * * * * * * * * * *");
+
+
+    }
+
+    public void collabGameLoop()throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        //variables to control movement logic
+        Direction move;
+        String moveInput;
+        //variables to control when game ends
+        boolean isGameWon = false;
+        boolean inputAccepted;
+
+        List<Team> teams = teamFormation();
+        do {
+         for(Team team : teams) {
+             Player currentPlayer = (Player) team.currentPlayer();
+             do {
+                 System.out.println("Team "+ team.getTeamNo() +": Player "+ currentPlayer.getID());
+                 System.out.println("Enter direction (U,D,R,L):");
+                 moveInput = scanner.next();
+                 //getting corresponding direction
+                 move = Direction.getDirection(moveInput.charAt(0));
+
+                 //direction validation
+                 if (move == null) {
+                     System.out.println("Please enter a valid direction.");
+                     inputAccepted = false;
+                 } else {
+                     if (currentPlayer.move(move)) {
+                         inputAccepted = true;
+                         //if treasure tile is found by the player, game ends
+                         if (currentPlayer.getStatus() == PlayerStatus.WINS) {
+                             if (!isGameWon) isGameWon = true;
+                             winners.add(currentPlayer.getID());
+                         }
+                         if (currentPlayer.getStatus() == PlayerStatus.DEAD) {
+                             currentPlayer.setPosition(currentPlayer.getInitial());
+                         }
+                     } else {
+                         inputAccepted = false;
+                     }
+                 }
+
+             } while (!inputAccepted);
+             team.setNextPlayer();
+         } generateHTML();
+        } while (!isGameWon);
+    }
+
+
+
+    public void soloGameLoop() throws IOException {
+
+        Scanner scanner = new Scanner(System.in);
+        //variables to control movement logic
+        Direction move;
+        String moveInput;
+        //variables to control when game ends
+        boolean isGameWon = false;
+        boolean inputAccepted;
+
+        do {
+            //getting players' moves
+            for (int i = 0; i < players.length; ++i) {
+                System.out.println("\n*\t*\t*\t*\t*\t*\t*\t*\n");
+                System.out.println("Player " + (i + 1));
+                do {
+                    System.out.println("Enter direction (U,D,R,L):");
+                    moveInput = scanner.next();
+                    //getting corresponding direction
+                    move = Direction.getDirection(moveInput.charAt(0));
+
+                    //direction validation
+                    if (move == null) {
+                        System.out.println("Please enter a valid direction.");
+                        inputAccepted = false;
+                    } else {
+                        if (players[i].move(move)) {
+                            inputAccepted = true;
+
+                            //if treasure tile is found by the player, game ends
+                            if (players[i].getStatus() == PlayerStatus.WINS) {
+                                if (!isGameWon) isGameWon = true;
+                                winners.add(i + 1);
+                            }
+                            if (players[i].getStatus() == PlayerStatus.DEAD) {
+                                players[i].setPosition(players[i].getInitial());
+                            }
+                        } else {
+                            inputAccepted = false;
+                        }
+                    }
+                } while (!inputAccepted);
+            }
+            generateHTML();
+        } while (!isGameWon);
+    }
+
 
     public static void main(String[] args){
         //starting the game
         Game game = new Game();
         Scanner scanner = new Scanner(System.in);
         MapMode mode;
+        boolean solo = false;
         //variables to control movement logic
         Direction move;
         String moveInput;
@@ -134,13 +263,40 @@ public class Game {
             boolean inputAccepted;
             int size, playerCount = 0;
 
+            do {
+                System.out.println("Enter game mode: (1)Solo or (2)Collaborative");
+                if (scanner.hasNextInt()) {
+                    int choice = scanner.nextInt();
+                    if(choice == 1 || choice ==2){
+                        if(choice ==1){
+                            solo = true;
+                        }else {
+                           game.acceptNumTeams();
+                           solo=false;
+                        }
+                        inputAccepted = true;
+                    }else {
+                        scanner.nextLine();
+                        System.out.println("Integer out of range!");
+                        inputAccepted = false;
+                    }
+                } else {
+                    scanner.nextLine();
+                    System.out.println("Not an integer!");
+                    inputAccepted = false;
+                }
+            }while (!inputAccepted);
             //validating number of players
             do {
                 System.out.println("Enter number of players: ");
                 if (scanner.hasNextInt()) {
                     playerCount = scanner.nextInt();
                     inputAccepted = game.setNumPlayers(playerCount);
-                } else {
+                    if (playerCount < game.numberofTeams) {
+                        System.out.println("Game cannot have more teams than players.");
+                        inputAccepted = false;
+                    }
+                }else {
                     scanner.nextLine();
                     System.out.println("Not an integer!");
                     inputAccepted = false;
@@ -194,50 +350,18 @@ public class Game {
             game.createPlayers();
             game.generateHTML();
 
-            System.out.println("\n\nLaunching Game.Game...\n");
+            System.out.println("\n\nLaunching Game...\n");
 
             //opening html files for all players
             for(int f=0; f<game.htmlFiles.length; f++){
                 game.openHTML(game.htmlFiles[f].getPath());
             }
 
-            do {
-                //getting players' moves
-                for (int i = 0; i < game.players.length; ++i) {
-                    System.out.println("\n*\t*\t*\t*\t*\t*\t*\t*\n");
-                    System.out.println("Team.Player " + (i + 1));
-                    do {
-                        System.out.println("Enter direction (U,D,R,L):");
-                        moveInput = scanner.next();
-                        //getting corresponding direction
-                        move = Direction.getDirection(moveInput.charAt(0));
-
-                        //direction validation
-                        if(move == null){
-                            System.out.println("Please enter a valid direction.");
-                            inputAccepted = false;
-                        }
-                        else{
-                            if(game.players[i].move(move)){
-                                inputAccepted = true;
-
-                                //if treasure tile is found by the player, game ends
-                                if(game.players[i].getStatus() == PlayerStatus.WINS){
-                                    if (!isGameWon) isGameWon = true;
-                                    game.winners.add(i+1);
-                                }
-                                if(game.players[i].getStatus() == PlayerStatus.DEAD){
-                                    game.players[i].setPosition(game.players[i].getInitial());
-                                }
-                            }
-                            else{
-                                inputAccepted = false;
-                            }
-                        }
-                    }while(!inputAccepted);
-                }
-                game.generateHTML();
-            }while(!isGameWon);
+            if(!solo) {
+                game.collabGameLoop();
+            }else {
+                game.soloGameLoop();
+            }
 
             System.out.println(game.listOfWinners());
 

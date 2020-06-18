@@ -123,9 +123,9 @@ public class Game {
             } while (!inputAccepted);
 
             //validating map type
-            int type = 0;
+            int type;
             do {
-                System.out.println("Enter map type: (1)Safe or (2)Hazardous");
+                System.out.println("Enter map type:\n(1) Safe \n(2) Hazardous");
                 if (scanner.hasNextInt()) {
                     type = scanner.nextInt();
                     if(type == 1 || type ==2){

@@ -1,3 +1,5 @@
+package Team;
+
 import Direction.Direction;
 import Map.*;
 import Position.Position;

@@ -1,3 +1,5 @@
+package Position;
+
 import Position.Position;
 import org.junit.After;
 import org.junit.Before;

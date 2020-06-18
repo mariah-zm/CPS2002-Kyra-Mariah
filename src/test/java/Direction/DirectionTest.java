@@ -1,3 +1,5 @@
+package Direction;
+
 import Direction.Direction;
 import org.junit.After;
 import org.junit.Before;

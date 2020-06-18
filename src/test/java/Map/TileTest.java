@@ -1,3 +1,5 @@
+package Map;
+
 import Map.Tile;
 import Map.TileType;
 import Position.Position;

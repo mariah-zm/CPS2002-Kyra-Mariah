@@ -1,3 +1,5 @@
+package Team;
+
 import Map.TileType;
 import Team.PlayerStatus;
 import org.junit.Test;

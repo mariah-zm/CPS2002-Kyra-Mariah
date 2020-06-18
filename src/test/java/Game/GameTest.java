@@ -1,3 +1,5 @@
+package Game;
+
 import Game.Game;
 import Map.SafeMap;
 import org.apache.commons.lang.StringUtils;

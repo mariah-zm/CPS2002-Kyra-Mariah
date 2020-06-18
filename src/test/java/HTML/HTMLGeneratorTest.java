@@ -1,3 +1,4 @@
+package HTML;
 
 import HTML.HTMLGenerator;
 import Map.Map;
@@ -74,5 +75,5 @@ public class HTMLGeneratorTest {
         assertEquals(message, generator.moveMessage(status));
     }
 
-    //all other methods are tested in GameTest
+    //all other methods are tested in Game.GameTest
 }

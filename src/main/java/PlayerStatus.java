@@ -1,3 +1,5 @@
+import Map.*;
+
 public enum PlayerStatus {
     DEAD(TileType.WATER),
     WINS(TileType.TREASURE),

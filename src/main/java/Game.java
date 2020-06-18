@@ -1,3 +1,6 @@
+import Direction.Direction;
+import Map.*;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +10,7 @@ public class Game {
 
     public Player [] players;
     public List<Integer> winners = new ArrayList<>();
-    public Map map = Map.getInstance();
+    static Map map;
 
     HTMLGenerator generator = new HTMLGenerator();
     public File[] htmlFiles = null;
@@ -28,7 +31,7 @@ public class Game {
         return true;
     }
 
-    //creating the players - passing a new object of Map
+    //creating the players - passing a new object of Map.Map
     public void createPlayers(){
         for(int i =0; i<players.length; ++i){
             players[i] = new Player(map);
@@ -94,6 +97,7 @@ public class Game {
         //starting the game
         Game game = new Game();
         Scanner scanner = new Scanner(System.in);
+        MapMode mode;
         //variables to control movement logic
         Direction move;
         String moveInput;
@@ -118,12 +122,39 @@ public class Game {
                 }
             } while (!inputAccepted);
 
+            //validating map type
+            int type;
+            do {
+                System.out.println("Enter map type:\n(1) Safe \n(2) Hazardous");
+                if (scanner.hasNextInt()) {
+                    type = scanner.nextInt();
+                    if(type == 1 || type ==2){
+                        if(type ==1){
+                            mode = MapMode.SAFE;
+                        }else {
+                            mode = MapMode.HAZARDOUS;
+                        }
+                        //initialising the map with selected mode
+                        map = MapFactory.getMap(mode);
+                        inputAccepted = true;
+                    }else {
+                        scanner.nextLine();
+                        System.out.println("Integer out of range!");
+                        inputAccepted = false;
+                    }
+                } else {
+                    scanner.nextLine();
+                    System.out.println("Not an integer!");
+                    inputAccepted = false;
+                }
+            }while (!inputAccepted);
+
             //validating map size
             do {
                 System.out.println("Enter map size: ");
                 if (scanner.hasNextInt()) {
                     size = scanner.nextInt();
-                    inputAccepted = game.map.setSize(size, playerCount);
+                    inputAccepted = map.setSize(size, playerCount);
                 } else {
                     scanner.nextLine();
                     System.out.println("Not an integer!");
@@ -131,8 +162,8 @@ public class Game {
                 }
             } while (!inputAccepted);
 
-            //generating the map with tiles
-            game.map.generate();
+            //generating the map with tiles according to the map mode
+            map.generate();
 
             //initialising players array
             game.createPlayers();

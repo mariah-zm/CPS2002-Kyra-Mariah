@@ -1,10 +1,7 @@
-package Team;
+package Player;
 
 import Direction.Direction;
 import Map.*;
-import Position.Position;
-import Team.Player;
-import Team.PlayerStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

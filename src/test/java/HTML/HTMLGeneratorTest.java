@@ -1,10 +1,9 @@
 package HTML;
 
-import HTML.HTMLGenerator;
 import Map.Map;
 import Map.SafeMap;
-import Team.Player;
-import Team.PlayerStatus;
+import Player.Player;
+import Player.PlayerStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

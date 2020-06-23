@@ -1,33 +1,31 @@
 package Team;
 
+//Concrete Subject of Observer DP
 public class Team extends Subject{
 
-    private int teamNo;
-    public int playerTurn =0;
+    //Team ID
+    private int teamNum;
+    //The index of current player
+    public int playerTurn = 0;
 
+    //Class Constructor
     public Team(int teamNo) {
-        this.teamNo = teamNo;
+        this.teamNum = teamNo;
     }
 
-    public int getTeamNo(){
-        return teamNo+1;
+    public int getTeamNum(){
+        return teamNum+1;
     }
+
+    //Gives turn to following player in the Observers list
     public void setNextPlayer(){
-        //resetting counter once all players have played
+        //The counter is reset once all players have played
         this.playerTurn = (this.playerTurn + 1) % this.observers.size();
-/*
-        if(this.observers.size() == this.playerTurn){
-            this.playerTurn =0;
-        }
-        this.playerTurn++;*/
     }
 
+    //Returns current Player
     public Observer currentPlayer(){
         return this.observers.get(playerTurn);
     }
-
-
-
-
 
 }

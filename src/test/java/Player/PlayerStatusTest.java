@@ -1,7 +1,7 @@
-package Team;
+package Player;
 
 import Map.TileType;
-import Team.PlayerStatus;
+import Player.PlayerStatus;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

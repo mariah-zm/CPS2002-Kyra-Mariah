@@ -1,4 +1,4 @@
-package Team;
+package Player;
 
 import Map.*;
 

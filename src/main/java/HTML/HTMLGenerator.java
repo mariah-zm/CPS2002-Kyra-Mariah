@@ -3,8 +3,8 @@ package HTML;
 import Map.Map;
 import Map.Tile;
 import Map.TileType;
-import Team.Player;
-import Team.PlayerStatus;
+import Player.Player;
+import Player.PlayerStatus;
 
 public class HTMLGenerator {
 

@@ -4,8 +4,8 @@ import Direction.Direction;
 import HTML.HTMLGenerator;
 import Map.*;
 import Map.Map;
-import Team.Player;
-import Team.PlayerStatus;
+import Player.Player;
+import Player.PlayerStatus;
 import Team.*;
 import edu.emory.mathcs.backport.java.util.Collections;
 
@@ -15,7 +15,7 @@ import java.util.*;
 public class Game {
 
     public Player [] players;
-    public int numberofTeams =0;
+    public int numOfTeams =0;
     public List<Integer> winners = new ArrayList<>();
     public static Map map;
 
@@ -45,22 +45,26 @@ public class Game {
         }
     }
 
+    //Creating Teams
     public List<Team> teamFormation(){
-        //randomly reordering players
+        //Randomly reordering players
         Collections.shuffle(Arrays.asList(players));
         List<Team> teams = new ArrayList<>();
-        for (int i = 0; i < numberofTeams; i++) {
+        for (int i = 0; i < numOfTeams; i++) {
             teams.add(new Team(i));
         }
-        // assigning players to teams
+
+        //Assigning players to teams
         int j = 0;
         for (Player player : players) {
             player.addToTeam(teams.get(j));
             j = (j + 1) % teams.size();
         }
+
         displayTeams(teams);
         return teams;
     }
+
     //generating the html files for each player
     public void generateHTML() throws IOException {
         //gets the user directory
@@ -116,20 +120,22 @@ public class Game {
         return "GAME OVER!\nCongratulations " + listOfWinners + ", you win the game!";
     }
 
+    //Returns winning team
+
     public boolean acceptNumTeams(){
         Scanner scanner = new Scanner(System.in);
         boolean inputAccepted;
         do {
             System.out.println("Enter number of teams:");
             if (scanner.hasNextInt()) {
-                numberofTeams = scanner.nextInt();
+                numOfTeams = scanner.nextInt();
                 inputAccepted = true;
             } else {
                 scanner.nextLine();
                 System.out.println("Not an integer!");
                 inputAccepted = false;
             }
-            if(numberofTeams <2){
+            if(numOfTeams <2){
                 System.out.println("Number of teams must be at least 2.");
                 inputAccepted = false;
             }
@@ -146,8 +152,6 @@ public class Game {
                 System.out.println("Player " + ((Player) player).getID());
         }
         System.out.println("* * * * * * * * * * * *");
-
-
     }
 
     public void collabGameLoop()throws IOException {
@@ -164,7 +168,7 @@ public class Game {
          for(Team team : teams) {
              Player currentPlayer = (Player) team.currentPlayer();
              do {
-                 System.out.println("Team "+ team.getTeamNo() +": Player "+ currentPlayer.getID());
+                 System.out.println("Team " + team.getTeamNum() + ": Player " + currentPlayer.getID());
                  System.out.println("Enter direction (U,D,R,L):");
                  moveInput = scanner.next();
                  //getting corresponding direction
@@ -196,10 +200,7 @@ public class Game {
         } while (!isGameWon);
     }
 
-
-
     public void soloGameLoop() throws IOException {
-
         Scanner scanner = new Scanner(System.in);
         //variables to control movement logic
         Direction move;
@@ -245,30 +246,25 @@ public class Game {
         } while (!isGameWon);
     }
 
-
     public static void main(String[] args){
         //starting the game
         Game game = new Game();
+
         Scanner scanner = new Scanner(System.in);
         MapMode mode;
         boolean solo = false;
-        //variables to control movement logic
-        Direction move;
-        String moveInput;
-        //variables to control when game ends
-        boolean isGameWon = false;
 
         try{
-            //variables for user input for map size and number of players
+            //Variables for user input for map size and number of players
             boolean inputAccepted;
             int size, playerCount = 0;
 
             do {
-                System.out.println("Enter game mode: (1)Solo or (2)Collaborative");
+                System.out.println("Enter game mode:\n(1) Solo or \n(2) Collaborative");
                 if (scanner.hasNextInt()) {
                     int choice = scanner.nextInt();
-                    if(choice == 1 || choice ==2){
-                        if(choice ==1){
+                    if(choice == 1 || choice == 2){
+                        if(choice == 1){
                             solo = true;
                         }else {
                            game.acceptNumTeams();
@@ -277,22 +273,23 @@ public class Game {
                         inputAccepted = true;
                     }else {
                         scanner.nextLine();
-                        System.out.println("Integer out of range!");
+                        System.out.println("Invalid input.");
                         inputAccepted = false;
                     }
                 } else {
                     scanner.nextLine();
-                    System.out.println("Not an integer!");
+                    System.out.println("Invalid input.");
                     inputAccepted = false;
                 }
             }while (!inputAccepted);
+
             //validating number of players
             do {
                 System.out.println("Enter number of players: ");
                 if (scanner.hasNextInt()) {
                     playerCount = scanner.nextInt();
                     inputAccepted = game.setNumPlayers(playerCount);
-                    if (playerCount < game.numberofTeams) {
+                    if (playerCount < game.numOfTeams) {
                         System.out.println("Game cannot have more teams than players.");
                         inputAccepted = false;
                     }
@@ -304,13 +301,13 @@ public class Game {
             } while (!inputAccepted);
 
             //validating map type
-            int type = 0;
+            int mapType;
             do {
                 System.out.println("Enter map type: (1)Safe or (2)Hazardous");
                 if (scanner.hasNextInt()) {
-                    type = scanner.nextInt();
-                    if(type == 1 || type ==2){
-                        if(type ==1){
+                    mapType = scanner.nextInt();
+                    if(mapType == 1 || mapType == 2){
+                        if(mapType ==1){
                             mode = MapMode.SAFE;
                         }else {
                             mode = MapMode.HAZARDOUS;

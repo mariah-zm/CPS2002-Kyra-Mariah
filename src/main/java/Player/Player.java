@@ -1,25 +1,26 @@
-package Team;
+package Player;
 
 import Direction.Direction;
-import Position.Position;
 import Map.*;
 import Game.Game;
+import Team.Observer;
+import Team.Team;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+//Concrete Observer of Observer DP
 public class Player extends Observer {
 
-    private Position initial; //will store the randomly generated initial position
-    private Position current; //the player's position that will change throughout the game
-    private Map map; //holds a reference to the singleton instance
-    private PlayerStatus status;
-    private List<Tile> discoveredTiles;
+    private Position initial; //Will store the randomly generated initial position
+    private Position current; //The player's position that will change throughout the game
+    private Map map; //Holds a reference to the singleton instance
+    private PlayerStatus status; //Player's status depends on last discovered tile
+    private List<Tile> discoveredTiles; //A list of tiles discovered by Player
     public int ID;
 
-
-    //class constructor
+    //Class constructor
     public Player(Map map, int ID) {
         this.map = map;
         this.initial = setInitial();
@@ -31,28 +32,28 @@ public class Player extends Observer {
         discoveredTiles.add(map.getTile(initial.getX(), initial.getY()));
     }
 
-    //setting random initial position
+    //Setting a valid random initial position
     public Position setInitial() {
         Random rand = new Random();
 
         int x, y;
-        //validating that the randomly generated position is a Grass tile
-        do {  //generating a random position
+        //Validating that the randomly generated position is a Grass tile
+        do {  //Generating a random position
             x = rand.nextInt(map.getSize());
             y = rand.nextInt(map.getSize());
         }while(map.getTile(x,y).getType() != TileType.GRASS);
 
-        //return once valid
+        //Return once valid
         return new Position(x, y);
     }
 
-    //checking if new coordinates are in map boundary
+    //Checking if new coordinates are in map boundary
     public boolean setPosition(Position p) {
         int x = p.getX();
         int y = p.getY();
 
         if (x >= 0 && x < map.getSize() && y >= 0 && y < map.getSize()) {
-            //if legal move, set new position
+            //If legal move, set new position
             this.current.setX(x);
             this.current.setY(y);
             return true;
@@ -60,19 +61,18 @@ public class Player extends Observer {
         return false;
     }
 
+    //Assigning Player to Team
     public void addToTeam(Team team){
-        //assigning this team as this player's subject
         this.subject = team;
-        this.subject.observers.add(this);
+        this.subject.registerObserver(this);
     }
 
-
     public boolean move(Direction direction) {
-        //temporary variables to validate move
+        //Temporary variables to validate move
         int X = current.getX();
         int Y = current.getY();
 
-        //setting new coordinates accordingly
+        //Setting new coordinates accordingly
         switch (direction) {
             case UP:
                 X -= 1; //x-coordinate moves up by 1
@@ -87,65 +87,70 @@ public class Player extends Observer {
                 Y -= 1; //y-coordinate moves left by 1
                 break;
             default:
-                //in the case of an invalid token the player does not move
+                //In the case of an invalid token the player does not move
                 return false;
         }
 
-        //validating move - checking if legal
+        //Validating move - checking if legal
         if (!setPosition(new Position(X, Y))){ //size will be obtained from map itself
             System.out.println("Illegal move.");
             return false;
         }
 
-        //adds discovered tile
-        discoveredTiles.add(map.getTile(X, Y));
+        //Adds discovered tile
+        addDiscoveredTile(map.getTile(X, Y));
 
-        //setting status according to discovered tile type
+        //Setting status according to discovered tile type
         setStatus(map.getTile(current.getX(),current.getY()).getType());
         return true;
     }
 
-    //getter for initial position
+    //Adds discovered tiles to list only if new
+    public void addDiscoveredTile(Tile tile){
+        if(!discoveredTiles.contains(tile)){
+            discoveredTiles.add(tile);
+        }
+    }
+
+    //Getter for initial position
     public Position getInitial(){
         return initial;
     }
 
-    //getter for current position
+    //Getter for current position
     public Position getCurrent(){
         return current;
     }
 
-    //getter for player's map
+    //Getter for Player's map
     public Map getMap(){
         return map;
     }
 
-    //getter for player's status
+    //Getter for Player's status
     public PlayerStatus getStatus(){
         return status;
     }
 
+    //Getter for Player ID
     public int getID(){ return ID;}
 
-
-    //setter for status
+    //Setter for status
     public void setStatus(TileType type) {
         status = PlayerStatus.getStatus(type);
     }
 
-    //getter for the list of tiles the player visited
+    //Getter for the list of tiles the player visited
     public List<Tile> getDiscoveredTiles() {
         return discoveredTiles;
     }
 
+    //Updating discoveredTiles list by adding tiles discovered by other Players
     @Override
     public void update() {
-        //exposing tiles for all players in a certain team
-        Map map = Game.map;
-        Position discoveredPos = this.subject.getSubjectPosition();
-        Tile discoveredTile = map.getTile(discoveredPos.getX(),discoveredPos.getY());
-        this.discoveredTiles.add(discoveredTile);
+        Position tilePosition = this.subject.getSubjectPosition();
+        Tile discoveredTile = map.getTile(tilePosition.getX(),tilePosition.getY());
+        addDiscoveredTile(discoveredTile);
     }
-
 
 }

@@ -1,4 +1,4 @@
-package Position;
+package Player;
 
 public class Position {
 

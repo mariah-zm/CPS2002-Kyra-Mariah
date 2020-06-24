@@ -1,6 +1,5 @@
 package Player;
 
-import Direction.Direction;
 import Map.Map;
 import Map.SafeMap;
 import Map.Tile;

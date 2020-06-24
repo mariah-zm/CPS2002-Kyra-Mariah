@@ -1,6 +1,5 @@
 package Player;
 
-import Direction.Direction;
 import Map.Map;
 import Map.Tile;
 import Map.TileType;
@@ -25,7 +24,7 @@ public class Player extends Observer {
     public Player(Map map, int ID) {
         this.map = map;
         this.initial = setInitial();
-        this.current = new Position(this.initial.getX(), this.initial.getY()); //this will start off as initial
+        this.current = new Position(this.initial.getX(), this.initial.getY()); //This will start off as initial
         this.status = PlayerStatus.SAFE;
         setPlayerID("Player " + ID);
 

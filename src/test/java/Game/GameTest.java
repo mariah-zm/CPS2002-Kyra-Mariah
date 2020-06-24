@@ -10,6 +10,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -211,59 +213,65 @@ public class GameTest {
 
     @Test
     public void listOfWinners_Player_1(){
-        game.winners.add("Player 1");
+        List<String> winners = new ArrayList<>();
+        winners.add("Player 1");
 
-        String result = game.listOfWinners();
+        String result = game.listOfWinners(winners);
         assertTrue(result.contains("Player 1"));
     }
 
     @Test
     public void listOfWinners_Player_2(){
-        game.winners.add("Player 1");
-        game.winners.add("Player 2");
+        List<String> winners = new ArrayList<>();
+        winners.add("Player 1");
+        winners.add("Player 2");
 
         String output = "Player 1 and Player 2";
-        String result = game.listOfWinners();
+        String result = game.listOfWinners(winners);
         assertTrue(result.contains(output));
     }
 
     @Test
     public void listOfWinners_Player_3(){
-        game.winners.add("Player 1");
-        game.winners.add("Player 2");
-        game.winners.add("Player 3");
+        List<String> winners = new ArrayList<>();
+        winners.add("Player 1");
+        winners.add("Player 2");
+        winners.add("Player 3");
 
         String output = "Player 1, Player 2 and Player 3";
-        String result = game.listOfWinners();
+        String result = game.listOfWinners(winners);
         assertTrue(result.contains(output));
     }
 
     @Test
     public void listOfWinners_Team_1(){
-        game.winners.add("Team 1");
+        List<String> winners = new ArrayList<>();
+        winners.add("Team 1");
 
-        String result = game.listOfWinners();
+        String result = game.listOfWinners(winners);
         assertTrue(result.contains("Team 1"));
     }
 
     @Test
     public void listOfWinners_Team_2(){
-        game.winners.add("Team 1");
-        game.winners.add("Team 2");
+        List<String> winners = new ArrayList<>();
+        winners.add("Team 1");
+        winners.add("Team 2");
 
         String output = "Team 1 and Team 2";
-        String result = game.listOfWinners();
+        String result = game.listOfWinners(winners);
         assertTrue(result.contains(output));
     }
 
     @Test
     public void listOfWinners_Team_3(){
-        game.winners.add("Team 1");
-        game.winners.add("Team 2");
-        game.winners.add("Team 3");
+        List<String> winners = new ArrayList<>();
+        winners.add("Team 1");
+        winners.add("Team 2");
+        winners.add("Team 3");
 
         String output = "Team 1, Team 2 and Team 3";
-        String result = game.listOfWinners();
+        String result = game.listOfWinners(winners);
         assertTrue(result.contains(output));
     }
 

@@ -1,6 +1,6 @@
 package Map;
 
-import Direction.Direction;
+import Player.Direction;
 import Player.Position;
 
 public abstract class Map {

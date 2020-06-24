@@ -1,4 +1,4 @@
-package Direction;
+package Player;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,7 +27,7 @@ public enum Direction {
         return VALUES.get(RANDOM.nextInt(SIZE));
     }
 
-    //returns corresponding Direction.Direction value
+    //returns corresponding Player.Direction value
     public static Direction getDirection(char direction) {
         for (Direction dir : values()) {
             if (dir.direction == direction){

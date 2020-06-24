@@ -2,10 +2,12 @@ package Game;
 
 import Game.Game;
 import Map.SafeMap;
+import Player.Player;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -97,7 +99,7 @@ public class GameTest {
         assertTrue(file_content.contains(currentPositionMark));
     }
 
-    //grid should not display water or treasure tiles at this point
+    //Grid should not display water or treasure tiles at this point
     @Test
     public void HTML_noTreasure() throws IOException {
         game.setNumPlayers(2);
@@ -110,7 +112,7 @@ public class GameTest {
         assertFalse(file_content.contains(waterMark));
     }
 
-    //testing that the files are opened
+    //Testing that the files are opened
     @Test
     public void openHTML_FileOpened(){
         boolean isAsserted;
@@ -143,7 +145,7 @@ public class GameTest {
         assertEquals(2, result);
     }
 
-    //testing singleton pattern
+    //Testing singleton pattern
     @Test
     public void sameMapInstanceTest(){
         game.setNumPlayers(2);
@@ -152,33 +154,44 @@ public class GameTest {
         assertEquals(game.players[0].getMap().hashCode(), game.players[1].getMap().hashCode());
     }
 
-    //testing that the correct list of winners is returned - 1 winner
+    //Testing that the correct list of winners is returned - 1 winner
     @Test
     public void listOfWinners_1(){
-        game.winners.add(1);
+        Player player = new Player(Game.map, 1);
+
+        game.winners.add(player);
 
         String result = game.listOfWinners();
-        assertTrue(result.contains("Player 1"));
+        assertTrue(result.contains(player.getPlayerID()));
     }
 
-    //testing that the correct list of winners is returned - 2 winners
+    //Testing that the correct list of winners is returned - 2 winners
     @Test
     public void listOfWinners_2(){
-        game.winners.add(1);
-        game.winners.add(2);
+        Player player1 = new Player(Game.map, 1);
+        Player player2 = new Player(Game.map, 2);
 
+        game.winners.add(player1);
+        game.winners.add(player2);
+
+        String output = player1.getPlayerID() + " and " + player2.getPlayerID();
         String result = game.listOfWinners();
-        assertTrue(result.contains("Player 1 and Player 2"));
+        assertTrue(result.contains(output));
     }
 
-    //testing that the correct list of winners is returned - 3 winners
+    //Testing that the correct list of winners is returned - 3 winners
     @Test
     public void listOfWinners_3(){
-        game.winners.add(1);
-        game.winners.add(2);
-        game.winners.add(3);
+        Player player1 = new Player(Game.map, 1);
+        Player player2 = new Player(Game.map, 2);
+        Player player3 = new Player(Game.map, 3);
 
+        game.winners.add(player1);
+        game.winners.add(player2);
+        game.winners.add(player3);
+
+        String output = player1.getPlayerID() + ", " + player2.getPlayerID() + " and " + player3.getPlayerID();
         String result = game.listOfWinners();
-        assertTrue(result.contains("Player 1, Player 2 and Player 3"));
+        assertTrue(result.contains(output));
     }
 }

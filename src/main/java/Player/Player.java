@@ -1,8 +1,9 @@
 package Player;
 
 import Direction.Direction;
-import Map.*;
-import Game.Game;
+import Map.Map;
+import Map.Tile;
+import Map.TileType;
 import Team.Observer;
 import Team.Team;
 
@@ -18,18 +19,18 @@ public class Player extends Observer {
     private Map map; //Holds a reference to the singleton instance
     private PlayerStatus status; //Player's status depends on last discovered tile
     private List<Tile> discoveredTiles; //A list of tiles discovered by Player
-    public int ID;
+    private String playerID;
 
     //Class constructor
     public Player(Map map, int ID) {
         this.map = map;
         this.initial = setInitial();
-        this.current = new Position(this.initial.getX(),this.initial.getY()); //this will start off as initial
+        this.current = new Position(this.initial.getX(), this.initial.getY()); //this will start off as initial
         this.status = PlayerStatus.SAFE;
-        this.ID = ID;
+        setPlayerID("Player " + ID);
 
         this.discoveredTiles = new ArrayList<>();
-        discoveredTiles.add(map.getTile(initial.getX(), initial.getY()));
+        addDiscoveredTile(map.getTile(initial.getX(), initial.getY()));
     }
 
     //Setting a valid random initial position
@@ -41,7 +42,7 @@ public class Player extends Observer {
         do {  //Generating a random position
             x = rand.nextInt(map.getSize());
             y = rand.nextInt(map.getSize());
-        }while(map.getTile(x,y).getType() != TileType.GRASS);
+        } while (map.getTile(x, y).getType() != TileType.GRASS);
 
         //Return once valid
         return new Position(x, y);
@@ -62,9 +63,10 @@ public class Player extends Observer {
     }
 
     //Assigning Player to Team
-    public void addToTeam(Team team){
+    public void addToTeam(Team team) {
         this.subject = team;
         this.subject.registerObserver(this);
+        setPlayerID(team.getTeamID() + " - " + this.playerID);
     }
 
     public boolean move(Direction direction) {
@@ -92,7 +94,7 @@ public class Player extends Observer {
         }
 
         //Validating move - checking if legal
-        if (!setPosition(new Position(X, Y))){ //size will be obtained from map itself
+        if (!setPosition(new Position(X, Y))) { //size will be obtained from map itself
             System.out.println("Illegal move.");
             return false;
         }
@@ -101,43 +103,15 @@ public class Player extends Observer {
         addDiscoveredTile(map.getTile(X, Y));
 
         //Setting status according to discovered tile type
-        setStatus(map.getTile(current.getX(),current.getY()).getType());
+        setStatus(map.getTile(current.getX(), current.getY()).getType());
         return true;
     }
 
     //Adds discovered tiles to list only if new
-    public void addDiscoveredTile(Tile tile){
-        if(!discoveredTiles.contains(tile)){
+    public void addDiscoveredTile(Tile tile) {
+        if (!discoveredTiles.contains(tile)) {
             discoveredTiles.add(tile);
         }
-    }
-
-    //Getter for initial position
-    public Position getInitial(){
-        return initial;
-    }
-
-    //Getter for current position
-    public Position getCurrent(){
-        return current;
-    }
-
-    //Getter for Player's map
-    public Map getMap(){
-        return map;
-    }
-
-    //Getter for Player's status
-    public PlayerStatus getStatus(){
-        return status;
-    }
-
-    //Getter for Player ID
-    public int getID(){ return ID;}
-
-    //Setter for status
-    public void setStatus(TileType type) {
-        status = PlayerStatus.getStatus(type);
     }
 
     //Getter for the list of tiles the player visited
@@ -145,11 +119,45 @@ public class Player extends Observer {
         return discoveredTiles;
     }
 
+    //Getter for initial position
+    public Position getInitial() {
+        return initial;
+    }
+
+    //Getter for current position
+    public Position getCurrent() {
+        return current;
+    }
+
+    //Getter for Player's map
+    public Map getMap() {
+        return map;
+    }
+
+    //Getter for Player's status
+    public PlayerStatus getStatus() {
+        return status;
+    }
+
+    //Setter for Player ID
+    public void setPlayerID(String ID){
+        this.playerID = ID;
+    }
+
+    //Getter for Player ID
+    public String getPlayerID() {
+        return playerID;
+    }
+
+    //Setter for status
+    public void setStatus(TileType type) {
+        status = PlayerStatus.getStatus(type);
+    }
+
     //Updating discoveredTiles list by adding tiles discovered by other Players
     @Override
     public void update() {
-        Position tilePosition = this.subject.getSubjectPosition();
-        Tile discoveredTile = map.getTile(tilePosition.getX(),tilePosition.getY());
+        Tile discoveredTile = this.subject.getSubjectLastExplored();
         addDiscoveredTile(discoveredTile);
     }
 

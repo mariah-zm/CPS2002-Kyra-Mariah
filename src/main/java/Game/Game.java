@@ -2,26 +2,33 @@ package Game;
 
 import Direction.Direction;
 import HTML.HTMLGenerator;
-import Map.*;
 import Map.Map;
+import Map.MapFactory;
+import Map.MapMode;
 import Player.Player;
 import Player.PlayerStatus;
-import Team.*;
+import Team.Team;
 import edu.emory.mathcs.backport.java.util.Collections;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Game {
 
-    public Player [] players;
-    public int numOfTeams =0;
-    public List<Integer> winners = new ArrayList<>();
+    public Player[] players;
+    public List<Player> winners = new ArrayList<>();
     public static Map map;
 
     HTMLGenerator generator = new HTMLGenerator();
     public File[] htmlFiles = null;
     public BufferedWriter[] bw = null;
+    int numOfTeams;
 
     //validating user input for number of players
     public boolean setNumPlayers(int playerCount) {
@@ -39,14 +46,14 @@ public class Game {
     }
 
     //creating the players - passing a new object of Map.Map
-    public void createPlayers(){
-        for(int i =0; i<players.length; ++i){
-            players[i] = new Player(map, i+1);
+    public void createPlayers() {
+        for (int i = 0; i < players.length; ++i) {
+            players[i] = new Player(map, i + 1);
         }
     }
 
     //Creating Teams
-    public List<Team> teamFormation(){
+    public List<Team> teamFormation() {
         //Randomly reordering players
         Collections.shuffle(Arrays.asList(players));
         List<Team> teams = new ArrayList<>();
@@ -82,10 +89,10 @@ public class Game {
 
         for (int i = 0; i < players.length; i++) {
             //creating the file for the player
-            htmlFiles[i] = new File(path + "\\map_player_" + (i+1) + ".html");
+            htmlFiles[i] = new File(path + "\\map_player_" + (i + 1) + ".html");
             bw[i] = new BufferedWriter(new FileWriter(htmlFiles[i]));
 
-            temp.append(generator.headerHTML(i+1));
+            temp.append(generator.headerHTML(i + 1));
             temp.append(generator.moveMessage(players[i].getStatus()));
             temp.append(generator.gridHTML(players[i]));
 
@@ -97,24 +104,24 @@ public class Game {
     }
 
     //opens the html files
-    public void openHTML(String path){
-        try{
+    public void openHTML(String path) {
+        try {
             Process process = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + path);
             process.waitFor();
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //printing the list of winner
     public String listOfWinners() {
-        StringBuilder listOfWinners = new StringBuilder(" Player " + winners.get(0));
+        StringBuilder listOfWinners = new StringBuilder(winners.get(0).getPlayerID());
 
         for (int i = 1; i < winners.size(); i++) {
             if (i + 1 == winners.size()) {
-                listOfWinners.append(" and Player ").append(winners.get(i));
+                listOfWinners.append(" and ").append(winners.get(i).getPlayerID());
             } else {
-                listOfWinners.append(", Player ").append(winners.get(i));
+                listOfWinners.append(", ").append(winners.get(i).getPlayerID());
             }
         }
         return "GAME OVER!\nCongratulations " + listOfWinners + ", you win the game!";
@@ -122,7 +129,7 @@ public class Game {
 
     //Returns winning team
 
-    public boolean acceptNumTeams(){
+    public boolean acceptNumTeams() {
         Scanner scanner = new Scanner(System.in);
         boolean inputAccepted;
         do {
@@ -132,29 +139,29 @@ public class Game {
                 inputAccepted = true;
             } else {
                 scanner.nextLine();
-                System.out.println("Not an integer!");
+                System.out.println("\nInvalid input!\n\n");
                 inputAccepted = false;
             }
-            if(numOfTeams <2){
+            if (numOfTeams < 2) {
                 System.out.println("Number of teams must be at least 2.");
                 inputAccepted = false;
             }
-        }while (!inputAccepted);
+        } while (!inputAccepted);
         return true;
     }
 
     public void displayTeams(List<Team> teams) {
         for (int i = 0; i < teams.size(); i++) {
             System.out.println("****************");
-            System.out.println("Team " + (i+1));
-           // List players = teams.get(i).getObservers();
+            System.out.println("Team " + (i + 1));
+            // List players = teams.get(i).getObservers();
             for (Object player : teams.get(i).getObservers())
-                System.out.println("Player " + ((Player) player).getID());
+                System.out.println("Player " + ((Player) player).getPlayerID());
         }
         System.out.println("* * * * * * * * * * * *");
     }
 
-    public void collabGameLoop()throws IOException {
+    public void collabGameLoop() throws IOException {
         Scanner scanner = new Scanner(System.in);
         //variables to control movement logic
         Direction move;
@@ -165,38 +172,39 @@ public class Game {
 
         List<Team> teams = teamFormation();
         do {
-         for(Team team : teams) {
-             Player currentPlayer = (Player) team.currentPlayer();
-             do {
-                 System.out.println("Team " + team.getTeamNum() + ": Player " + currentPlayer.getID());
-                 System.out.println("Enter direction (U,D,R,L):");
-                 moveInput = scanner.next();
-                 //getting corresponding direction
-                 move = Direction.getDirection(moveInput.charAt(0));
+            for (Team team : teams) {
+                Player currentPlayer = (Player) team.currentPlayer();
+                do {
+                    System.out.println(team.getTeamID() + ": Player " + currentPlayer.getPlayerID());
+                    System.out.println("Enter direction (U,D,R,L):");
+                    moveInput = scanner.next();
+                    //getting corresponding direction
+                    move = Direction.getDirection(moveInput.charAt(0));
 
-                 //direction validation
-                 if (move == null) {
-                     System.out.println("Please enter a valid direction.");
-                     inputAccepted = false;
-                 } else {
-                     if (currentPlayer.move(move)) {
-                         inputAccepted = true;
-                         //if treasure tile is found by the player, game ends
-                         if (currentPlayer.getStatus() == PlayerStatus.WINS) {
-                             if (!isGameWon) isGameWon = true;
-                             winners.add(currentPlayer.getID());
-                         }
-                         if (currentPlayer.getStatus() == PlayerStatus.DEAD) {
-                             currentPlayer.setPosition(currentPlayer.getInitial());
-                         }
-                     } else {
-                         inputAccepted = false;
-                     }
-                 }
+                    //direction validation
+                    if (move == null) {
+                        System.out.println("Please enter a valid direction.");
+                        inputAccepted = false;
+                    } else {
+                        if (currentPlayer.move(move)) {
+                            inputAccepted = true;
+                            //if treasure tile is found by the player, game ends
+                            if (currentPlayer.getStatus() == PlayerStatus.WINS) {
+                                if (!isGameWon) isGameWon = true;
+                                winners.add(currentPlayer);
+                            }
+                            if (currentPlayer.getStatus() == PlayerStatus.DEAD) {
+                                currentPlayer.setPosition(currentPlayer.getInitial());
+                            }
+                        } else {
+                            inputAccepted = false;
+                        }
+                    }
 
-             } while (!inputAccepted);
-             team.setNextPlayer();
-         } generateHTML();
+                } while (!inputAccepted);
+                team.setNextPlayer();
+            }
+            generateHTML();
         } while (!isGameWon);
     }
 
@@ -231,7 +239,7 @@ public class Game {
                             //if treasure tile is found by the player, game ends
                             if (players[i].getStatus() == PlayerStatus.WINS) {
                                 if (!isGameWon) isGameWon = true;
-                                winners.add(i + 1);
+                                winners.add(players[i]);
                             }
                             if (players[i].getStatus() == PlayerStatus.DEAD) {
                                 players[i].setPosition(players[i].getInitial());
@@ -246,7 +254,7 @@ public class Game {
         } while (!isGameWon);
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         //starting the game
         Game game = new Game();
 
@@ -254,7 +262,7 @@ public class Game {
         MapMode mode;
         boolean solo = false;
 
-        try{
+        try {
             //Variables for user input for map size and number of players
             boolean inputAccepted;
             int size, playerCount = 0;
@@ -263,15 +271,15 @@ public class Game {
                 System.out.println("Enter game mode:\n(1) Solo or \n(2) Collaborative");
                 if (scanner.hasNextInt()) {
                     int choice = scanner.nextInt();
-                    if(choice == 1 || choice == 2){
-                        if(choice == 1){
+                    if (choice == 1 || choice == 2) {
+                        if (choice == 1) {
                             solo = true;
-                        }else {
-                           game.acceptNumTeams();
-                           solo=false;
+                        } else {
+                            game.acceptNumTeams();
+                            solo = false;
                         }
                         inputAccepted = true;
-                    }else {
+                    } else {
                         scanner.nextLine();
                         System.out.println("Invalid input.");
                         inputAccepted = false;
@@ -281,7 +289,7 @@ public class Game {
                     System.out.println("Invalid input.");
                     inputAccepted = false;
                 }
-            }while (!inputAccepted);
+            } while (!inputAccepted);
 
             //validating number of players
             do {
@@ -293,7 +301,7 @@ public class Game {
                         System.out.println("Game cannot have more teams than players.");
                         inputAccepted = false;
                     }
-                }else {
+                } else {
                     scanner.nextLine();
                     System.out.println("Not an integer!");
                     inputAccepted = false;
@@ -306,16 +314,16 @@ public class Game {
                 System.out.println("Enter map type: (1)Safe or (2)Hazardous");
                 if (scanner.hasNextInt()) {
                     mapType = scanner.nextInt();
-                    if(mapType == 1 || mapType == 2){
-                        if(mapType ==1){
+                    if (mapType == 1 || mapType == 2) {
+                        if (mapType == 1) {
                             mode = MapMode.SAFE;
-                        }else {
+                        } else {
                             mode = MapMode.HAZARDOUS;
                         }
                         //initialising the map with selected mode
                         map = MapFactory.getMap(mode);
                         inputAccepted = true;
-                    }else {
+                    } else {
                         scanner.nextLine();
                         System.out.println("Integer out of range!");
                         inputAccepted = false;
@@ -325,7 +333,7 @@ public class Game {
                     System.out.println("Not an integer!");
                     inputAccepted = false;
                 }
-            }while (!inputAccepted);
+            } while (!inputAccepted);
 
             //validating map size
             do {
@@ -350,19 +358,19 @@ public class Game {
             System.out.println("\n\nLaunching Game...\n");
 
             //opening html files for all players
-            for(int f=0; f<game.htmlFiles.length; f++){
+            for (int f = 0; f < game.htmlFiles.length; f++) {
                 game.openHTML(game.htmlFiles[f].getPath());
             }
 
-            if(!solo) {
+            if (!solo) {
                 game.collabGameLoop();
-            }else {
+            } else {
                 game.soloGameLoop();
             }
 
             System.out.println(game.listOfWinners());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.exit(1);
         }
         System.exit(0);

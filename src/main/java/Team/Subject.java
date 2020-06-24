@@ -1,6 +1,6 @@
 package Team;
 
-import Player.Position;
+import Map.Tile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,20 +11,28 @@ public class Subject {
     //List of observers registered with subject
     protected List<Observer> observers = new ArrayList<>();
     //The current position of the Subject, i.e. the state
-    protected Position position;
+    protected Tile lastExplored;
 
     //Getter for current position
-    public Position getSubjectPosition(){
-        return position;
+    public Tile getSubjectLastExplored() {
+        return lastExplored;
+    }
+
+    //Notifies all Observers when position is updated
+    public void setSubjectLastExplored(Tile newTile) {
+        this.lastExplored = newTile;
+        this.notifyObservers();
     }
 
     //Adds a new Observer to Subject
-    public void registerObserver(Observer observer){
-        this.observers.add(observer);
+    public void registerObserver(Observer observer) {
+        if(!this.observers.contains(observer)){
+            this.observers.add(observer);
+        }
     }
 
     //Updates all Observers
-    public void notifyObservers(){
+    private void notifyObservers() {
         for (Observer observer : observers) {
             observer.update();
         }

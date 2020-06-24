@@ -1,9 +1,10 @@
 package Map;
 
-import Direction.Direction;
-import Position.Position;
+import Player.Direction;
+import Player.Position;
 
 public abstract class Map {
+
     protected int size = 0;
     protected Tile[][] grid;
     //map singleton
@@ -37,8 +38,6 @@ public abstract class Map {
     public Tile[][] getGrid() {
         return grid;
     }
-
-
 
     //setting a number of tile types as grass
     //includes path validation
@@ -113,6 +112,4 @@ public abstract class Map {
     }
 
     public abstract void generate();
-
-
 }

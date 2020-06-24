@@ -1,6 +1,6 @@
 package Map;
 
-import Position.Position;
+import Player.Position;
 
 import java.util.Random;
 
@@ -13,6 +13,7 @@ public class HazardMap extends Map {
             map = new HazardMap();
         return map;
     }
+
     //filling the grid elements with tile types
     public void generate() {
         this.grid = new Tile[size][size];

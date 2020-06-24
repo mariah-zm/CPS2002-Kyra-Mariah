@@ -1,6 +1,6 @@
 package Map;
 
-import Position.Position;
+import Player.Position;
 
 public class Tile {
 

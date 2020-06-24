@@ -1,21 +1,22 @@
 package Map;
 
 
-import Position.Position;
+import Player.Position;
 
 import java.util.Random;
 
 public class SafeMap extends Map {
 
-        private static SafeMap map = null;
+    private static SafeMap map = null;
 
-        private SafeMap() {}
+    private SafeMap() {
+    }
 
-        public static Map getInstance() {
-            if (map == null)
-                map = new SafeMap();
-            return map;
-        }
+    public static Map getInstance() {
+        if (map == null)
+            map = new SafeMap();
+        return map;
+    }
 
     //filling the grid elements with tile types
     public void generate() {

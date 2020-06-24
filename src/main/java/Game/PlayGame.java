@@ -92,11 +92,12 @@ public class PlayGame {
         String moveInput;
         boolean inputAccepted;
 
-        //Getting players' moves
         for (Player player : players) {
+            System.out.println("\n*\t*\t*\t*\t*\t*\t*\t*\n");
             System.out.println(player.getPlayerID() + "'s turn:");
 
             do {
+                //Getting players' moves
                 System.out.println("Enter direction (U,D,R,L):");
                 moveInput = scanner.next();
                 //Getting corresponding direction
@@ -129,12 +130,14 @@ public class PlayGame {
     //Displays Teams and Players in them
     public static void displayTeams(Team[] teams) {
         String id;
+        System.out.println("\n*\t*\t*\t*\t*\t*\t*\t*\n");
         for (Team team : teams) {
             System.out.println(team.getTeamID());
             for (Object player : team.getObservers()) {
                 id = ((Player) player).getPlayerID();
                 System.out.println(id.substring(id.lastIndexOf("-")));
             }
+            System.out.println();
         }
     }
 
@@ -151,12 +154,14 @@ public class PlayGame {
         Player currentPlayer;
 
         for (Team team : teams) {
+            System.out.println("\n*\t*\t*\t*\t*\t*\t*\t*\n");
             System.out.println(team.getTeamID() + " is playing");
+            //Getting players' moves
             for (Object player : team.getObservers()) {
                 currentPlayer = ((Player) player);
                 id = currentPlayer.getPlayerID();
-                currentPlayerID = id.substring(id.lastIndexOf("-")+1);
-                System.out.println(currentPlayerID + "'s turn:");
+                currentPlayerID = id.substring(id.lastIndexOf("-"));
+                System.out.println("\n" + currentPlayerID + "'s turn:");
 
                 do {
                     System.out.println("Enter direction (U,D,R,L):");
@@ -171,6 +176,11 @@ public class PlayGame {
                     } else {
                         if (currentPlayer.move(move)) {
                             inputAccepted = true;
+
+                            int x = currentPlayer.getCurrent().getX();
+                            int y = currentPlayer.getCurrent().getY();
+                            team.setSubjectLastExplored(currentPlayer.getMap().getTile(x,y));
+                            team.setNextPlayer();
 
                             //if treasure tile is found by the player, game ends
                             if (currentPlayer.getStatus() == PlayerStatus.WINS) {
@@ -218,13 +228,13 @@ public class PlayGame {
             } while (!inputAccepted);
 
             //Picking game mode
-            System.out.println("How would you like to play? \n(1) Solo \n(2) Collaborative");
+            System.out.println("\nHow would you like to play? \n(1) Solo \n(2) Collaborative");
             teamMode = gameModeMenu();
 
             //Validating number of teams
             if (teamMode) {
                 do {
-                    System.out.println("Enter number of teams: ");
+                    System.out.println("\nEnter number of teams: ");
                     if (scanner.hasNextInt()) {
                         userInput = scanner.nextInt();
                         inputAccepted = game.setNumTeams(userInput);
@@ -236,9 +246,14 @@ public class PlayGame {
                 } while (!inputAccepted);
             }
 
+            mapMode = mapSetUp();
+
+            //Getting map Singleton according to map mode
+            game.map = MapFactory.getMap(mapMode);
+
             //Validating map size
             do {
-                System.out.println("Enter map size: ");
+                System.out.println("\nEnter map size: ");
                 if (scanner.hasNextInt()) {
                     userInput = scanner.nextInt();
                     inputAccepted = game.map.setSize(userInput, game.players.length);
@@ -249,16 +264,11 @@ public class PlayGame {
                 }
             } while (!inputAccepted);
 
-            mapMode = mapSetUp();
-
-            //Getting map Singleton according to map mode
-            game.map = MapFactory.getMap(mapMode);
             //Generating the map with tiles according to the map mode
             game.map.generate();
 
             //initialising players array
             game.createPlayers();
-            game.generateHTML();
 
             System.out.println("\n\nLaunching Game...\n");
 
@@ -268,9 +278,14 @@ public class PlayGame {
                 displayTeams(game.teams);
             }
 
-            do {
-                System.out.println("\n*\t*\t*\t*\t*\t*\t*\t*\n");
+            game.generateHTML();
 
+            //opening html files for all players
+            for(int f=0; f<game.htmlFiles.length; f++){
+                game.openHTML(game.htmlFiles[f].getPath());
+            }
+
+            do {
                 if (teamMode) {
                     winners = collabMode(game.teams);
                 } else {

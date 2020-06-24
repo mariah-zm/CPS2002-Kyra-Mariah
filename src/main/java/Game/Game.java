@@ -78,18 +78,6 @@ public class Game {
         }
     }
 
-    //Displays Teams and Players in them
-    public void displayTeams() {
-        String id;
-        for (Team team : teams) {
-            System.out.println(team.getTeamID());
-            for (Object player : team.getObservers()) {
-                id = ((Player) player).getPlayerID();
-                System.out.println(id.substring(id.lastIndexOf("-")));
-            }
-        }
-    }
-
     //generating the html files for each player
     public void generateHTML() throws IOException {
         //gets the user directory

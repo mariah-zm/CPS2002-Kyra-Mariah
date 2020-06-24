@@ -191,17 +191,6 @@ public class GameTest {
         assertEquals(game.teams[0].getObservers().size(), game.teams[1].getObservers().size());
     }
 
-    @Test
-    public void displayTeams(){
-        game.setNumPlayers(6);
-        game.createPlayers();
-        game.setNumTeams(2);
-        game.createTeams();
-
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        game.displayTeams();
-    }
-
     //Testing singleton pattern
     @Test
     public void sameMapInstanceTest(){

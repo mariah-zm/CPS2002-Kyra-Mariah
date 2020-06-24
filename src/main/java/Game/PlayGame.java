@@ -126,6 +126,18 @@ public class PlayGame {
         return winningPlayers;
     }
 
+    //Displays Teams and Players in them
+    public static void displayTeams(Team[] teams) {
+        String id;
+        for (Team team : teams) {
+            System.out.println(team.getTeamID());
+            for (Object player : team.getObservers()) {
+                id = ((Player) player).getPlayerID();
+                System.out.println(id.substring(id.lastIndexOf("-")));
+            }
+        }
+    }
+
     //Game loop in team mode
     public static List<String> collabMode(Team[] teams) {
         Scanner scanner = new Scanner(System.in);
@@ -253,7 +265,7 @@ public class PlayGame {
             //Generating teams
             if (teamMode) {
                 game.createTeams();
-                game.displayTeams();
+                displayTeams(game.teams);
             }
 
             do {

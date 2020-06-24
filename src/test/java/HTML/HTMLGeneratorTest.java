@@ -27,7 +27,7 @@ public class HTMLGeneratorTest {
     //ensuring headerHTML is returned and not null
     @Test
     public void headerHTML_NotNullOrEmpty(){
-        String html = generator.headerHTML(1);
+        String html = generator.headerHTML("Player 1");
         assertNotNull(html);
         assertFalse(html.isEmpty());
     }
@@ -35,8 +35,8 @@ public class HTMLGeneratorTest {
     //checking that the player number is displayed
     @Test
     public void headerHTML_ContainsPlayerNumber(){
-        String html = generator.headerHTML(1);
         String playerNumber = "Player 1";
+        String html = generator.headerHTML(playerNumber);
         assertTrue(html.contains(playerNumber));
     }
 

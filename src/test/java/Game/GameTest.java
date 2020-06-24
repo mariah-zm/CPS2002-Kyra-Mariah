@@ -1,14 +1,12 @@
 package Game;
 
-import Game.Game;
 import Map.SafeMap;
-import Player.Player;
 import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,9 +20,9 @@ public class GameTest {
     @Before
     public void setUp(){
         this.game = new Game();
-        Game.map = SafeMap.getInstance();
-        Game.map.setSize(10, 5);
-        Game.map.generate();
+        game.map = SafeMap.getInstance();
+        game.map.setSize(10, 5);
+        game.map.generate();
     }
 
     @After
@@ -138,11 +136,68 @@ public class GameTest {
     }
 
     @Test
+    public void setNumTeams_TooBig(){
+        game.setNumPlayers(2);
+        assertFalse(game.setNumTeams(4));
+    }
+
+    @Test
+    public void setNumTeams_TooSmall(){
+        game.setNumPlayers(2);
+        assertFalse(game.setNumTeams(1));
+    }
+
+    @Test
+    public void setNumTeams_Correct(){
+        game.setNumPlayers(4);
+        assertTrue(game.setNumTeams(2));
+    }
+
+    @Test
+    public void setNumTeams_ArraySize(){
+        game.setNumPlayers(4);
+        game.setNumTeams(2);
+
+        assertEquals(2, game.teams.length);
+    }
+
+    @Test
     public void createPlayersTest() {
         game.setNumPlayers(2);
         game.createPlayers();
         int result = game.players.length;
         assertEquals(2, result);
+    }
+
+    @Test
+    public void createTeams_ObserversListNotEmpty(){
+        game.setNumPlayers(6);
+        game.createPlayers();
+        game.setNumTeams(2);
+        game.createTeams();
+
+        assertFalse(game.teams[0].getObservers().isEmpty());
+    }
+
+    @Test
+    public void createTeams_numOfPlayers(){
+        game.setNumPlayers(6);
+        game.createPlayers();
+        game.setNumTeams(2);
+        game.createTeams();
+
+        assertEquals(game.teams[0].getObservers().size(), game.teams[1].getObservers().size());
+    }
+
+    @Test
+    public void displayTeams(){
+        game.setNumPlayers(6);
+        game.createPlayers();
+        game.setNumTeams(2);
+        game.createTeams();
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        game.displayTeams();
     }
 
     //Testing singleton pattern
@@ -154,44 +209,62 @@ public class GameTest {
         assertEquals(game.players[0].getMap().hashCode(), game.players[1].getMap().hashCode());
     }
 
-    //Testing that the correct list of winners is returned - 1 winner
     @Test
-    public void listOfWinners_1(){
-        Player player = new Player(Game.map, 1);
-
-        game.winners.add(player);
+    public void listOfWinners_Player_1(){
+        game.winners.add("Player 1");
 
         String result = game.listOfWinners();
-        assertTrue(result.contains(player.getPlayerID()));
+        assertTrue(result.contains("Player 1"));
     }
 
-    //Testing that the correct list of winners is returned - 2 winners
     @Test
-    public void listOfWinners_2(){
-        Player player1 = new Player(Game.map, 1);
-        Player player2 = new Player(Game.map, 2);
+    public void listOfWinners_Player_2(){
+        game.winners.add("Player 1");
+        game.winners.add("Player 2");
 
-        game.winners.add(player1);
-        game.winners.add(player2);
-
-        String output = player1.getPlayerID() + " and " + player2.getPlayerID();
+        String output = "Player 1 and Player 2";
         String result = game.listOfWinners();
         assertTrue(result.contains(output));
     }
 
-    //Testing that the correct list of winners is returned - 3 winners
     @Test
-    public void listOfWinners_3(){
-        Player player1 = new Player(Game.map, 1);
-        Player player2 = new Player(Game.map, 2);
-        Player player3 = new Player(Game.map, 3);
+    public void listOfWinners_Player_3(){
+        game.winners.add("Player 1");
+        game.winners.add("Player 2");
+        game.winners.add("Player 3");
 
-        game.winners.add(player1);
-        game.winners.add(player2);
-        game.winners.add(player3);
-
-        String output = player1.getPlayerID() + ", " + player2.getPlayerID() + " and " + player3.getPlayerID();
+        String output = "Player 1, Player 2 and Player 3";
         String result = game.listOfWinners();
         assertTrue(result.contains(output));
     }
+
+    @Test
+    public void listOfWinners_Team_1(){
+        game.winners.add("Team 1");
+
+        String result = game.listOfWinners();
+        assertTrue(result.contains("Team 1"));
+    }
+
+    @Test
+    public void listOfWinners_Team_2(){
+        game.winners.add("Team 1");
+        game.winners.add("Team 2");
+
+        String output = "Team 1 and Team 2";
+        String result = game.listOfWinners();
+        assertTrue(result.contains(output));
+    }
+
+    @Test
+    public void listOfWinners_Team_3(){
+        game.winners.add("Team 1");
+        game.winners.add("Team 2");
+        game.winners.add("Team 3");
+
+        String output = "Team 1, Team 2 and Team 3";
+        String result = game.listOfWinners();
+        assertTrue(result.contains(output));
+    }
+
 }

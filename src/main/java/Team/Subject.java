@@ -10,7 +10,7 @@ public class Subject {
 
     //List of observers registered with subject
     protected List<Observer> observers = new ArrayList<>();
-    //The current position of the Subject, i.e. the state
+    //The last tile discovered by team, i.e. the state
     protected Tile lastExplored;
 
     //Getter for current position
@@ -18,7 +18,7 @@ public class Subject {
         return lastExplored;
     }
 
-    //Notifies all Observers when position is updated
+    //Notifies all Observers when a new tile is discovered
     public void setSubjectLastExplored(Tile newTile) {
         this.lastExplored = newTile;
         this.notifyObservers();

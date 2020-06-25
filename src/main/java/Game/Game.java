@@ -38,7 +38,7 @@ public class Game {
         return true;
     }
 
-    //creating the players - passing a new object of Map.Map
+    //Creating the players - passing a new object of Map.Map
     public void createPlayers() {
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player(map, i + 1);
@@ -78,15 +78,15 @@ public class Game {
         }
     }
 
-    //generating the html files for each player
+    //Generating the html files for each player
     public void generateHTML() throws IOException {
-        //gets the user directory
+        //Gets the user directory
         final String dir = System.getProperty("user.dir");
         String path = dir + "\\generated_HTML";
 
         StringBuilder temp = new StringBuilder();
 
-        //creating the folder where the HTML files will be stored
+        //Creating the folder where the HTML files will be stored
         File folder = new File(path);
         folder.mkdir();
 
@@ -109,7 +109,7 @@ public class Game {
         }
     }
 
-    //opens the html files
+    //Opens the html files
     public void openHTML(String path) {
         try {
             Process process = Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + path);
@@ -119,7 +119,7 @@ public class Game {
         }
     }
 
-    //printing the list of winner
+    //Printing the list of winner
     public String listOfWinners(List<String> winners) {
         StringBuilder listOfWinners = new StringBuilder(winners.get(0));
 
@@ -132,5 +132,4 @@ public class Game {
         }
         return "GAME OVER!\nCongratulations " + listOfWinners + ", you win the game!";
     }
-
 }

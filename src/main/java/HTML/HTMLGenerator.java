@@ -105,13 +105,6 @@ public class HTMLGenerator {
                     html.append("</p>");
                 }
 
-                /*if the tile is a treasure tile, an icon will be added to the cell
-                if (current.getType() == Map.TileType.TREASURE) {
-                    if (player.getDiscoveredTiles().contains(current)) {
-                        html.append("<p>&#128176;</p>");
-                    }
-                }*/
-
                 html.append("</div>");
                 html.append("</td>");
             }
@@ -123,22 +116,24 @@ public class HTMLGenerator {
 
     //message to be displayed on top of the grid according to the player's status
     public String moveMessage(PlayerStatus status){
+        String message = "";
         switch(status){
             case SAFE:
                 //message displayed when the player discovers grass tile
-                return "<h2>Press U, D, L or R to move.</h2></div>";
+                message = "<h2>Press U, D, L or R to move.</h2></div>";
+                break;
 
             case WINS:
                 //message displayed when the player discovers treasure tile
-                return "<h2>WELL DONE, YOU FOUND THE TREASURE!</h2></div>";
+                message = "<h2>WELL DONE, YOU FOUND THE TREASURE!</h2></div>";
+                break;
 
             case DEAD:
                 //message displayed when the player discovers water tile
-                return "<h2>YIKES! You discovered a water tile. Start again from your initial position.</h2></div>";
-
-            default:
-                return "</div>";
+                message = "<h2>YIKES! You discovered a water tile. Start again from your initial position.</h2></div>";
+                break;
         }
+        return message;
     }
 }
 

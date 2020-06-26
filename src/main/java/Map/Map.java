@@ -69,8 +69,6 @@ public abstract class Map {
                     case RIGHT:
                         tempY += 1;
                         break;
-                    default:
-                        throw new IndexOutOfBoundsException();
                 }
 
                 //checking whether the new position is within map bounds

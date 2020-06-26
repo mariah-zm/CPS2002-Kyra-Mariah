@@ -48,8 +48,11 @@ public class PlayGameTest {
         player3.addToTeam(teams[1]);
         player4.addToTeam(teams[1]);
 
-        String output = "\n*\t*\t*\t*\t*\t*\t*\t*\n\r\nTeam 1\r\n- Player 1\r\n- Player 2\r\n\r\nTeam 2\r\n- Player 3\r\n- Player 4\r\n\r\n";
+        String output = "Team 1- Player 1- Player 2Team 2- Player 3- Player 4";
         PlayGame.displayTeams(teams);
-        assertTrue(outContent.toString().contains(output));
+        String content = outContent.toString().replaceAll("\\r\\n", "");
+        String content2 = content.replaceAll("\\n","");
+        //ignoring new line character since this might cause a false failure
+        assertTrue(content2.contains(output));
     }
 }

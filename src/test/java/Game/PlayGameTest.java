@@ -50,6 +50,6 @@ public class PlayGameTest {
 
         String output = "\n*\t*\t*\t*\t*\t*\t*\t*\n\r\nTeam 1\r\n- Player 1\r\n- Player 2\r\n\r\nTeam 2\r\n- Player 3\r\n- Player 4\r\n\r\n";
         PlayGame.displayTeams(teams);
-        assertEquals(output, outContent.toString());
+        assertTrue(outContent.toString().contains(output));
     }
 }

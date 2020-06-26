@@ -53,7 +53,7 @@ public class PlayGame {
         MapMode mode = null;
 
         do {
-            System.out.println("Enter map type: \n(1) Safe \n(2) Hazardous");
+            System.out.println("\nEnter map type: \n(1) Safe \n(2) Hazardous");
 
             if (scanner.hasNextInt()) {
                 userInput = scanner.nextInt();

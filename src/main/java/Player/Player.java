@@ -87,9 +87,6 @@ public class Player extends Observer {
             case LEFT:
                 Y -= 1; //y-coordinate moves left by 1
                 break;
-            default:
-                //In the case of an invalid token the player does not move
-                return false;
         }
 
         //Validating move - checking if legal
